@@ -1,0 +1,22 @@
+{
+  "Bob": {
+    "name": "name1",
+    "pass": "pass1"
+  },
+  "Steve": {
+    "name": "name3",
+    "pass": "pass3"
+  },
+  "newUser": {
+    "name": "name4",
+    "pass": "pass4"
+  },
+  "Jenny": {
+    "name": "name2",
+    "pass": "pass2"
+  },
+  "newUser1": {
+    "name": "name",
+    "pass": "pass4"
+  }
+}
