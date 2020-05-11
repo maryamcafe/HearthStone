@@ -1,6 +1,6 @@
 import java.lang.reflect.Method;
 
-public class LoggingTest {
+public class FinalLoggingTest {
 //    private static final Logger logger = LogManager.getLogger(LoggingTest.class);
 
     public static void main(String[] args) {
