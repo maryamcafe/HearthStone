@@ -1,14 +1,12 @@
 package game;
 
 import CLI.GameCLI;
-import cards.Card;
 import cards.Collection;
 import cards.Hero;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class GameState implements State {
 
@@ -34,7 +32,6 @@ public class GameState implements State {
 
 
     public void setHero(String heroName) {
-        currentHero =
     }
 
     public void allHeroCards() {

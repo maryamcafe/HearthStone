@@ -1,12 +1,10 @@
 package cards;
 
-
-import static cards.CardConstants.Type.MINION;
-import static cards.CardConstants.attackWrongInputMsg;
+import util.CardConstants;
 
 public class MinionCard extends Card {
 
-    protected CardConstants.Type type = MINION;
+    protected CardConstants.Type type = CardConstants.Type.MINION;
     //hp is the lives number of a minion
     private int hp;
     // if a minion attacks, it will decrease enemy's lives this much:
@@ -29,7 +27,7 @@ public class MinionCard extends Card {
                 descriptionText,
                 number);
         if (attack <= 0 || hp <= 0) {
-            throw new Exception(attackWrongInputMsg);
+            throw new Exception(CardConstants.attackWrongInputMsg);
         } else {
             this.attack = attack;
             this.hp = hp;

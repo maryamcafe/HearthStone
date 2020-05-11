@@ -5,13 +5,13 @@ import game.GameState;
 import java.util.Scanner;
 
 import static game.GameConstants.*;
-import static users.LogInConstants.wrongInput;
+import static util.LogInConstants.wrongInput;
 
 public class GameCLI extends BasicCLI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private GameState gameState = null;
+    private GameState gameState;
 
     public GameCLI(GameState gameState) {
         super();

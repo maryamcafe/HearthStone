@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import static users.LogInConstants.tryAgainMsg;
-import static users.LogInConstants.wrongInput;
+import static util.LogInConstants.tryAgainMsg;
+import static util.LogInConstants.wrongInput;
 
 public class LogInTest {
     {

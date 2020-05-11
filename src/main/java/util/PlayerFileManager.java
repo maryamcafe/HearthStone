@@ -1,6 +1,8 @@
-package users;
+package util;
 
 import com.google.gson.Gson;
+import users.Player;
+import users.User;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package cards;
+package util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.Set;
 
 public class CardConstants {
 
-    static final int maxTotalCardsDeck = 15;
-    static final int maxEachCard = 2;
+    public static final int maxTotalCardsDeck = 15;
+    public static final int maxEachCard = 2;
     static final String manaCostWrongInputMsg = "ManaCost should and be grater than zero.";
-    static final String attackWrongInputMsg = "number of attacks and hp of minion should be grater than zero.";
-    static final String durabilityWrongInputMsg = "Durability should and be grater than zero.";
-    static List<String> defaultDeck = new ArrayList<>();
+    public static final String attackWrongInputMsg = "number of attacks and hp of minion should be grater than zero.";
+    public static final String durabilityWrongInputMsg = "Durability should and be grater than zero.";
+    public static List<String> defaultDeck = new ArrayList<>();
 
     static {
         //#1
@@ -35,21 +35,21 @@ public class CardConstants {
     }
 
 
-    enum Type {
+    public enum Type {
         SPELL,
         MINION,
         WEAPON,
         QUEST
     }
 
-    enum Rarity {
+    public enum Rarity {
         COMMON,
         RARE,
         EPIC,
         LEGENDARY
     }
 
-    enum Class {
+    public enum Class {
         MAGE,
         ROGUE,
         WARLOCK,

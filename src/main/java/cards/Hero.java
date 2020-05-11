@@ -1,10 +1,9 @@
 package cards;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import util.CardConstants;
+
 import java.util.List;
 
-import static cards.CardConstants.defaultDeck;
 
 public class Hero {
     private Deck deck;
@@ -19,8 +18,12 @@ public class Hero {
     }
 
     private void initDeck(HeroName heroName) {
-        deck = stringToCard(defaultDeck);
-        switch heroName
+        deck = stringToCard(CardConstants.defaultDeck);
+        switch (heroName){}
+    }
+
+    private Deck stringToCard(List<String> defaultDeck) {
+        return null;
     }
 
     public enum HeroName{
@@ -30,7 +33,7 @@ public class Hero {
     }
 
     public String toString(){
-        String output = "";
+        return "";
     }
 
 }

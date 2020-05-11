@@ -1,4 +1,4 @@
-package users;
+package util;
 
 public class LogInConstants {
 

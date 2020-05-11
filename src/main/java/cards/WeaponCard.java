@@ -1,14 +1,14 @@
 package cards;
 
 
-import static cards.CardConstants.durabilityWrongInputMsg;
+import util.CardConstants;
 
 public class WeaponCard extends Card {
 
     protected CardConstants.Type type = CardConstants.Type.WEAPON;
 
     //this number shows how many times a weapon can be used
-    private int durability = 0;
+    private int durability;
 
     //The Action of the card in gameplay
     private Description description;
@@ -26,7 +26,7 @@ public class WeaponCard extends Card {
                 descriptionText,
                 number);
         if (durability <= 0) {
-            throw new Exception(durabilityWrongInputMsg);
+            throw new Exception(CardConstants.durabilityWrongInputMsg);
         } else {
             this.durability = durability;
         }
@@ -35,7 +35,8 @@ public class WeaponCard extends Card {
 
     @Override
     public String toString() {
-        String output = "type: \t\t" + type +
+
+        return "type: \t\t" + type +
                 "\nClass: \t\t" + cardClass +
                 "\nname: \t\t" + name +
                 "\nmanaCost: \t" + manaCost +
@@ -43,7 +44,5 @@ public class WeaponCard extends Card {
                 "\nDescription: " + descriptionText +
                 "\ndurability: \t\t" + durability +
                 "\nNumber Of this Card:" + number;
-
-        return output;
     }
 }

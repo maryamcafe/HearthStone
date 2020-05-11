@@ -4,10 +4,6 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
-import cards.CardConstants.Type;
-import cards.CardConstants.Rarity;
-import cards.CardConstants.Class;
-
 
 public class Main {
     public static void main(String[] args) {

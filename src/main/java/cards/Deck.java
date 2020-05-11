@@ -1,14 +1,14 @@
 package cards;
 
+import util.CardConstants;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import static cards.CardConstants.maxEachCard;
-import static cards.CardConstants.maxTotalCardsDeck;
 
 public class Deck {
 
-    private Map<String, Card> cards = new HashMap<>();
+    private Map<String, Card> cards;
     private int totalNumber = 0;
 
     public Deck(Map<String, Card> cards) {
@@ -17,8 +17,8 @@ public class Deck {
 
     public void add(Card cardToAdd) throws Exception {
         String cardName = cardToAdd.getName();
-        if (totalNumber <= maxTotalCardsDeck) {
-            if (cards.get(cardName).getNumber() < maxEachCard) {
+        if (totalNumber <= CardConstants.maxTotalCardsDeck) {
+            if (cards.get(cardName).getNumber() < CardConstants.maxEachCard) {
                 this.cards.put(cardToAdd.getName(), cardToAdd);
                 totalNumber += 1;
             } else {

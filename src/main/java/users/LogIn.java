@@ -8,9 +8,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-import static users.LogInConstants.*;
-import static users.PlayerFileManager.playerInitializer;
-import static users.UsersFilesManager.*;
+import static util.LogInConstants.*;
+
+import util.LogInConstants;
+import util.PlayerFileManager;
+import util.UsersFilesManager;
+
 
 //LogIn is a state.
 public class LogIn extends BasicCLI implements State {
@@ -45,7 +48,7 @@ public class LogIn extends BasicCLI implements State {
             } else {
                 signIn();
             }
-            player = playerInitializer(user);
+            player = PlayerFileManager.playerInitializer(user);
             menu();
         }
         scanner.close();
@@ -56,19 +59,19 @@ public class LogIn extends BasicCLI implements State {
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "help":
-                System.out.println(LoggedInMenu);
+                System.out.println(LogInConstants.LoggedInMenu);
                 menu();
                 break;
             case "\n":
                 break;
             case "exit":
-                exit();
+                BasicCLI.exit();
                 break;
             case "exit -a":
-                exitAll();
+                BasicCLI.exitAll();
                 break;
             default:
-                System.out.println(wrongInput);
+                System.out.println(LogInConstants.wrongInput);
                 menu();
                 break;
         }
@@ -84,16 +87,16 @@ public class LogIn extends BasicCLI implements State {
             case "n":
                 return true;
             case "help":
-                System.out.println(isNewerHelp);
+                System.out.println(LogInConstants.isNewerHelp);
                 return isNewUser();
             case "exit":
-                exit();
+                BasicCLI.exit();
                 return null;
             case "exit -a":
-                exitAll();
+                BasicCLI.exitAll();
                 return null;
             default:
-                System.out.println(wrongInput);
+                System.out.println(LogInConstants.wrongInput);
                 return isNewUser();
         }
     }
@@ -106,17 +109,17 @@ public class LogIn extends BasicCLI implements State {
         password = scanner.next();
         System.out.println("password is: " + password);
         try {
-            if (isUsernameTaken(username)) {
-                System.out.println(usernameTakenBeforeMsg);
+            if (UsersFilesManager.isUsernameTaken(username)) {
+                System.out.println(LogInConstants.usernameTakenBeforeMsg);
                 if (tryAgain()) {
                     signUp();
                 }
                 //Otherwise the program will exit
             } else {
                 isSuccessful = true;
-                System.out.println(signUpSuccessful);
+                System.out.println(LogInConstants.signUpSuccessful);
                 user = new User(username, password);
-                addUserToFile(user);
+                UsersFilesManager.addUserToFile(user);
                 //logger.info("A new User just created.");
             }
         } catch (IOException e) {
@@ -131,16 +134,16 @@ public class LogIn extends BasicCLI implements State {
         username = scanner.next();
         password = scanner.next();
         try {
-            if (!isPasswordCorrect(username.trim(), password.trim())) {
-                System.out.println(wrongPassword);
+            if (!UsersFilesManager.isPasswordCorrect(username.trim(), password.trim())) {
+                System.out.println(LogInConstants.wrongPassword);
                 if (tryAgain()) {
                     signIn();
                 }
                 //Otherwise the program will exit
             } else {
                 isSuccessful = true;
-                System.out.println(signInSuccessful);
-                user = findUser(username);
+                System.out.println(LogInConstants.signInSuccessful);
+                user = UsersFilesManager.findUser(username);
             }
         } catch (Exception e) {// the username doesn't exist:
             System.out.println(e.getMessage());
@@ -153,19 +156,19 @@ public class LogIn extends BasicCLI implements State {
 
 
     private boolean tryAgain() {
-        System.out.println(tryAgainMsg);
+        System.out.println(LogInConstants.tryAgainMsg);
         String msg = scanner.next();
         switch (msg.trim().toLowerCase()) {
             case "exit":
-                exit();
+                BasicCLI.exit();
                 return false;
             case "exit -a":
-                exitAll();
+                BasicCLI.exitAll();
                 return false;
             case "again":
                 return true;
             default:
-                System.out.println(wrongInput);
+                System.out.println(LogInConstants.wrongInput);
                 return tryAgain();
         }
     }

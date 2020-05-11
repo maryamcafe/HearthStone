@@ -1,11 +1,12 @@
 package cards;
 
 
-import static cards.CardConstants.Type.SPELL;
+import util.CardConstants;
+
 
 public class SpellCard extends Card {
 
-    protected CardConstants.Type type = SPELL;
+    protected CardConstants.Type type = CardConstants.Type.SPELL;
 
     //The Action of the card in gamePlay
     private Description description;
