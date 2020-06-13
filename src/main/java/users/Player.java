@@ -1,7 +1,7 @@
 package users;
 
-import cards.Card;
-import cards.Hero;
+import model.cards.Card;
+import model.heros.Hero;
 
 import com.google.gson.annotations.Expose;
 

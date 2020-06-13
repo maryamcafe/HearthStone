@@ -1,14 +1,12 @@
 package users;
 
 
-import CLI.BasicCLI;
-import game.State;
+import CLI.CLI;
+import states.State;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-
-import static util.LogInConstants.*;
 
 import util.LogInConstants;
 import util.PlayerFileManager;
@@ -16,7 +14,7 @@ import util.UsersFilesManager;
 
 
 //LogIn is a state.
-public class LogIn extends BasicCLI implements State {
+public class LogIn extends CLI  {
     private static Scanner scanner = new Scanner(System.in);
     private String username;
     private String password;
@@ -49,7 +47,7 @@ public class LogIn extends BasicCLI implements State {
                 signIn();
             }
             player = PlayerFileManager.playerInitializer(user);
-            menu();
+//            menu();
         }
         scanner.close();
     }
@@ -65,10 +63,10 @@ public class LogIn extends BasicCLI implements State {
             case "\n":
                 break;
             case "exit":
-                BasicCLI.exit();
+                CLI.exit();
                 break;
             case "exit -a":
-                BasicCLI.exitAll();
+                CLI.exitAll();
                 break;
             default:
                 System.out.println(LogInConstants.wrongInput);
@@ -90,10 +88,10 @@ public class LogIn extends BasicCLI implements State {
                 System.out.println(LogInConstants.isNewerHelp);
                 return isNewUser();
             case "exit":
-                BasicCLI.exit();
+                CLI.exit();
                 return null;
             case "exit -a":
-                BasicCLI.exitAll();
+                CLI.exitAll();
                 return null;
             default:
                 System.out.println(LogInConstants.wrongInput);
@@ -160,10 +158,10 @@ public class LogIn extends BasicCLI implements State {
         String msg = scanner.next();
         switch (msg.trim().toLowerCase()) {
             case "exit":
-                BasicCLI.exit();
+                CLI.exit();
                 return false;
             case "exit -a":
-                BasicCLI.exitAll();
+                CLI.exitAll();
                 return false;
             case "again":
                 return true;

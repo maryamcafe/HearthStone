@@ -1,29 +1,36 @@
 package CLI;
 
-import game.GameState;
+import states.PlayState;
+import states.State;
 
 import java.util.Scanner;
 
-import static game.GameConstants.*;
+import static states.GameConstants.*;
 import static util.LogInConstants.wrongInput;
 
-public class GameCLI extends BasicCLI {
+public class GameCLI extends CLI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private GameState gameState;
+    private State playState;
 
-    public GameCLI(GameState gameState) {
+    public GameCLI(State playState) {
         super();
-        this.gameState = gameState;
+        this.playState = playState;
     }
 
+
+
+    public void run() {
+        menu();
+    }
 //These menus are so that each menu:
 //Step1: takes some input,
 //Step2: does some action with respect to input,
+
 //Step3: leads to another menu (back or foeward)
 
-    public void menu() {
+    private void menu() {
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "collections":
@@ -56,11 +63,11 @@ public class GameCLI extends BasicCLI {
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "ls -a -heroes":
-                gameState.allHeros();
+//                playState.allHeros();
                 heroSelectionMenu();
                 break;
             case "ls -m -heroes":
-                gameState.viewCurrentHero();
+//                playState.viewCurrentHero();
                 heroMenu();
                 break;
             case "back":
@@ -84,7 +91,7 @@ public class GameCLI extends BasicCLI {
         switch (input.trim().toLowerCase()) {
             case "select":
                 String heroName = scanner.next();
-                gameState.setHero(heroName);
+//                playState.setHero(heroName);
                 CardMenu();
                 break;
             case "back":
@@ -100,22 +107,22 @@ public class GameCLI extends BasicCLI {
                 break;
         }
     }
-
     //when a hero is chosen, player can Manage his cards.
+
     private void CardMenu() {
         System.out.println("Cards Menu");
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "ls -a -cards":
-                gameState.allHeroCards();
+//                playState.allHeroCards();
                 CardMenu();
                 break;
             case "ls -m -cards":
-                gameState.currentDeckCards();
+//                playState.currentDeckCards();
                 removeCardMenu();
                 break;
             case "ls -n -cards":
-                gameState.notInDeckCards();
+//                playState.notInDeckCards();
                 addCardMenu();
                 break;
             case "back":
@@ -138,8 +145,8 @@ public class GameCLI extends BasicCLI {
         switch (input.trim().toLowerCase()) {
             case "remove":
                 String cardName = scanner.next();
-                gameState.addToDeck(cardName);
-                gameState.removeFromNotInDeck(cardName);
+//                playState.addToDeck(cardName);
+//                playState.removeFromNotInDeck(cardName);
                 CardMenu();
                 break;
             case "back":
@@ -163,8 +170,8 @@ public class GameCLI extends BasicCLI {
         switch (input.trim().toLowerCase()) {
             case "remove":
                 String cardName = scanner.next();
-                gameState.removeFromDeck(cardName);
-                gameState.addToNotInDeck(cardName);
+//                playState.removeFromDeck(cardName);
+//                playState.addToNotInDeck(cardName);
                 CardMenu();
                 break;
             case "back":
@@ -187,15 +194,15 @@ public class GameCLI extends BasicCLI {
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "ls -b":
-                gameState.viewBuyable();
+//                playState.viewBuyable();
                 buyMenu();
                 break;
             case "ls -s":
-                gameState.viewSellable();
+//                playState.viewSellable();
                 sellMenu();
                 break;
             case "wallet":
-                gameState.wallet();
+//                playState.wallet();
                 store();
                 break;
             case "help":
@@ -218,11 +225,11 @@ public class GameCLI extends BasicCLI {
         switch (input.trim().toLowerCase()) {
             case "buy":
                 String cardName = scanner.next();
-                gameState.buyStore(cardName);
+//                playState.buyStore(cardName);
                 store();
                 break;
             case "wallet":
-                gameState.wallet();
+//                playState.wallet();
                 buyMenu();
                 break;
             case "back":
@@ -246,11 +253,11 @@ public class GameCLI extends BasicCLI {
         switch (input.trim().toLowerCase()) {
             case "sell":
                 String cardName = scanner.next();
-                gameState.sellStore(cardName);
+//                playState.sellStore(cardName);
                 store();
                 break;
             case "wallet":
-                gameState.wallet();
+//                playState.wallet();
                 sellMenu();
                 break;
             case "back":
@@ -266,6 +273,5 @@ public class GameCLI extends BasicCLI {
                 break;
         }
     }
-
 
 }
