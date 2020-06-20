@@ -1,0 +1,36 @@
+{
+  "configuration": {  "status": "warn", "name": "RoutingTest",  "packages": "ap.hearthstone",
+    "properties": {
+      "property": {  "name": "filename", "value": "logs/rolling/rollingtest-$${sd:type}.log" }
+    },
+    "ThresholdFilter": { "level": "debug" },
+    "appenders": [
+      { "type": "Console",  "name": "STDOUT", "PatternLayout": {  "pattern": "%m%n"  }},
+      { "type": "List",  "name": "List",  "ThresholdFilter": { "level": "debug"  }},
+      { "type": "Routing",  "name": "Routing",
+        "Routes": {  "pattern": "$${sd:type}",
+          "Route": [
+            {
+              "RollingFile": {
+                "name": "Rolling-${sd:type}",
+                "fileName": "${filename}",
+                "filePattern": "target/rolling1/test1-${sd:type}.%i.log.gz",
+                "PatternLayout": { "pattern": "%d %p %c{1.} [%t] %m%n" },
+                "Policies" : "OnStartupTriggeringPolicy",
+                "SizeBasedTriggeringPolicy": { "size": "500" },
+                "append" : "false"
+              }
+            },
+            { "appender-ref": "STDOUT",  "key": "Audit"  },
+            {  "appender-ref": "List", "key": "Service" }
+          ]
+        }
+      }
+    ],
+    "loggers": {
+      "logger": { "name": "Console", "level": "info", "additivity": "false",
+                  "appender-ref": { "ref": "Console"  }},
+      "root": { "level": "info", "appender-ref": { "ref": "STDOUT" }}
+    }
+  }
+}

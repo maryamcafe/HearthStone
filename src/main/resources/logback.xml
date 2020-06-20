@@ -1,0 +1,30 @@
+<configuration scan="true" >
+    <property name="DEFAULT_PATTERN" value="%d{HH:mm:ss.SSS}\ %-5level %logger{36} - %msg%n" />
+    <appender name="STDOUT" >
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <property name="LOG_DIR" value="app" />
+    <property name="LOG_FILE" value="LogFile" />
+    <appender name="FILE" >
+        <file>${LOG_DIR}/tests.log</file>
+        <rollingPolicy >
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_FILE}-%d{yyyy-MM-dd}-gz</fileNamePattern>
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <logger name="LogBackTest" level="INFO" />
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
+
+

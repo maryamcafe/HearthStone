@@ -1,0 +1,29 @@
+{
+  "configuration": {  "status": "warn",  "name": "RoutingTest",  "packages": "ap.hearthstone.LoggingTest",
+    "properties": {
+      "property": {  "name": "filename", "value": "logs/rolling1.log" }
+    },
+    "ThresholdFilter": {  "level": "debug"  },
+    "appenders": {
+      "Console":{  "name": "STDOUT",
+        "PatternLayout": {
+        "pattern": " [%t] %-5level %logger{36} - %msg %throwable %n",
+        "header" : "%d"  }
+      },
+      "RollingFile": {
+        "append" : "false",
+        "name": "RollingFile",
+        "fileName": "${filename}",
+        "filePattern": "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log",
+        "PatternLayout": { "pattern": "%d %p %c{1.} [%t] %m%n" }
+     }
+    },
+    "loggers": {
+      "logger":[
+        { "name": "EventLogger", "additivity": "false", "appender-ref": { "ref": "RollingFile" }},
+        { "name": "FileLogger", "additivity": "false", "appender-ref": { "ref": "STDOUT" }}
+      ],
+      "root": {  "level": "trace", "appender-ref":[ {"ref": "RollingFile"},{"ref": "STDOUT"} ]}
+    }
+  }
+}

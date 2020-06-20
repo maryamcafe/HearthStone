@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="DEBUG" name="EventLogger" packages="ap.hearthstone"   monitorInterval="30">
+    <properties>
+        <property name="logPath">logs</property>
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout header="USER:username" pattern="%d{HH:mm:ss} [%t] %level %c: %msg %throwable %n"/>
+        </Console>
+        <RollingFile name="RollingFile" fileName="${logPath}/myLog.log"
+                     filePattern="${logPath}/$${date:yyyy-MM-}/app-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout pattern="%d [%t] %p %c - %m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="500" />
+            </Policies>
+        </RollingFile>
+        <Failover name="FailoverAppender" primary="Console">
+            <Failovers>
+                <AppenderRef ref="fileLogger" />
+            </Failovers>
+        </Failover>
+    </Appenders>
+
+    <loggers>
+        <root level="warn">
+            <appenderRef ref="Console"/>
+            <appender-ref ref="RollingFile"/>
+        </root>
+    </loggers>
+</configuration>
