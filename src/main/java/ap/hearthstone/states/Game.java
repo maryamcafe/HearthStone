@@ -1,21 +1,16 @@
 package ap.hearthstone.states;
 
-import ap.hearthstone.control.Admin;
+import ap.hearthstone.UI.control.Admin;
 
-public class Game  {
+public class Game {
 
 
-    private Admin admin;
     //States
 
     public Game(){
-        admin = Admin.getInstance();
     }
 
-
-
     public void run() {
-        admin.run();
     }
 
 

@@ -1,6 +1,7 @@
 package ap.hearthstone.states;
 
-import ap.hearthstone.control.Request;
+
+import ap.hearthstone.UI.api.Request;
 
 public abstract class State {
 

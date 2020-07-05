@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="DEBUG" name="EventLogger" packages="ap.hearthstone"   monitorInterval="30">
+<configuration status="warn" name="EventLogger" packages="ap.hearthstone"   monitorInterval="30">
     <properties>
         <property name="logPath">logs</property>
+        <property name="defaultPattern">%d [%t] %X{id} %X{loginId} %p %c - %m%n</property>
     </properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout header="USER:username" pattern="%d{HH:mm:ss} [%t] %level %c: %msg %throwable %n"/>
+            <PatternLayout header="${sys:id}%n" pattern="%d{HH:mm:ss} [%t] %level %c: %msg %throwable %n"/>
         </Console>
         <RollingFile name="RollingFile" fileName="${logPath}/myLog.log"
                      filePattern="${logPath}/$${date:yyyy-MM-}/app-%d{MM-dd-yyyy}-%i.log">
-            <PatternLayout pattern="%d [%t] %p %c - %m%n"/>
+            <PatternLayout pattern="${defaultPattern}" header="USER:username%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy />
                 <TimeBasedTriggeringPolicy />
@@ -18,13 +19,13 @@
         </RollingFile>
         <Failover name="FailoverAppender" primary="Console">
             <Failovers>
-                <AppenderRef ref="fileLogger" />
+                <AppenderRef ref="RollingFile" />
             </Failovers>
         </Failover>
     </Appenders>
 
     <loggers>
-        <root level="warn">
+        <root level="debug">
             <appenderRef ref="Console"/>
             <appender-ref ref="RollingFile"/>
         </root>

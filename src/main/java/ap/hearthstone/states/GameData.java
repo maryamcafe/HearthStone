@@ -1,7 +1,7 @@
 package ap.hearthstone.states;
 
 import ap.hearthstone.interfaces.Updatable;
-import ap.hearthstone.UI.swing.ImageLoader;
+import ap.hearthstone.UI.util.ImageLoader;
 
 import java.awt.image.BufferedImage;
 
