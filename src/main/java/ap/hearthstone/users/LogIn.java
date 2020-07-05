@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-import ap.hearthstone.util.LogInConstants;
-import ap.hearthstone.util.PlayerFileManager;
-import ap.hearthstone.util.UsersFilesManager;
+import ap.hearthstone.utils.LogInConstants;
+import ap.hearthstone.utils.PlayerFileManager;
+import ap.hearthstone.utils.UsersFilesManager;
 
 
 //LogIn is a state.
@@ -132,14 +132,14 @@ public class LogIn extends CLI  {
         password = scanner.next();
         try {
             if (!UsersFilesManager.isPasswordCorrect(username.trim(), password.trim())) {
-                System.out.println(LogInConstants.wrongPassword);
+                System.out.println(LogInConstants.passwordNotCorrect);
                 if (tryAgain()) {
                     signIn();
                 }
                 //Otherwise the program will exit
             } else {
                 isSuccessful = true;
-                System.out.println(LogInConstants.signInSuccessful);
+                System.out.println(LogInConstants.loginSuccessful);
                 user = UsersFilesManager.findUser(username);
             }
         } catch (Exception e) {// the username doesn't exist:

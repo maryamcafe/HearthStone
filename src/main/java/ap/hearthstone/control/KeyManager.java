@@ -7,12 +7,10 @@ import java.awt.event.KeyListener;
 
 public class KeyManager implements KeyListener {
 
-    private final GameAction gameAction;
     private Timer right, left, tobeh;
 
     public KeyManager(JPanel panel) {
         panel.addKeyListener(this);
-        gameAction = GameAction.getInstance();
         initilize();
     }
 

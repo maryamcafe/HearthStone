@@ -1,5 +1,7 @@
 package ap.hearthstone.states;
 
+import ap.hearthstone.UI.api.Request;
+
 import java.util.List;
 
 public class PlayState extends State {
@@ -20,10 +22,9 @@ public class PlayState extends State {
     }
 
     @Override
-    public void execute(ap.hearthstone.control.Request request) {
+    public void execute(ap.hearthstone.UI.api.Request request) {
 
     }
-
 
 
     public static State getInstance(){

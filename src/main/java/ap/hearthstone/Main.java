@@ -1,27 +1,27 @@
 package ap.hearthstone;
 
-import com.google.gson.Gson;
+import ap.hearthstone.UI.control.Admin;
+import ap.hearthstone.UI.control.MainFrame;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.Console;
+import javax.swing.*;
 import java.io.IOException;
 
 
 public class Main {
 
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        String a = " again";
 
-        switch (a.trim().toLowerCase()){
-            case "back":
-                System.out.println("Back!");
-                break;
-            case "again":
-                System.out.println("Again!");
-                break;
-            default:
-                System.out.println("default");
-                break;
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("the start.");
+                new Admin().start();
 
+            }
+        });
     }
 }

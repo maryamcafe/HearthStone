@@ -1,6 +1,6 @@
 package ap.hearthstone.model.cards;
 
-import ap.hearthstone.util.CardConstants;
+import ap.hearthstone.utils.CardConstants;
 
 import java.util.Map;
 

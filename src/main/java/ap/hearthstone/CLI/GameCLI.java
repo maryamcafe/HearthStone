@@ -5,7 +5,7 @@ import ap.hearthstone.states.State;
 import java.util.Scanner;
 
 import static ap.hearthstone.states.GameConstants.*;
-import static ap.hearthstone.util.LogInConstants.wrongInput;
+import static ap.hearthstone.utils.LogInConstants.wrongInput;
 
 public class GameCLI extends CLI {
 

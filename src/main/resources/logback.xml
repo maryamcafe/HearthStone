@@ -1,4 +1,4 @@
-<configuration scan="true" >
+<configuration status="debug" scan="true" >
     <property name="DEFAULT_PATTERN" value="%d{HH:mm:ss.SSS}\ %-5level %logger{36} - %msg%n" />
     <appender name="STDOUT" >
         <encoder>

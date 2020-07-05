@@ -1,13 +1,12 @@
 package ap.hearthstone.states;
 
-import ap.hearthstone.control.Request;
-import ap.hearthstone.states.collection.Collection;
+import ap.hearthstone.UI.api.Request;
 
 public class Status extends State {
 
     private static State instance;
 
-    private Status(){
+    public Status(){
     }
 
     @Override
@@ -19,11 +18,5 @@ public class Status extends State {
     public void execute(Request request) {
 
     }
-
-    public static State getInstance(){
-        if(instance == null){
-            instance = new Collection();
-        }
-        return instance;
-    }
+    
 }

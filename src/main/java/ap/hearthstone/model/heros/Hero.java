@@ -1,7 +1,7 @@
 package ap.hearthstone.model.heros;
 
 import ap.hearthstone.model.cards.Deck;
-import ap.hearthstone.util.CardConstants;
+import ap.hearthstone.utils.CardConstants;
 
 import java.util.List;
 
