@@ -6,5 +6,6 @@ public enum HeroClass {
     ROGUE,
     WARLOCK,
     HUNTER,
-    PRIEST;
+    PRIEST,
+    PALADIN;
 }
