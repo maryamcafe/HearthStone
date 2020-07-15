@@ -1,5 +1,6 @@
 package ap.hearthstone.UI.gameView;
 
+import ap.hearthstone.model.gameModels.GameData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +13,11 @@ public class GameView extends ap.hearthstone.UI.api.ViewPanel {
 
 
     private Graphics2D g2d;
+    private GameData gameData;
 
 
     public GameView() {
+        gameData = new GameData();
         start();
     }
 
@@ -42,7 +45,7 @@ public class GameView extends ap.hearthstone.UI.api.ViewPanel {
 
 
     private void drawBgImage() {
-//        g2d.drawImage(gameData.getBgImage(), 0, 0, null);
+        g2d.drawImage(gameData.getBgImage(), 0, 0, null);
     }
 
     private void drawGameState() {
@@ -50,7 +53,7 @@ public class GameView extends ap.hearthstone.UI.api.ViewPanel {
     }
 
     public void tick() {
-//        gameData.update();
+        gameData.update();
     }
 
     private void render() {

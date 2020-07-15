@@ -1,6 +1,7 @@
 package ap.hearthstone.CLI;
 
 import ap.hearthstone.logic.users.LoginConstants;
+import ap.hearthstone.model.gameModels.util.GameConstants;
 
 import java.util.Scanner;
 
@@ -8,12 +9,13 @@ import static ap.hearthstone.model.gameModels.util.GameConstants.*;
 
 public class GameCLI extends CLI {
 
-    private static Scanner scanner = new Scanner(System.in);
-
-    private String wrongInput;
+    private static final Scanner scanner = new Scanner(System.in);
+    private final GameConstants gameConstants;
+    private final String wrongInput;
 
     public GameCLI() {
         super();
+        gameConstants = new GameConstants();
         wrongInput = new LoginConstants().getWrongInput();
     }
 
@@ -32,14 +34,14 @@ public class GameCLI extends CLI {
         String input = scanner.nextLine();
         switch (input.trim().toLowerCase()) {
             case "collections":
-                System.out.println(collectionMenuHelp);
+                System.out.println(gameConstants.getMessage("collectionMenuHelp"));
                 heroMenu();
                 break;
             case "store":
                 store();
                 break;
             case "help":
-                System.out.println(gameMainMenu);
+                System.out.println(gameConstants.getMessage("gameMainMenu"));
                 menu();
                 break;
             case "exit":
@@ -72,7 +74,7 @@ public class GameCLI extends CLI {
                 menu();
                 break;
             case "help":
-                System.out.println(heroMenuHelp);
+                System.out.println(gameConstants.getMessage("heroMenuHelp"));
                 heroMenu();
                 break;
             default:
@@ -96,7 +98,7 @@ public class GameCLI extends CLI {
                 heroMenu();
                 break;
             case "help":
-                System.out.println(heroSelectionHelp);
+                System.out.println(gameConstants.getMessage("heroSelectionHelp"));
                 heroSelectionMenu();
                 break;
             default:
@@ -127,7 +129,7 @@ public class GameCLI extends CLI {
                 heroSelectionMenu();
                 break;
             case "help":
-                System.out.println(CardMenuHelp);
+                System.out.println(gameConstants.getMessage("cardMenuHelp"));
                 CardMenu();
                 break;
             default:
@@ -151,7 +153,7 @@ public class GameCLI extends CLI {
                 CardMenu();
                 break;
             case "help":
-                System.out.println(addCardHelp);
+                System.out.println(gameConstants.getMessage("addCardHelp"));
                 addCardMenu();
                 break;
             default:
@@ -176,7 +178,7 @@ public class GameCLI extends CLI {
                 CardMenu();
                 break;
             case "help":
-                System.out.println(removeCardHelp);
+                System.out.println(gameConstants.getMessage("removeCardHelp"));
                 removeCardMenu();
                 break;
             default:
@@ -204,7 +206,7 @@ public class GameCLI extends CLI {
                 store();
                 break;
             case "help":
-                System.out.println(storeHelp);
+                System.out.println(gameConstants.getMessage("storeHelp"));
                 removeCardMenu();
                 break;
             case "back":
@@ -234,7 +236,7 @@ public class GameCLI extends CLI {
                 store();
                 break;
             case "help":
-                System.out.println(buyHelp);
+                System.out.println(gameConstants.getMessage("buyHelp"));
                 buyMenu();
                 break;
             default:
@@ -262,7 +264,7 @@ public class GameCLI extends CLI {
                 store();
                 break;
             case "help":
-                System.out.println(sellHelp);
+                System.out.println(gameConstants.getMessage("sellHelp"));
                 sellMenu();
                 break;
             default:

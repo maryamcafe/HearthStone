@@ -4,15 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConfigLoader {
     private static ConfigLoader configLoader;
     private static String defaultURL = "src/main/resources/MainConfigFile.properties";
-    private Configs addresses, loginConstants, gameConfigs, panelConfigs,
+    private Configs addresses, loginConstants, gameConstants, panelConfigs,
             cardConstants;
     private String cardsURL, imagesURL;
     private Logger logger = LogManager.getLogger(ConfigLoader.class);
@@ -64,12 +60,12 @@ public class ConfigLoader {
         return panelConfigs;
     }
 
-    public Configs getGameConfigs() {
-        if(gameConfigs == null){
-            gameConfigs = new Configs();
-            load(gameConfigs, addresses.getProperty("GAME_CONFIGS"));
+    public Configs getGameConstants() {
+        if(gameConstants == null){
+            gameConstants = new Configs();
+            load(gameConstants, addresses.getProperty("GAME_CONSTANTS"));
         }
-        return gameConfigs;
+        return gameConstants;
     }
 
     public Configs getCardConstants() {

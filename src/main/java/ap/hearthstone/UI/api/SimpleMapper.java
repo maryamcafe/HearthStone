@@ -34,7 +34,6 @@ public abstract class SimpleMapper implements Updatable, RequestHandler {
         requestList.add(request);
     }
 
-
     /*  For a mapper class Request sender sends request to the higher level of logic.*/
     @Override
     public void setRequestSender(RequestSender requestSender) {

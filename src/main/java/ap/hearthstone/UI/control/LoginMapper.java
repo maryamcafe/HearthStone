@@ -62,4 +62,7 @@ public class LoginMapper extends SimpleMapper {
 
     // custom decoding from String array
     //try to use Optional!
+    public LoginData getLoginData(String[] requestBody) {
+        return new LoginData(requestBody[1], requestBody[2]);
+    }
 }

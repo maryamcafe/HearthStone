@@ -15,8 +15,12 @@ public class Configs extends Properties {
         return Long.parseLong(this.getProperty(keyName));
     }
 
-    public boolean readBoolean(String keyName) {
+    public Boolean readBoolean(String keyName) {
         return Boolean.parseBoolean(this.getProperty(keyName));
+    }
+
+    public Byte readByte(String keyName){
+        return Byte.parseByte(this.getProperty(keyName));
     }
 
     public List<String> readList(String keyName){
