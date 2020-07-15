@@ -1,21 +1,20 @@
 package ap.hearthstone.CLI;
 
-import ap.hearthstone.states.State;
+import ap.hearthstone.logic.users.LoginConstants;
 
 import java.util.Scanner;
 
-import static ap.hearthstone.states.GameConstants.*;
-import static ap.hearthstone.utils.LogInConstants.wrongInput;
+import static ap.hearthstone.model.gameModels.util.GameConstants.*;
 
 public class GameCLI extends CLI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    private State playState;
+    private String wrongInput;
 
-    public GameCLI(State playState) {
+    public GameCLI() {
         super();
-        this.playState = playState;
+        wrongInput = new LoginConstants().getWrongInput();
     }
 
 

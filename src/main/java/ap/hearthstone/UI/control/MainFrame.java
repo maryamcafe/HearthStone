@@ -1,11 +1,12 @@
 package ap.hearthstone.UI.control;
 
 import ap.hearthstone.UI.api.ViewPanel;
+import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
 import ap.hearthstone.UI.collectionView.CollectionView;
 import ap.hearthstone.UI.gameView.GameView;
-import ap.hearthstone.UI.menuView.LoginPanel;
-import ap.hearthstone.UI.menuView.MainMenuPanel;
-import ap.hearthstone.UI.menuView.SignUpPanel;
+import ap.hearthstone.UI.menuView.LoginView;
+import ap.hearthstone.UI.menuView.MainMenuView;
+import ap.hearthstone.UI.menuView.SignUpView;
 import ap.hearthstone.UI.shopView.ShopView;
 import ap.hearthstone.UI.util.PanelConfig;
 import org.apache.logging.log4j.LogManager;
@@ -13,16 +14,18 @@ import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-//     Map<String, JPanel> viewNameMap;
-    final Map<String, ViewPanel> viewMap;
+    //     Map<String, JPanel> viewNameMap;
+    private final Map<String, ViewPanel> viewMap;
+    private ViewPanel currentView, previousView;
 
-    public MainFrame(){
+    public MainFrame() {
         super("first frame");
         configFrame();
         viewMap = new HashMap<>();
@@ -38,48 +41,74 @@ public class MainFrame extends JFrame{
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        logger.debug("Main Frame initiated.");
+        logger.debug("Main Frame configured.");
     }
 
-    public void display(String viewName) {
-        ViewType viewType = ViewType.valueOf(viewName);
-        if (!viewMap.containsKey(viewType.name())) { //lazy evaluation
-            logger.debug("Map doesn't contain {} view, So we're initializing it.", viewType.toString());
-            initView(viewType);
+    ///////////////////////TEMPORARY PUBLIC!
+    public void display(String viewName) throws NoSuchViewException {
+        if (!viewMap.containsKey(viewName)) {
+            throw new NoSuchViewException(viewName);
         }
-        setContentPane(viewMap.get(viewType.name()));
-//        logger.debug("now the main frame is showing {} view.", viewType.toString());
+        setContentPane(viewMap.get(viewName));
+        revalidate();
+        repaint();
+        logger.debug("now the main frame is showing {} view.", viewName);
     }
 
     // The API for view names is below:
-    private void initView(ViewType type) {
-        switch (type) {
-            case login:
+    void initView(String viewName) {
+        switch (viewName) {
+            case "login":
 //                logger.debug("switch statement to init login view.");
-                viewMap.put(ViewType.login.name(), new LoginPanel());
+                viewMap.put("login", new LoginView());
                 break;
-            case sign:
-                viewMap.put(ViewType.sign.name(), new SignUpPanel());
-            case main:
+            case "sign":
+                viewMap.put("sign", new SignUpView());
+                break;
+            case "main":
 //                logger.debug("switch statement to init main menu.");
-                viewMap.put(ViewType.main.name(), new MainMenuPanel());
+                viewMap.put("main", new MainMenuView());
                 break;
-            case game:
+            case "game":
 //                logger.debug("switch statement to init game view.");
-                viewMap.put(ViewType.game.name(), new GameView());
+                viewMap.put("game", new GameView());
                 break;
-            case shop:
+            case "shop":
 //                logger.debug("switch statement to init shop view.");
-                viewMap.put(ViewType.shop.name(), new ShopView());
+                viewMap.put("shop", new ShopView());
                 break;
-            case collection:
+            case "collection":
 //                logger.debug("switch statement to init collection view.");
-                viewMap.put(ViewType.collection.name(), new CollectionView());
+                viewMap.put("collection", new CollectionView());
                 break;
         }
     }
 
     public Map<String, ViewPanel> getViewMap() {
         return viewMap;
+    }
+
+    public void showDialogue(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void exit() {
+        final JOptionPane optionPane = new JOptionPane(
+                "The only way to close this dialog is by\n"
+                        + "pressing one of the following buttons.\n"
+                        + "Do you understand?",
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION);
+        int doExit = JOptionPane.showOptionDialog(this,
+                "Exit The Game?", "Close The Game",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, null, null);
+        if (doExit == JOptionPane.OK_OPTION) {
+            doExit();
+        }
+    }
+
+    private void doExit() {
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }

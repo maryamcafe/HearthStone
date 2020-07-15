@@ -1,29 +1,43 @@
 package ap.hearthstone.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigLoader {
     private static ConfigLoader configLoader;
-    private Configs addresses, gameConstants, panelConstants;
-    private String defaultURL = "src/main/resources/MainConfigFile.properties";
+    private static String defaultURL = "src/main/resources/MainConfigFile.properties";
+    private Configs addresses, loginConstants, gameConfigs, panelConfigs,
+            cardConstants;
     private String cardsURL, imagesURL;
+    private Logger logger = LogManager.getLogger(ConfigLoader.class);
 
-    private ConfigLoader(){
-        init();
+    private ConfigLoader(String mainURL){
+        init(mainURL);
     }
 
     public static ConfigLoader getInstance(){
         if (configLoader == null)
-            configLoader = new ConfigLoader();
+            configLoader = new ConfigLoader(defaultURL);
         return configLoader;
     }
 
-    private void init() {
+    public static ConfigLoader getInstance(String address){
+        if(configLoader == null){
+            configLoader = new ConfigLoader(address); // supposing that the first
+        }
+        return configLoader;
+    }
+
+    private void init(String mainURL) {
         try {
-            Reader reader = new FileReader(defaultURL);
+            Reader reader = new FileReader(mainURL);
+            addresses = new Configs();
             addresses.load(reader);
             reader.close();
         } catch (FileNotFoundException e) {
@@ -32,63 +46,64 @@ public class ConfigLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        loadConfigurations();
     }
 
-    private void loadConfigurations() {
-
-        for (Map.Entry<Object, Object> entry: addresses.entrySet()){
-            System.out.println(entry.getKey() + " = " + entry.getValue());
-
-            String key = ((String)entry.getKey()).toLowerCase();
-            String address =  (String) entry.getValue();
-
-            Configs configs = new Configs();
-
-            if (key.contains("config")){
-                try {//load config from fime
-                    Path path = Paths.get(address);
-                    FileReader reader = new FileReader(path.toFile());
-                    configs.load(reader);
-                    reader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println(key + " file not found");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.out.println(key + " load failed");
-                }
-                if(key.contains("game")){
-                    gameConstants = configs;
-                } else if(key.contains("graphic")){
-                    panelConstants = configs;
-                }
-            } else if(key.contains("image")){//for images we just need to copy the relative path
-                //maybe this changes in the future to a config
-                imagesURL = address;
-            } else if (key.contains("card")) {
-                cardsURL = address;
-            }
+    public Configs getLoginConstants() {
+        if(loginConstants == null){
+            loginConstants = new Configs();
+            load(loginConstants, addresses.getProperty("LOGIN_CONSTANTS"));
         }
+        return loginConstants;
     }
 
-    public Configs getGameConstants() {
-        return gameConstants;
+    public Configs getPanelConfigs() {
+        if(panelConfigs == null){
+            panelConfigs = new Configs();
+            load(panelConfigs, addresses.getProperty("PANEL_CONFIGS"));
+        }
+        return panelConfigs;
     }
 
-    public Configs getPanelConstants() {
-        return panelConstants;
+    public Configs getGameConfigs() {
+        if(gameConfigs == null){
+            gameConfigs = new Configs();
+            load(gameConfigs, addresses.getProperty("GAME_CONFIGS"));
+        }
+        return gameConfigs;
+    }
+
+    public Configs getCardConstants() {
+        if(cardConstants == null){
+            cardConstants = new Configs();
+            load(cardConstants, addresses.getProperty("CARD_CONSTANTS"));
+        }
+        return cardConstants;
     }
 
     public String getImagesURL() {
+        if(imagesURL == null){
+            imagesURL = addresses.getProperty("IMAGES_URL");
+        }
         return imagesURL;
     }
 
     public String getCardsURL() {
+        if(cardsURL == null){
+            cardsURL = addresses.getProperty("CARDS_URL");
+        }
         return cardsURL;
     }
 
-    public String getAddress(String addressName) {
-        return addresses.getProperty(addressName);
+
+
+    private void load(Configs toLoad, String address) {
+        try {
+            FileReader fileReader = new FileReader(new File(address));
+            toLoad.load(fileReader);
+            fileReader.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+            e.printStackTrace();
+        }
     }
 }

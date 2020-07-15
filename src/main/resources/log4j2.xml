@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="warn" name="EventLogger" packages="ap.hearthstone"   monitorInterval="30">
+<configuration status="warn" name="EventLogger" packages="ap.hearthstone"   monitorInterval="100">
     <properties>
         <property name="logPath">logs</property>
-        <property name="defaultPattern">%d [%t] %X{id} %X{loginId} %p %c - %m%n</property>
+        <property name="XPattern">%d [%t] %X{id} %X{loginId} %p %c - %m%n</property>
+        <property name="defaultPattern">%level %d{HH:mm:ss} [%t] %c{-2}: %msg %throwable %n</property>
+        <property name="rollingFilePattern">%level %d{DEFAULT}: %msg %n</property>
+
     </properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout header="${sys:id}%n" pattern="%d{HH:mm:ss} [%t] %level %c: %msg %throwable %n"/>
+            <PatternLayout pattern="${defaultPattern}" />
         </Console>
         <RollingFile name="RollingFile" fileName="${logPath}/myLog.log"
                      filePattern="${logPath}/$${date:yyyy-MM-}/app-%d{MM-dd-yyyy}-%i.log">
-            <PatternLayout pattern="${defaultPattern}" header="USER:username%n"/>
+            <PatternLayout header = "USER: $${sys:user}%nCREATED_AT: ${sys:created}%nPASSWORD: ${sys:password}%nDELETED_AT: ${sys:deleted}%n"
+                           pattern = "${rollingFilePattern}"/>
             <Policies>
                 <OnStartupTriggeringPolicy />
                 <TimeBasedTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="500" />
             </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${logPath}" maxDepth="2">
+                    <IfLastModified age="30d" />
+                    <IfAccumulatedFileCount  exceeds="10" />
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
         <Failover name="FailoverAppender" primary="Console">
             <Failovers>
@@ -25,6 +35,8 @@
     </Appenders>
 
     <loggers>
+        <logger name="ap.hearthstone.logging.MainLogger">
+        </logger>
         <root level="debug">
             <appenderRef ref="Console"/>
             <appender-ref ref="RollingFile"/>
