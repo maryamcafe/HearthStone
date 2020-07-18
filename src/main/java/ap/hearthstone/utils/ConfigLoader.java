@@ -9,22 +9,22 @@ public class ConfigLoader {
     private static ConfigLoader configLoader;
     private static String defaultURL = "src/main/resources/MainConfigFile.properties";
     private Configs addresses, loginConstants, gameConstants, panelConfigs,
-            cardConstants;
-    private String cardsURL, imagesURL;
+            cardConstants, imageURLs;
+    private String cardsURL;
     private Logger logger = LogManager.getLogger(ConfigLoader.class);
 
-    private ConfigLoader(String mainURL){
+    private ConfigLoader(String mainURL) {
         init(mainURL);
     }
 
-    public static ConfigLoader getInstance(){
+    public static ConfigLoader getInstance() {
         if (configLoader == null)
             configLoader = new ConfigLoader(defaultURL);
         return configLoader;
     }
 
-    public static ConfigLoader getInstance(String address){
-        if(configLoader == null){
+    public static ConfigLoader getInstance(String address) {
+        if (configLoader == null) {
             configLoader = new ConfigLoader(address); // supposing that the first
         }
         return configLoader;
@@ -45,7 +45,7 @@ public class ConfigLoader {
     }
 
     public Configs getLoginConstants() {
-        if(loginConstants == null){
+        if (loginConstants == null) {
             loginConstants = new Configs();
             load(loginConstants, addresses.getProperty("LOGIN_CONSTANTS"));
         }
@@ -53,7 +53,7 @@ public class ConfigLoader {
     }
 
     public Configs getPanelConfigs() {
-        if(panelConfigs == null){
+        if (panelConfigs == null) {
             panelConfigs = new Configs();
             load(panelConfigs, addresses.getProperty("PANEL_CONFIGS"));
         }
@@ -61,7 +61,7 @@ public class ConfigLoader {
     }
 
     public Configs getGameConstants() {
-        if(gameConstants == null){
+        if (gameConstants == null) {
             gameConstants = new Configs();
             load(gameConstants, addresses.getProperty("GAME_CONSTANTS"));
         }
@@ -69,27 +69,28 @@ public class ConfigLoader {
     }
 
     public Configs getCardConstants() {
-        if(cardConstants == null){
+        if (cardConstants == null) {
             cardConstants = new Configs();
             load(cardConstants, addresses.getProperty("CARD_CONSTANTS"));
         }
         return cardConstants;
     }
 
-    public String getImagesURL() {
-        if(imagesURL == null){
-            imagesURL = addresses.getProperty("IMAGES_URL");
+
+    public Configs getImageURLs() {
+        if (imageURLs == null) {
+            imageURLs = new Configs();
+            load(imageURLs, addresses.getProperty("IMAGE_CONFIGS"));
         }
-        return imagesURL;
+        return cardConstants;
     }
 
     public String getCardsURL() {
-        if(cardsURL == null){
+        if (cardsURL == null) {
             cardsURL = addresses.getProperty("CARDS_URL");
         }
         return cardsURL;
     }
-
 
 
     private void load(Configs toLoad, String address) {

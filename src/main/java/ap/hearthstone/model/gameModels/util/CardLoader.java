@@ -26,7 +26,7 @@ public class CardLoader {
     private Card load(String name) {
         Card c = null;
         try {
-            String fileName = name.replace(" ", "_");
+            String fileName = name.replace(" ", "_").replace(":","-");
             FileReader reader = new FileReader(fileName + ".json");
             c = gson.fromJson(reader, Card.class);
             reader.close();

@@ -3,7 +3,6 @@ package ap.hearthstone.UI.control;
 import ap.hearthstone.UI.api.requestTypes.LoginRequestType;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.SimpleMapper;
-import ap.hearthstone.UI.api.LoginData;
 import ap.hearthstone.logic.users.NoUserFoundException;
 import ap.hearthstone.logic.users.UsersFilesManager;
 
@@ -60,9 +59,4 @@ public class LoginMapper extends SimpleMapper {
         requestSender.send(new Request("exit"));
     }
 
-    // custom decoding from String array
-    //try to use Optional!
-    public LoginData getLoginData(String[] requestBody) {
-        return new LoginData(requestBody[1], requestBody[2]);
-    }
 }

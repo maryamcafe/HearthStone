@@ -20,6 +20,9 @@ public abstract class ViewPanel extends JPanel implements RequestHandler, Updata
         requestList = new LinkedList<>();
     }
 
+
+    protected abstract void addListeners();
+
     @Override
     public void addRequests(Request request) {
         requestList.add(request);

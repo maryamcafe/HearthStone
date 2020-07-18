@@ -14,11 +14,10 @@ import java.util.List;
 
 public class Deck {
 
-    private List<Card> cards;
+    private final HeroClass heroClass;
+    private final List<Card> cards;
     private int totalNumberOfCards;
     private final CardConstants constants;
-    private final HeroClass heroClass;
-    private Logger logger = LogManager.getLogger(this.getClass());
 
     public Deck(HeroClass heroClass){
         this.heroClass = heroClass;
@@ -47,6 +46,11 @@ public class Deck {
             throw new FullDeckException();
         }
     }
+
+    public void remove(Card cardToRemove){
+        cards.remove(cardToRemove);
+    }
+
 
     private byte numberOfCards(Card cardToCount) {
          return (byte) cards.stream().filter(c-> c.equals(cardToCount)).mapToInt(c->1).sum();

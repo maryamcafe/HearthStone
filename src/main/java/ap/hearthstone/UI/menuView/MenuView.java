@@ -20,7 +20,6 @@ public abstract class MenuView extends ViewPanel {
     Logger logger;
     protected GridBagConstraints gc;
 
-
     MenuView(String... componentNames) {
 //        super();
         logger = LogManager.getLogger(this.getClass());
@@ -46,8 +45,6 @@ public abstract class MenuView extends ViewPanel {
         organize();
         addListeners();
     }
-
-    protected abstract void addListeners();
 
     protected abstract void organize();
 

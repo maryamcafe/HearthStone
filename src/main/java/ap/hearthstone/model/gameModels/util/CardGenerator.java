@@ -6,17 +6,12 @@ import ap.hearthstone.model.gameModels.cards.MinionCard;
 import ap.hearthstone.model.gameModels.cards.SpellCard;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.graalvm.compiler.hotspot.replacements.HubGetClassNode;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CardGenerator {
     public static void main(String[] args) {
@@ -116,7 +111,7 @@ public class CardGenerator {
         writeCardsArrayToFile(Arrays.asList(cards));
 
         Map<String, Card> cardMap = new HashMap<>();
-        Arrays.stream(cards).forEach(card -> cardMap.put(card.getName(), card));
+        Arrays.stream(cards).filter(Objects::nonNull).forEach(card -> cardMap.put(card.getName(), card));
         writeCardsMapToFile(cardMap);
     }
 
@@ -139,7 +134,7 @@ public class CardGenerator {
         Type type = new TypeToken<Map<String, Card>>() {
         }.getType();
         Gson gson = new Gson();
-        File file = new File("src/main/resources/collection/cards/AllCardsArray.json");
+        File file = new File("src/main/resources/collection/cards/AllCardsMap.json");
         try {
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
