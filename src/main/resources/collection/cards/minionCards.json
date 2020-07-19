@@ -1,0 +1,208 @@
+[
+  {
+    "attack": 1,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Wisp",
+    "mana": 0,
+    "rarity": "COMMON",
+    "descriptionText": ""
+  },
+  {
+    "attack": 2,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "MAGE",
+    "name": "Khadgar",
+    "mana": 2,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Your cards that summon minions summon twice as many."
+  },
+  {
+    "attack": 1,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "ROGUE",
+    "name": "Pharaoh Cat",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Battlecry: Add a random Reborn minion to your hand."
+  },
+  {
+    "attack": 4,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "WARLOCK",
+    "name": "Dreadscale",
+    "mana": 3,
+    "rarity": "LEGENDARY",
+    "descriptionText": "At the end of your turn, deal 1 damage to all other minions."
+  },
+  {
+    "attack": 9,
+    "initialHealth": 9,
+    "type": "MINION",
+    "heroClass": "HUNTER",
+    "name": "Swamp King Dred",
+    "mana": 7,
+    "rarity": "LEGENDARY",
+    "descriptionText": "After your opponent plays a minion, attack it."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 7,
+    "type": "MINION",
+    "heroClass": "PRIEST",
+    "name": "High Priest Amet",
+    "mana": 4,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Whenever you summon a minion, set its Health equal to this minion\u0027s."
+  },
+  {
+    "attack": 6,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Draconic Emissary",
+    "mana": 6,
+    "rarity": "FREE",
+    "descriptionText": ""
+  },
+  {
+    "attack": 2,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Security Rover",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt."
+  },
+  {
+    "attack": 1,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Locust",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Rush"
+  },
+  {
+    "attack": 5,
+    "initialHealth": 5,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Sathrovarr",
+    "mana": 9,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Choose a friendly minion. Add a copy of it to your hand, deck and battlefield."
+  },
+  {
+    "attack": 3,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Tomb Warden",
+    "mana": 8,
+    "rarity": "RARE",
+    "descriptionText": "Battlecry: Summon a copy of this minion."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 3,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Guard Bot",
+    "mana": 2,
+    "rarity": "FREE",
+    "descriptionText": "Taunt"
+  },
+  {
+    "attack": 1,
+    "initialHealth": 3,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Fire Hawk",
+    "mana": 3,
+    "rarity": "COMMON",
+    "descriptionText": "Battlecry: Gain +1 Attack for each card in your opponent\u0027s hand."
+  },
+  {
+    "attack": 0,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Mirror Image",
+    "mana": 0,
+    "rarity": "FREE",
+    "descriptionText": "Taunt",
+    "abilities": [
+      {
+        "type": "Taunt",
+        "number": 0
+      }
+    ]
+  },
+  {
+    "attack": 5,
+    "initialHealth": 5,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Akali",
+    "mana": 8,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Rush, Overkill: Draw a Rush minion and give it +5/+5."
+  },
+  {
+    "attack": 0,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Serpent Ward",
+    "mana": 2,
+    "rarity": "RARE",
+    "descriptionText": "At the end of your turn, deal 2 damage to the enemy hero."
+  },
+  {
+    "attack": 4,
+    "initialHealth": 5,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Gyrocopter",
+    "mana": 6,
+    "rarity": "COMMON",
+    "descriptionText": "Rush, Windfury"
+  },
+  {
+    "attack": 3,
+    "initialHealth": 3,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Arena Patron",
+    "mana": 5,
+    "rarity": "RARE",
+    "descriptionText": "Overkill: Summon another Arena Patron."
+  },
+  {
+    "attack": 3,
+    "initialHealth": 4,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Omega Medic",
+    "mana": 3,
+    "rarity": "RARE",
+    "descriptionText": "Battlecry: If you have 10 Mana Crystals, restore 10 Health to your hero."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 5,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Bone Wraith",
+    "mana": 4,
+    "rarity": "COMMON",
+    "descriptionText": "Taunt, Reborn"
+  }
+]

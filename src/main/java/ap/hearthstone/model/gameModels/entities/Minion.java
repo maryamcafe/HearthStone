@@ -11,44 +11,18 @@ public class Minion extends GameCharacter {
         health = initialHealth;
     }
 
-    public void receiveHealth(byte health) {
-        if(this.health + health <= initialHealth){
-            this.health += health;
+    @Override
+    public void addHealth(int i) {
+        if (health + i >= 0) {
+            health += i;
         } else {
-            restoreInitialHealth();
-        }
-    }
-
-    public void restoreInitialHealth() {
-        health = initialHealth;
-    }
-
-    public void receiveDamage(byte damage) {
-        if(health-damage < 0){
             health = 0;
-            overkill = true;  //this is only for minions. therefore we can not move this method to super class.
-        } else {
-            health -= damage;
+            overkill = true;
         }
-    }
-
-    public void setHealth(byte health){
-        if(health < initialHealth && health >= 0){
-            this.health = health;
-        }
-    }
-
-    public void setAttack(byte attack){
-        if(attack >= 0){
-            this.attack = attack;
-        }
-    }
-
-    public boolean isAlive(){
-        return health > 0;
     }
 
     public boolean isOverkill() {
         return overkill;
     }
+
 }

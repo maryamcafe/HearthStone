@@ -22,8 +22,9 @@ public class ImageLoader {
         return new ImageIcon(loadImage(path));
     }
 
-    public static BufferedImage getCardImage(String cardImageName){
-        String path = ConfigLoader.getInstance().getImageURLs().getProperty("CARDS_IMAGES_URL") + cardImageName + ".png";
+    public static BufferedImage getCardImage(String cardName){
+        String path = ConfigLoader.getInstance().getImageURLs().getProperty("CARDS_IMAGES_URL")
+                + cardName.replace(" ", "_").replace(":", "-") + ".png";
         return loadImage(path);
     }
 

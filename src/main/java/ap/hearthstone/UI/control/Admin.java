@@ -2,6 +2,7 @@ package ap.hearthstone.UI.control;
 
 import ap.hearthstone.UI.api.*;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
+import ap.hearthstone.UI.collectionView.CollectionView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,7 @@ public class Admin extends SimpleMapper {
     private Map<String, String> nextViewMap;
     private Map<String, SimpleMapper> mappers;
     private Map<String, Timer> mapperTimers, viewTimers;
+    private CollectionMapper collectionMapper;
 
 
     public Admin() {
@@ -34,7 +36,8 @@ public class Admin extends SimpleMapper {
         mappers.put("login", new LoginMapper());
         mappers.put("sign", new SignUpMapper());
         mappers.put("main", new MainMenuMapper());
-        mappers.put("collection", new CollectionMapper());
+        collectionMapper = new CollectionMapper();
+        mappers.put("collection", collectionMapper);
         /////////////////////////////to be continued
     }
 
@@ -63,6 +66,9 @@ public class Admin extends SimpleMapper {
             mainFrame.initView(viewName);
             setTimer(viewName);
             setRequestSender(viewName);
+            if("collection".equals(viewName)){
+                 mainFrame.getCollectionView().receiveCardsData(collectionMapper.getCardData());
+            }
         }
         try {
             mainFrame.display(viewName);

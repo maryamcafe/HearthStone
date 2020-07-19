@@ -1,6 +1,7 @@
 package ap.hearthstone.logic.users;
 
 import ap.hearthstone.model.user.User;
+import ap.hearthstone.utils.FileManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class UsersFilesManager {
+public class UsersFilesManager extends FileManager {
     private final String activeUsersFile;
     private final String lastIdFile;
     private final String idUsernameFile;
@@ -23,8 +24,6 @@ public class UsersFilesManager {
     private Map<String, User> userMap;
     private Map<Long, String> idUsernameMap;
     private final Gson gson = new Gson();
-
-    Logger logger = LogManager.getLogger(this.getClass());
 
     public UsersFilesManager() {
         LoginConstants constants = new LoginConstants();
@@ -140,16 +139,4 @@ public class UsersFilesManager {
         readUsersListFromFile();
     }
 
-    private File getFile(String filePath) {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            Path path = Paths.get(filePath);
-            try {
-                Files.createFile(path);
-            } catch (IOException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
-        return file;
-    }
 }

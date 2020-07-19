@@ -11,16 +11,11 @@ import java.util.Map;
 public class SpellCard extends Card {
 
     public SpellCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText) {
-        super(heroClass, name, mana, rarity, descriptionText);
+        super(CardType.SPELL, heroClass, name, mana, rarity, descriptionText);
     }
 
     public SpellCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText, Ability... abilities) {
-        super(heroClass, name, mana, rarity, descriptionText, abilities);
-    }
-
-    @Override
-    protected void setCardType() {
-        type = CardType.SPELL;
+        super(CardType.SPELL, heroClass, name, mana, rarity, descriptionText, abilities);
     }
 
     @Override

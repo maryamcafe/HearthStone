@@ -7,16 +7,11 @@ import ap.hearthstone.UI.collectionView.cardsView.CardSetsTabbed;
 import ap.hearthstone.UI.collectionView.cardsView.FilterPanel;
 import ap.hearthstone.UI.collectionView.decksView.AddDeckPanel;
 import ap.hearthstone.UI.collectionView.decksView.DeckListPanel;
-import ap.hearthstone.utils.ConfigLoader;
-import ap.hearthstone.utils.Configs;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import ap.hearthstone.UI.util.Drawer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Type;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /*
 The integrator and controller class for the collection view.
@@ -29,9 +24,7 @@ public class CollectionView extends ViewPanel {
     private final FilterPanel filters;
     private final AddDeckPanel addDeckPanel;
     private final JPanel integrating;
-    private final Configs configs = ConfigLoader.getInstance().getPanelConfigs();
-    private final Type dataType;
-    private final Gson gson;
+    private int timesLoaded;
 
 
     public CollectionView() {
@@ -45,10 +38,9 @@ public class CollectionView extends ViewPanel {
         filters = new FilterPanel();
         addDeckPanel = new AddDeckPanel();
         integrating = new JPanel();
-        organize();
 
-        gson = new Gson();
-        dataType = new TypeToken<Map<String, String>>(){}.getType();
+        timesLoaded = 0;
+        organize();
     }
 
     private void organize() {
@@ -66,19 +58,22 @@ public class CollectionView extends ViewPanel {
         revalidate();
     }
 
-    public void display(JPanel panel){
+    public void display(JPanel panel) {
         add(panel, BorderLayout.CENTER);
     }
 
-    public void notDisplay(JPanel panel){
+    public void notDisplay(JPanel panel) {
         remove(panel);
     }
 
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//
-//    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (timesLoaded == 0) {
+            Drawer.drawBackgroundImage("collection", (Graphics2D) g);
+        }
+        timesLoaded ++;
+    }
 
     @Override
     protected void addListeners() {
@@ -87,22 +82,27 @@ public class CollectionView extends ViewPanel {
 
     @Override
     protected void executeResponses() {
-        while(requestList.size()>0){
+        while (requestList.size() > 0) {
             Request request = requestList.remove(0);
-            switch (request.getTitle()){
-                case "cardsData":
-                    receiveCardsData(request);
+            switch (request.getTitle()) {
+                case "":
+
             }
         }
     }
 
-    private void receiveCardsData(Request request) {
-        Map<String, String> cardsData = gson.fromJson(request.getRequestBody()[0], dataType);
+    public void receiveCardsData(Map<String, String> cardsData) {
         cardSetsTabbed.addTab(new CardSetPanel("all", cardsData.keySet()));
-        Map<String, LinkedList<String>> tabs;
-//        cardsData.forEach((cardName, heroName)-> {
-//            cardsData.
-//        });
+
+        Map<String, Set<String>> tabs = new HashMap<>();
+        cardsData.forEach((cardName, heroName) -> {
+            if (!tabs.containsKey(heroName)) {
+                tabs.put(heroName, new HashSet<>());
+            }
+            tabs.get(heroName).add(cardName);
+        });
+        tabs.forEach((tabName, cardSet) ->
+                cardSetsTabbed.addTab(new CardSetPanel(tabName, cardSet)));
     }
 
 }

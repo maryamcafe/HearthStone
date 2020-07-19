@@ -1,27 +1,34 @@
 package ap.hearthstone.model.gameModels.cards;
 
-
-import ap.hearthstone.logic.game.CardConstants;
 import ap.hearthstone.model.gameModels.HeroClass;
+import ap.hearthstone.model.gameModels.ability.Ability;
+import ap.hearthstone.model.gameModels.entities.Weapon;
+
+import java.util.Arrays;
 
 public class WeaponCard extends Card {
-    //this number shows how many times a weapon can be used
-    private int durability;
+
+    private final int attack, durability;
 
     public WeaponCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText,
-                      int durability) {
-        super(heroClass, name, mana, rarity, descriptionText);
-        type = CardType.WEAPON;
+                      int attack, int durability) {
+        super(CardType.WEAPON, heroClass, name, mana, rarity, descriptionText);
         if (durability <= 0) {
             throw new IllegalArgumentException("Weapon's durability should be greater than zero.");
         } else {
+            this.attack = attack;
             this.durability = durability;
         }
     }
 
+    public WeaponCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText,
+                      int attack, int durability, Ability... abilities){
+        this(heroClass, name, mana, rarity, descriptionText, attack, durability);
+        this.abilities = Arrays.asList(abilities);
+    }
+
     @Override
     public String toString() {
-
         return "type: \t\t" + type +
                 "\nClass: \t\t" + heroClass +
                 "\nname: \t\t" + name +
@@ -31,8 +38,13 @@ public class WeaponCard extends Card {
                 "\ndurability: \t\t" + durability;
     }
 
-    @Override
-    protected void setCardType() {
-        type = CardType.WEAPON;
+    public int getAttack() {
+        return attack;
     }
+
+    /* How many times this weapon can be used. */
+    public int getDurability() {
+        return durability;
+    }
+
 }

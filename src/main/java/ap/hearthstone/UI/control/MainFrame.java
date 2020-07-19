@@ -1,5 +1,6 @@
 package ap.hearthstone.UI.control;
 
+import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.ViewPanel;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
 import ap.hearthstone.UI.collectionView.CollectionView;
@@ -9,6 +10,7 @@ import ap.hearthstone.UI.menuView.MainMenuView;
 import ap.hearthstone.UI.menuView.SignUpView;
 import ap.hearthstone.UI.shopView.ShopView;
 import ap.hearthstone.UI.util.PanelConfig;
+import ap.hearthstone.interfaces.RequestSender;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,9 +23,8 @@ import java.util.Map;
 public class MainFrame extends JFrame {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    //     Map<String, JPanel> viewNameMap;
     private final Map<String, ViewPanel> viewMap;
-    private ViewPanel currentView, previousView;
+    private CollectionView collectionView;
 
     public MainFrame() {
         super("first frame");
@@ -45,7 +46,7 @@ public class MainFrame extends JFrame {
     }
 
     ///////////////////////TEMPORARY PUBLIC!
-    public void display(String viewName) throws NoSuchViewException {
+     void display(String viewName) throws NoSuchViewException {
         if (!viewMap.containsKey(viewName)) {
             throw new NoSuchViewException(viewName);
         }
@@ -79,13 +80,18 @@ public class MainFrame extends JFrame {
                 break;
             case "collection":
 //                logger.debug("switch statement to init collection view.");
-                viewMap.put("collection", new CollectionView());
+                collectionView = new CollectionView();
+                viewMap.put("collection", collectionView);
                 break;
         }
     }
 
     public Map<String, ViewPanel> getViewMap() {
         return viewMap;
+    }
+
+    public CollectionView getCollectionView() {
+        return collectionView;
     }
 
     public void showDialogue(String message) {

@@ -1,0 +1,130 @@
+[
+  {
+    "type": "SPELL",
+    "heroClass": "MAGE",
+    "name": "Polymorph",
+    "mana": 4,
+    "rarity": "FREE",
+    "descriptionText": "transform a minion into a 1/1 sheep"
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "ROGUE",
+    "name": "Friendly Smith",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Discover a weapon from any class.Add it to your deck with +2/+2"
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "WARLOCK",
+    "name": "Siphon Soul",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Destroy a minion. Restore 3 Health to your hero."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "HUNTER",
+    "name": "Rapid Fire",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Twinspell: Deal 1 damage."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "PRIEST",
+    "name": "Apotheosis",
+    "mana": 3,
+    "rarity": "COMMON",
+    "descriptionText": "Give a minion +2/+3 and Lifesteal."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Learn Draconic",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Strength in Numbers",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Sidequest: Spend 10 Mana on minions.\nReward: Summon a minion from your deck."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Swarm of Locusts",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Summon seven 1/1 Locusts with Rush"
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Sprint",
+    "mana": 7,
+    "rarity": "FREE",
+    "descriptionText": "Draw 4 cards."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Pharaoh’s Blessing",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Give a minion +4/+4, Divine Shield, and Taunt."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Book of Specters",
+    "mana": 2,
+    "rarity": "EPIC",
+    "descriptionText": "Draw 3 cards. Discard any spells drawn."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Shadow Word: Pain",
+    "mana": 2,
+    "rarity": "FREE",
+    "descriptionText": "Destroy a minion with 3 or less Attack."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Mirror Image Spell",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Summon two 0/2 minions with Taunt.",
+    "abilities": [
+      {
+        "type": "Summon",
+        "cardName": "mirrorImage",
+        "number": 0
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Overflow",
+    "mana": 7,
+    "rarity": "RARE",
+    "descriptionText": "Restore 5 Health to all characters. Draw 5 cards."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Circle of Healing",
+    "mana": 0,
+    "rarity": "COMMON",
+    "descriptionText": "Restore 4 Health to ALL minions."
+  },
+  null
+]

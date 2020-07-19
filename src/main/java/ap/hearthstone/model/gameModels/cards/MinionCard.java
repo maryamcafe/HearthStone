@@ -1,25 +1,33 @@
 package ap.hearthstone.model.gameModels.cards;
 
-import ap.hearthstone.model.gameModels.entities.GameCharacter;
 import ap.hearthstone.model.gameModels.HeroClass;
+import ap.hearthstone.model.gameModels.ability.Ability;
 import ap.hearthstone.model.gameModels.entities.Minion;
+
+import java.util.Arrays;
 
 public class MinionCard extends Card {
 
-    private int attack, initialHealth;
-    private Minion minion;
+    private final int attack, initialHealth;
 
-    public MinionCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText
-            , int attack, int initialHealth){
-        super(heroClass, name, mana, rarity, descriptionText);
-        type = CardType.MINION;
-        if (attack <= 0 || initialHealth <= 0) {
-            throw new IllegalArgumentException("Health and and attack can not be zero or less.");
+    public MinionCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText,
+                      int attack, int initialHealth){
+        super(CardType.MINION, heroClass, name, mana, rarity, descriptionText);
+        if (attack < 0) {
+            throw new IllegalArgumentException("Attack can not be less than zero.");
+        } else if(initialHealth <= 0) {
+            throw new IllegalArgumentException("Health can not be zero or less.");
         } else {
-            minion = new Minion(attack, initialHealth);
+            this.initialHealth = initialHealth;
+            this.attack = attack;
         }
     }
 
+    public MinionCard(HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText,
+                      int attack, int initialHealth, Ability... abilities){
+        this(heroClass, name, mana, rarity, descriptionText, attack, initialHealth);
+        this.abilities = Arrays.asList(abilities);
+    }
 
     @Override
     public String toString() {
@@ -33,10 +41,12 @@ public class MinionCard extends Card {
         return output;
     }
 
-
-
-    @Override
-    protected void setCardType() {
-       type = CardType.MINION;
+    public int getAttack() {
+        return attack;
     }
+
+    public int getInitialHealth() {
+        return initialHealth;
+    }
+
 }
