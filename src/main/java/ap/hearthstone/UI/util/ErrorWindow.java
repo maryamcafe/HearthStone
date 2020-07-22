@@ -1,16 +1,19 @@
 package ap.hearthstone.UI.util;
 
+import ap.hearthstone.utils.ConfigLoader;
+import ap.hearthstone.utils.Configs;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ErrorWindow extends JFrame {
-    PanelConfig config = PanelConfig.getInstance(); //this can't be lazy evaluated.
+    Configs config = ConfigLoader.getInstance().getPanelConfigs(); //this can't be lazy evaluated.
 
     public ErrorWindow(String errorMessage){
         super("Error!");
 
-        int width = config.getErrorFrameWidth();
-        int height = config.getErrorFrameHeight();
+        int width = config.readInt("errorFrameWidth");
+        int height = config.readInt("errorFrameHeight");
         setSize(width, height);
         setLayout(new BorderLayout());
 

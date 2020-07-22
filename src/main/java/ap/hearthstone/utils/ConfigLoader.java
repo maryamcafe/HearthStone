@@ -80,9 +80,9 @@ public class ConfigLoader {
     public Configs getImageURLs() {
         if (imageURLs == null) {
             imageURLs = new Configs();
-            load(imageURLs, addresses.getProperty("IMAGE_CONFIGS"));
+            load(imageURLs, addresses.getProperty("IMAGE_URLS"));
         }
-        return cardConstants;
+        return imageURLs;
     }
 
     public String getCardsURL() {

@@ -10,4 +10,9 @@ public class ShopView extends ap.hearthstone.UI.api.ViewPanel {
     protected void executeResponses() {
 
     }
+
+    @Override
+    public void initView() {
+
+    }
 }

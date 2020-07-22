@@ -1,7 +1,6 @@
 package ap.hearthstone.model.gameModels.heros;
 
 import ap.hearthstone.model.gameModels.HeroClass;
-import ap.hearthstone.model.gameModels.entities.Hero;
 
 public class HeroMage extends Hero {
 

@@ -1,6 +1,5 @@
 package ap.hearthstone.UI.control;
 
-import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.ViewPanel;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
 import ap.hearthstone.UI.collectionView.CollectionView;
@@ -9,8 +8,8 @@ import ap.hearthstone.UI.menuView.LoginView;
 import ap.hearthstone.UI.menuView.MainMenuView;
 import ap.hearthstone.UI.menuView.SignUpView;
 import ap.hearthstone.UI.shopView.ShopView;
-import ap.hearthstone.UI.util.PanelConfig;
-import ap.hearthstone.interfaces.RequestSender;
+import ap.hearthstone.utils.ConfigLoader;
+import ap.hearthstone.utils.Configs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,9 +32,9 @@ public class MainFrame extends JFrame {
     }
 
     private void configFrame() {
-        PanelConfig config = PanelConfig.getInstance();
-        int width = config.getMainFrameWidth();
-        int height = config.getMainFrameHeight();
+        Configs config = ConfigLoader.getInstance().getPanelConfigs();
+        int width = config.readInt("mainFrameWidth");
+        int height = config.readInt("mainFrameHeight");
         setSize(width, height);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

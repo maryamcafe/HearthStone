@@ -1,0 +1,235 @@
+[
+  null,
+  {
+    "type": "SPELL",
+    "heroClass": "MAGE",
+    "name": "Polymorph",
+    "mana": 4,
+    "rarity": "FREE",
+    "descriptionText": "transform a minion into a 1/1 sheep"
+  },
+  {
+    "attack": 2,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "MAGE",
+    "name": "Khadgar",
+    "mana": 2,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Your cards that summon minions summon twice as many."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "ROGUE",
+    "name": "Friendly Smith",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Discover a weapon from any class.Add it to your deck with +2/+2"
+  },
+  {
+    "attack": 1,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "ROGUE",
+    "name": "Pharaoh Cat",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Battlecry: Add a random Reborn minion to your hand."
+  },
+  {
+    "attack": 4,
+    "initialHealth": 2,
+    "type": "MINION",
+    "heroClass": "WARLOCK",
+    "name": "Dreadscale",
+    "mana": 3,
+    "rarity": "LEGENDARY",
+    "descriptionText": "At the end of your turn, deal 1 damage to all other minions."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "WARLOCK",
+    "name": "Expired Merchant",
+    "mana": 2,
+    "rarity": "RARE",
+    "descriptionText": "Battlecry: Discard your highest Cost card. Deathrattle: Add 2 copies of it to your hand."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "HUNTER",
+    "name": "Rapid Fire",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Twinspell: Deal 1 damage."
+  },
+  {
+    "attack": 9,
+    "initialHealth": 9,
+    "type": "MINION",
+    "heroClass": "HUNTER",
+    "name": "Swamp King Dred",
+    "mana": 7,
+    "rarity": "LEGENDARY",
+    "descriptionText": "After your opponent plays a minion, attack it."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "PRIEST",
+    "name": "Lazul\u0027s Scheme",
+    "mana": 0,
+    "rarity": "EPIC",
+    "descriptionText": "Reduce the Attack of an enemy minion by 1 until your next turn. (Upgrades each turn!)"
+  },
+  {
+    "attack": 2,
+    "initialHealth": 7,
+    "type": "MINION",
+    "heroClass": "PRIEST",
+    "name": "High Priest Amet",
+    "mana": 4,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Whenever you summon a minion, set its Health equal to this minion\u0027s."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Learn Draconic",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon."
+  },
+  {
+    "attack": 6,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Draconic Emissary",
+    "mana": 6,
+    "rarity": "FREE",
+    "descriptionText": ""
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Strength in Numbers",
+    "mana": 1,
+    "rarity": "COMMON",
+    "descriptionText": "Sidequest: Spend 10 Mana on minions.\nReward: Summon a minion from your deck."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Swarm of Locusts",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Summon seven 1/1 Locusts with Rush"
+  },
+  {
+    "attack": 1,
+    "initialHealth": 1,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Locust",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Rush"
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Sprint",
+    "mana": 7,
+    "rarity": "FREE",
+    "descriptionText": "Draw 4 cards."
+  },
+  {
+    "attack": 5,
+    "initialHealth": 5,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Sathrovarr",
+    "mana": 9,
+    "rarity": "LEGENDARY",
+    "descriptionText": "Choose a friendly minion. Add a copy of it to your hand, deck and battlefield."
+  },
+  {
+    "attack": 3,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Tomb Warden",
+    "mana": 8,
+    "rarity": "RARE",
+    "descriptionText": "Battlecry: Summon a copy of this minion."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 6,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Security Rover",
+    "mana": 6,
+    "rarity": "RARE",
+    "descriptionText": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt."
+  },
+  {
+    "attack": 2,
+    "initialHealth": 3,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Guard Bot",
+    "mana": 2,
+    "rarity": "FREE",
+    "descriptionText": "Taunt"
+  },
+  {
+    "attack": 4,
+    "initialHealth": 4,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Curio Collector",
+    "mana": 5,
+    "rarity": "RARE",
+    "descriptionText": "Whenever you draw a card, gain +1/+1"
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Humility",
+    "mana": 1,
+    "rarity": "FREE",
+    "descriptionText": "Change a minion\u0027s Attack to 1."
+  },
+  {
+    "type": "SPELL",
+    "heroClass": "NEUTRAL",
+    "name": "Shadow Word: Pain",
+    "mana": 2,
+    "rarity": "FREE",
+    "descriptionText": "Destroy a minion with 3 or less Attack."
+  },
+  {
+    "attack": 1,
+    "initialHealth": 3,
+    "type": "MINION",
+    "heroClass": "NEUTRAL",
+    "name": "Fire Hawk",
+    "mana": 3,
+    "rarity": "COMMON",
+    "descriptionText": "Battlecry: Gain +1 Attack for each card in your opponent\u0027s hand."
+  },
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null
+]

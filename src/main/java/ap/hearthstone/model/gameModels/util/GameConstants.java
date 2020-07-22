@@ -1,6 +1,5 @@
 package ap.hearthstone.model.gameModels.util;
 
-import ap.hearthstone.UI.util.PanelConfig;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 

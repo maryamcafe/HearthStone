@@ -1,6 +1,7 @@
-package ap.hearthstone.model.gameModels.entities;
+package ap.hearthstone.model.gameModels.heros;
 
 import ap.hearthstone.model.gameModels.HeroClass;
+import ap.hearthstone.model.gameModels.entities.GameCharacter;
 import ap.hearthstone.model.gameModels.util.GameConstants;
 
 //each hero has some cards that enters the game with it.

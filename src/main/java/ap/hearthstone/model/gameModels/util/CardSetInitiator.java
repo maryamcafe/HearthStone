@@ -22,7 +22,7 @@ public class CardSetInitiator {
 
     static Card[] cards = new Card[38];
 
-    static Card[] spells = new Card[16];
+    static Card[] spells = new Card[15];
     static Card[] minions = new Card[20];
     static Card[] weapons = new Card[3];
 
@@ -45,7 +45,7 @@ public class CardSetInitiator {
                 Card.Rarity.COMMON, "Battlecry: Add a random Reborn minion to your hand.",
                 1, 1);
 
-        cards[5] = new SpellCard(HeroClass.WARLOCK, "Siphon Soul",  6,
+        cards[5] = new SpellCard(HeroClass.WARLOCK, "Siphon Soul", 6,
                 Card.Rarity.RARE, "Destroy a minion. Restore 3 Health to your hero.");
 
         cards[6] = new MinionCard(HeroClass.WARLOCK, "Dreadscale", (byte) 3,
@@ -93,7 +93,7 @@ public class CardSetInitiator {
                 Card.Rarity.LEGENDARY, "Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
                 5, 5);
 
-        cards[19] = new SpellCard(HeroClass.NEUTRAL, "Pharaoh’s Blessing", 6,
+        cards[19] = new SpellCard(HeroClass.NEUTRAL, "Pharaoh's Blessing", 6,
                 Card.Rarity.RARE, "Give a minion +4/+4, Divine Shield, and Taunt.");
 
         cards[20] = new MinionCard(HeroClass.NEUTRAL, "Tomb Warden", 8,
@@ -129,14 +129,14 @@ public class CardSetInitiator {
         AbilityAction abilityAction;
 
         cards[26] = new MinionCard(HeroClass.NEUTRAL, "Mirror Image", 0,
-                    Card.Rarity.FREE, "Taunt", 0, 2, new Ability(Ability.Type.Taunt));
+                Card.Rarity.FREE, "Taunt", 0, 2, new Ability(Ability.Type.Taunt));
 
         cards[27] = new SpellCard(HeroClass.NEUTRAL, "Overflow", 7,
                 Card.Rarity.RARE, "Restore 5 Health to all characters. Draw 5 cards.");
 
         cards[28] = new MinionCard(HeroClass.NEUTRAL, "Akali", 8,
                 Card.Rarity.LEGENDARY, "Rush, Overkill: Draw a Rush minion and give it +5/+5.",
-                5,5);
+                5, 5);
 
         cards[29] = new MinionCard(HeroClass.NEUTRAL, "Serpent Ward", 2,
                 Card.Rarity.RARE, "At the end of your turn, deal 2 damage to the enemy hero.",
@@ -148,15 +148,15 @@ public class CardSetInitiator {
         cards[31] = new MinionCard(HeroClass.NEUTRAL, "Arena Patron", 5,
                 Card.Rarity.RARE, "Overkill: Summon another Arena Patron.", 3, 3);
 
-        cards [32] = new MinionCard(HeroClass.NEUTRAL, "Omega Medic", 3,
+        cards[32] = new MinionCard(HeroClass.NEUTRAL, "Omega Medic", 3,
                 Card.Rarity.RARE, "Battlecry: If you have 10 Mana Crystals, restore 10 Health to your hero.",
-                3,4);
+                3, 4);
 
         cards[33] = new MinionCard(HeroClass.NEUTRAL, "Bone Wraith", 4,
                 Card.Rarity.COMMON, "Taunt, Reborn", 2, 5);
 
         cards[34] = new WeaponCard(HeroClass.NEUTRAL, "Ashbringer", 5,
-                    Card.Rarity.FREE,"" ,5, 3);
+                Card.Rarity.FREE, "", 5, 3);
 
         cards[35] = new WeaponCard(HeroClass.NEUTRAL, "Heavy Axe", 1,
                 Card.Rarity.COMMON, "", 1, 3);
@@ -167,9 +167,9 @@ public class CardSetInitiator {
         cards[37] = new SpellCard(HeroClass.NEUTRAL, "Circle of Healing", 0,
                 Card.Rarity.COMMON, "Restore 4 Health to ALL minions.");
 
-        for (int i = 0; i <14; i++) {
-            minions[i] = cards[2*i];
-            spells[i] = cards[2*i+1];
+        for (int i = 0; i < 14; i++) {
+            minions[i] = cards[2 * i];
+            spells[i] = cards[2 * i + 1];
         }
         spells[14] = cards[37];
 
@@ -181,10 +181,11 @@ public class CardSetInitiator {
     }
 
     public static void main(String[] args) {
-        writeCardsArrayToFile(Arrays.asList(allCards()), "allCards");
+        allCards();
+//        writeCardsArrayToFile(Arrays.asList(allCards()), "allCards");
         writeCardsArrayToFile(Arrays.asList(spells), "spellCards");
-        writeCardsArrayToFile(Arrays.asList(minions), "minionCards");
-        writeCardsArrayToFile(Arrays.asList(weapons), "weaponCards");
+//        writeCardsArrayToFile(Arrays.asList(minions), "minionCards");
+//        writeCardsArrayToFile(Arrays.asList(weapons), "weaponCards");
 
     }
 

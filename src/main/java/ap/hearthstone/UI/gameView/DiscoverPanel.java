@@ -1,9 +1,15 @@
-package ap.hearthstone.UI.collectionView.decksView;
+package ap.hearthstone.UI.gameView;
 
 import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.api.ViewPanel;
 
-public class AddDeckPanel extends UpdatingPanel {
+
+/*
+This panel shows when ever there will be a choose between 3 cards, passives, etc.
+ */
+public class DiscoverPanel extends UpdatingPanel {
+
+
 
     @Override
     protected void addListeners() {
@@ -14,6 +20,5 @@ public class AddDeckPanel extends UpdatingPanel {
     protected void executeResponses() {
 
     }
-
 
 }

@@ -1,5 +1,6 @@
 package ap.hearthstone.UI.collectionView.cardsView;
 
+import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.api.ViewPanel;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
@@ -7,7 +8,7 @@ import ap.hearthstone.utils.Configs;
 import javax.swing.*;
 import java.awt.*;
 
-public class FilterPanel extends ViewPanel {
+public class FilterPanel extends UpdatingPanel {
 
     private JPanel manaFilterPanel;
     private JButton shop;

@@ -1,6 +1,7 @@
 package ap.hearthstone.UI.collectionView.decksView;
 
 import ap.hearthstone.UI.api.Request;
+import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.api.ViewPanel;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class DeckListPanel extends ViewPanel {
+public class DeckListPanel extends UpdatingPanel {
 
     private Map<String, String> deckMap;
     private JButton addDeck;

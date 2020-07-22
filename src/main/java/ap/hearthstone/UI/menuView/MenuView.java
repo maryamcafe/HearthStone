@@ -1,6 +1,7 @@
 package ap.hearthstone.UI.menuView;
 
 import ap.hearthstone.UI.api.ViewPanel;
+import ap.hearthstone.interfaces.ViewInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,19 +12,23 @@ import java.util.Map;
 
 /* The purpose of this class is to organize a menu panel properly.
  */
-public abstract class MenuView extends ViewPanel {
+public abstract class MenuView extends ViewPanel implements ViewInitializer {
 
-    Map<String, JButton> buttonMap;
-    Map<String, JTextField> fieldMap;
-    Map<String, JLabel> labelMap;
+    private String[] componentNames;
+    protected Map<String, JButton> buttonMap;
+    protected Map<String, JTextField> fieldMap;
+    protected Map<String, JLabel> labelMap;
     //panels should get the needed data from states and draw them on them selves
-    Logger logger;
+    protected Logger logger;
     protected GridBagConstraints gc;
 
     MenuView(String... componentNames) {
-//        super();
+        this.componentNames = componentNames;
         logger = LogManager.getLogger(this.getClass());
+    }
 
+    @Override
+    public void initView() {
         buttonMap = new HashMap<>();
         fieldMap = new HashMap<>();
         labelMap = new HashMap<>();
@@ -93,6 +98,5 @@ public abstract class MenuView extends ViewPanel {
         gc.insets = inset;
         add(label, gc);
     }
-
 
 }

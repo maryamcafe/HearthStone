@@ -44,4 +44,9 @@ public abstract class SimpleMapper implements Updatable, RequestHandler {
     public void setResponseSender(ResponseSender responseSender) {
         this.responseSender = responseSender;
     }
+
+    protected void exit() {
+        requestSender.send(new Request("exit"));
+    }
+
 }

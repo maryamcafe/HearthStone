@@ -1,7 +1,7 @@
 package ap.hearthstone.model.user;
 
 import ap.hearthstone.model.gameModels.cards.Card;
-import ap.hearthstone.model.gameModels.entities.Hero;
+import ap.hearthstone.model.gameModels.heros.Hero;
 
 //import com.google.gson.annotations.Expose;
 

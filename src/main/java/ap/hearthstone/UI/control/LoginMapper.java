@@ -55,8 +55,5 @@ public class LoginMapper extends SimpleMapper {
         requestSender.send(new Request("switch", "sign"));
     }
 
-    private void exit() {
-        requestSender.send(new Request("exit"));
-    }
 
 }

@@ -1,10 +1,8 @@
 package ap.hearthstone.logic.game;
 
-import ap.hearthstone.UI.util.PanelConfig;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

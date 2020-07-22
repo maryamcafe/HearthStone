@@ -74,7 +74,7 @@
   {
     "type": "SPELL",
     "heroClass": "NEUTRAL",
-    "name": "Pharaoh’s Blessing",
+    "name": "Pharaoh\u0027s Blessing",
     "mana": 6,
     "rarity": "RARE",
     "descriptionText": "Give a minion +4/+4, Divine Shield, and Taunt."
@@ -125,6 +125,5 @@
     "mana": 0,
     "rarity": "COMMON",
     "descriptionText": "Restore 4 Health to ALL minions."
-  },
-  null
+  }
 ]

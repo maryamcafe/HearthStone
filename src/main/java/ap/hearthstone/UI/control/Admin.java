@@ -66,9 +66,10 @@ public class Admin extends SimpleMapper {
             mainFrame.initView(viewName);
             setTimer(viewName);
             setRequestSender(viewName);
-            if("collection".equals(viewName)){
-                 mainFrame.getCollectionView().receiveCardsData(collectionMapper.getCardData());
-            }
+            mainFrame.getViewMap().get(viewName).initView();
+//            if("collection".equals(viewName)){
+//                 mainFrame.getCollectionView().receiveCardsData(collectionMapper.getCardData());
+//            }
         }
         try {
             mainFrame.display(viewName);
@@ -109,7 +110,7 @@ public class Admin extends SimpleMapper {
                     back();
                     break;
                 case "exit":
-                    exit();
+                    doExit();
                     break;
             }
         }
@@ -135,9 +136,8 @@ public class Admin extends SimpleMapper {
         viewTimers.get(currentView).start();
     }
 
-    private void exit() {
-        //first save everything
-        // We hopefully can attach an action listener to the EXIT icon on the edge of the window (the X sign).
+    private void doExit() {
+        //TODO save everything, also when exiting on the close window button(needs an action listener maybe).
         mainFrame.exit();
     }
 
