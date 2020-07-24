@@ -28,3 +28,6 @@ Gson (2.8.6)
 Log4j (2.13.3)
 ```
 
+مستند پروژه به فارسی:
+
+https://docs.google.com/document/d/1cS3lvVdjlTnfs-VKhRar4KLApg5sg4uHGBBGOh6ufzI/edit?usp=sharing
