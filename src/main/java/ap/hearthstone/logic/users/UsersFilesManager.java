@@ -1,17 +1,13 @@
 package ap.hearthstone.logic.users;
 
+import ap.hearthstone.logic.exceptions.NoUserFoundException;
 import ap.hearthstone.model.user.User;
 import ap.hearthstone.utils.FileManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

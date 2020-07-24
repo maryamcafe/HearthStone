@@ -1,5 +1,6 @@
 package ap.hearthstone.logic.users;
 
+import ap.hearthstone.logic.exceptions.NoUserFoundException;
 import ap.hearthstone.model.user.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

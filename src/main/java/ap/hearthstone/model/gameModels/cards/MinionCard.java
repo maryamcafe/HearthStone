@@ -1,8 +1,8 @@
 package ap.hearthstone.model.gameModels.cards;
 
+import ap.hearthstone.logic.game.PlayVisitor;
 import ap.hearthstone.model.gameModels.HeroClass;
 import ap.hearthstone.model.gameModels.ability.Ability;
-import ap.hearthstone.model.gameModels.entities.Minion;
 
 import java.util.Arrays;
 
@@ -27,6 +27,11 @@ public class MinionCard extends Card {
                       int attack, int initialHealth, Ability... abilities){
         this(heroClass, name, mana, rarity, descriptionText, attack, initialHealth);
         this.abilities = Arrays.asList(abilities);
+    }
+
+    @Override
+    public void play(PlayVisitor playVisitor) {
+        playVisitor.playMinionCard(this);
     }
 
     @Override

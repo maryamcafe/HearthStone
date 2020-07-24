@@ -4,13 +4,13 @@ import ap.hearthstone.model.gameModels.HeroClass;
 
 public class HeroMage extends Hero {
 
-    private static Hero instance;
+    private static HeroMage instance;
 
     private HeroMage() {
         super(HeroClass.MAGE);
     }
 
-    public static Hero getInstance(){
+    public static HeroMage getInstance(){
         if(instance == null){
             instance = new HeroMage();
         }

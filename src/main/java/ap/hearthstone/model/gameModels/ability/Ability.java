@@ -38,6 +38,12 @@ public class Ability {
 
     public enum Type{
         Summon,
+//        SetAttack,
+//        ReduceAttack,
+//        giveAttack,
+//        SetHealth,
+//        ReduceHealth,
+//        Heal,
         AddCard,
         Battlecry,  //MINION, WEAPON
         Deathrattle,  //MINION, WEAPON

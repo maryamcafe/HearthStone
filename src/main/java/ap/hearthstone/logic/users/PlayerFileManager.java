@@ -1,7 +1,7 @@
 package ap.hearthstone.logic.users;
 
 import com.google.gson.Gson;
-import ap.hearthstone.model.user.Player;
+import ap.hearthstone.model.user.PlayerStatus;
 import ap.hearthstone.model.user.User;
 
 import java.io.*;
@@ -10,29 +10,29 @@ import java.io.*;
 public class PlayerFileManager {
 
     private static Gson gson = new Gson();
-    private static Player player;
+    private static PlayerStatus playerStatus;
     private static Reader playerFileReader;
 
 
-    public static Player playerInitializer(User user) {
+    public static PlayerStatus playerInitializer(User user) {
         try {
             if (isTherePlayerFile(user.getUsername())) { //Old Player
-                player = gson.fromJson(playerFileReader, Player.class);
+                playerStatus = gson.fromJson(playerFileReader, PlayerStatus.class);
                 playerFileReader.close();
             } else { //new Player
-                player = new Player(user);
-                writePlayerToFile(player);
+                playerStatus = new PlayerStatus(user);
+                writePlayerToFile(playerStatus);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return player;
+        return playerStatus;
     }
 
-    private static void writePlayerToFile(Player player) throws IOException {
-        String playerJson = gson.toJson(player);
+    private static void writePlayerToFile(PlayerStatus playerStatus) throws IOException {
+        String playerJson = gson.toJson(playerStatus);
         //we'll save the player in a file with it's name = the player's username
-        Writer writer = new FileWriter(player.getUser().getUsername() + "json");
+        Writer writer = new FileWriter(playerStatus.getUser().getUsername() + "json");
         writer.write(playerJson);
         writer.close();
     }

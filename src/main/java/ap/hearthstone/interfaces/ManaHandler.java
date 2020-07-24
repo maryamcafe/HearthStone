@@ -1,6 +1,7 @@
-package ap.hearthstone.model.gameModels.interfaces;
+package ap.hearthstone.interfaces;
 
 public interface ManaHandler {
+    int getMana();
     void reduceMana(int i);
     void increaseMana(int i);
 

@@ -1,11 +1,9 @@
 package ap.hearthstone.model.gameModels.cards;
 
 
-import ap.hearthstone.logic.game.CardConstants;
+import ap.hearthstone.logic.game.PlayVisitor;
 import ap.hearthstone.model.gameModels.HeroClass;
 import ap.hearthstone.model.gameModels.ability.Ability;
-
-import java.util.Map;
 
 
 public class SpellCard extends Card {
@@ -28,5 +26,10 @@ public class SpellCard extends Card {
                 "\nDescription: " + descriptionText;
 
         return output;
+    }
+
+    @Override
+    public void play(PlayVisitor playVisitor) {
+        playVisitor.playSpellCard(this);
     }
 }

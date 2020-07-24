@@ -1,15 +1,15 @@
 package ap.hearthstone.model.gameModels.cards;
 
-import ap.hearthstone.logic.game.CardFileManager;
+import ap.hearthstone.interfaces.Playable;
 import ap.hearthstone.model.gameModels.HeroClass;
 import ap.hearthstone.model.gameModels.ability.Ability;
-import ap.hearthstone.model.gameModels.interfaces.ManaHandler;
+import ap.hearthstone.interfaces.ManaHandler;
 
 import java.util.Arrays;
 import java.util.List;
 
 
-public abstract class Card implements ManaHandler {
+public abstract class Card implements ManaHandler, Playable {
     protected CardType type;
     protected final HeroClass heroClass;
     protected final String name;
@@ -17,7 +17,6 @@ public abstract class Card implements ManaHandler {
     protected final Rarity rarity;
     protected final String descriptionText;
     protected List<Ability> abilities;
-
 
     public Card(CardType type, HeroClass heroClass, String name, int mana, Rarity rarity, String descriptionText) {
         this.type = type;

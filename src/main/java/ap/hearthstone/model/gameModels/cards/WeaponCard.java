@@ -1,8 +1,8 @@
 package ap.hearthstone.model.gameModels.cards;
 
+import ap.hearthstone.logic.game.PlayVisitor;
 import ap.hearthstone.model.gameModels.HeroClass;
 import ap.hearthstone.model.gameModels.ability.Ability;
-import ap.hearthstone.model.gameModels.entities.Weapon;
 
 import java.util.Arrays;
 
@@ -47,4 +47,8 @@ public class WeaponCard extends Card {
         return durability;
     }
 
+    @Override
+    public void play(PlayVisitor playVisitor) {
+        playVisitor.playWeaponCard(this);
+    }
 }

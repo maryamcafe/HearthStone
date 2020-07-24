@@ -1,20 +1,15 @@
 package ap.hearthstone.model.gameModels.entities;
 
-public class Weapon extends GameEntity{
+public class Weapon{
 
-    private int attack, durability;
+    private int durability;
+    private int attack;
 
     public Weapon(int attack, int durability) {
         this.attack = attack;
         this.durability = durability;
     }
 
-    @Override
-    protected void addLife(int i) {
-        addDurability(i);
-    }
-
-    @Override
     public void addAttack(int additional){
         if(attack+additional >= 0){
             attack += additional;
@@ -27,11 +22,21 @@ public class Weapon extends GameEntity{
         }
     }
 
-    public int getAttack() {
-        return attack;
+    public boolean isAvailable() {
+        return durability > 0;
     }
 
     public int getDurability() {
         return durability;
     }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void use() {
+        durability --;
+    }
+
+
 }

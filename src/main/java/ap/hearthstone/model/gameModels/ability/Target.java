@@ -1,28 +1,20 @@
 package ap.hearthstone.model.gameModels.ability;
 
-import ap.hearthstone.model.gameModels.entities.GameEntity;
+import ap.hearthstone.model.gameModels.entities.GameCharacter;
 
 import java.util.List;
 
 public class Target {
 
-    private List<GameEntity> entityList;
+    private List<GameCharacter> entityList;
     private Target.Type type;
 
-    public Target(List<GameEntity> entityList) {
+    public Target(List<GameCharacter> entityList) {
         this.entityList = entityList;
     }
 
     public Target(Target.Type type) {
         this.type = type;
-    }
-
-    public List<GameEntity> getEntityList() {
-        return entityList;
-    }
-
-    public Target.Type getType() {
-        return type;
     }
 
     public enum Type {

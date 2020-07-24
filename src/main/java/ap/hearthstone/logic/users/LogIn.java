@@ -5,7 +5,6 @@ import ap.hearthstone.CLI.CLI;
 import java.util.List;
 import java.util.Scanner;
 
-import ap.hearthstone.model.user.Player;
 import ap.hearthstone.model.user.User;
 
 
@@ -14,7 +13,6 @@ public class LogIn extends CLI {
     private static Scanner scanner = new Scanner(System.in);
     private String username, password;
     private User user = null;
-    private Player player;
     boolean isSuccessful = false;
     private  UsersFilesManager filesManager = new UsersFilesManager();
     private LoginConstants constants;
@@ -25,10 +23,6 @@ public class LogIn extends CLI {
         userFactory = new UserFactory();
     }
 
-
-    public Player getPlayer() {
-        return player;
-    }
 
 
     public void run(List<Boolean> running) {

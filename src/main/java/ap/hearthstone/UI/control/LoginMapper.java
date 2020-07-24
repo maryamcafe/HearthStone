@@ -3,7 +3,7 @@ package ap.hearthstone.UI.control;
 import ap.hearthstone.UI.api.requestTypes.LoginRequestType;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.SimpleMapper;
-import ap.hearthstone.logic.users.NoUserFoundException;
+import ap.hearthstone.logic.exceptions.NoUserFoundException;
 import ap.hearthstone.logic.users.UsersFilesManager;
 
 public class LoginMapper extends SimpleMapper {

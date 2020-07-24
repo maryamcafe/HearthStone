@@ -1,6 +1,7 @@
 package ap.hearthstone.model.gameModels.deck;
 
-import ap.hearthstone.logic.game.CardConstants;
+import ap.hearthstone.logic.cards.CardConstants;
+import ap.hearthstone.logic.cards.CardFileManager;
 import ap.hearthstone.model.gameModels.exceptions.FullDeckException;
 import ap.hearthstone.model.gameModels.exceptions.MaxEachCardException;
 import ap.hearthstone.model.gameModels.HeroClass;
@@ -9,35 +10,43 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
-
+/*
+This model is used in the game, and also in collection to create and save decks.
+ */
 public class Deck {
 
+    private final String name;
     private final HeroClass heroClass;
-    private final List<Card> cards;
-    private int totalNumberOfCards;
-    private final CardConstants constants;
+    private final List<String> cardsNames;
 
-    public Deck(HeroClass heroClass){
+    private transient int totalNumberOfCards;
+    private transient final CardConstants constants;
+    private transient final CardFileManager cardFileManager;
+    private transient Logger logger = LogManager.getLogger(this);
+
+    public Deck(String name, HeroClass heroClass){
+        this.name = name;
         this.heroClass = heroClass;
         constants = new CardConstants();
-        cards = new ArrayList<>();
+        cardsNames = new ArrayList<>();
+        cardFileManager = new CardFileManager();
     }
 
-    public Deck(HeroClass heroClass, List<Card> cards) throws FullDeckException {
-        this(heroClass);
-        if(cards.size() <= constants.getMaxTotalCards()){
-            this.cards.addAll(cards);
-        }else {
-            throw new FullDeckException();
+    public Deck(String name, HeroClass heroClass, List<String> cards) throws FullDeckException, MaxEachCardException {
+        this(name, heroClass);
+        for (String card : cards) {
+            add(card);
         }
     }
 
-    public void add(Card cardToAdd) throws MaxEachCardException, FullDeckException {
-        if (totalNumberOfCards <= constants.getMaxTotalCards()) {
-            if (numberOfCards(cardToAdd) < constants.getMaxEachCard()) {
-                this.cards.add(cardToAdd);
+    public void add(String cardName) throws MaxEachCardException, FullDeckException {
+        if (totalNumberOfCards <= constants.getMaxDeckCards()) {
+            if (numberOfCards(cardName) < constants.getMaxEachCard()) {
+                this.cardsNames.add(cardName);
                 totalNumberOfCards += 1;
             } else {
                 throw new MaxEachCardException();
@@ -47,20 +56,26 @@ public class Deck {
         }
     }
 
-    public void remove(Card cardToRemove){
-        cards.remove(cardToRemove);
+    public Card draw(){
+        Random r = new Random(System.nanoTime());
+        String cardName = cardsNames.remove(r.nextInt(cardsNames.size()));
+        return cardFileManager.getCard(cardName);
     }
 
-
-    private byte numberOfCards(Card cardToCount) {
-         return (byte) cards.stream().filter(c-> c.equals(cardToCount)).mapToInt(c->1).sum();
+    private int numberOfCards(String cardName) {
+         return cardsNames.stream().filter(c-> c.equals(cardName)).mapToInt(c->1).sum();
     }
 
-    public List<Card> getCards() {
-        return cards;
+    // GETTERS
+    public String getName() {
+        return name;
     }
 
     public HeroClass getHeroClass() {
         return heroClass;
+    }
+
+    public List<String> getCards() {
+        return new LinkedList<>(cardsNames);
     }
 }
