@@ -8,8 +8,8 @@ import java.util.List;
 
 public class GameState {
 
-    private Player friend;
-    private Player enemy;
+    private GamePlayer friend;
+    private GamePlayer enemy;
     private int friendlyTurn;
     private int enemyTurn;
     private String[] passives;
@@ -19,7 +19,7 @@ public class GameState {
     private List<Minion> deadMinions;
 
 
-    public GameState(Player friend, Player enemy){
+    public GameState(GamePlayer friend, GamePlayer enemy){
         this.friend = friend;
         this.enemy = enemy;
         friendlyTurn = 0;
@@ -51,11 +51,11 @@ public class GameState {
         return passives;
     }
 
-    public Player getFriend() {
+    public GamePlayer getFriend() {
         return friend;
     }
 
-    public Player getEnemy() {
+    public GamePlayer getEnemy() {
         return enemy;
     }
     public void addToDeadMinions(Minion minion) {

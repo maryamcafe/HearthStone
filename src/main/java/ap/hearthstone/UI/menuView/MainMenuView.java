@@ -30,18 +30,18 @@ public class MainMenuView extends MenuView {
         organizeButton(buttonMap.get("collection"), 5, 0.8);
     }
 
-    @Override
-    protected void organizeButton(JButton button, int row, double weighty) {
-        Insets inset = new Insets(0, 600, 0, 0);
-        gc.weightx = 1;
-        gc.weighty = weighty;
-
-        gc.gridx = 2;
-        gc.gridy = row;
-        gc.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
-        gc.insets = inset;
-        add(button, gc);
-    }
+//    @Override
+//    protected void organizeButton(JButton button, int row, double weighty) {
+//        Insets inset = new Insets(0, 600, 0, 0);
+//        gc.weightx = 1;
+//        gc.weighty = weighty;
+//
+//        gc.gridx = 2;
+//        gc.gridy = row;
+//        gc.anchor = GridBagConstraints.ABOVE_BASELINE_TRAILING;
+//        gc.insets = inset;
+//        add(button, gc);
+//    }
     @Override
     protected void executeResponses() {
         //Maybe some "Loading" window???

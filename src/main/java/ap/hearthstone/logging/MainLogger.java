@@ -76,8 +76,8 @@ public class MainLogger {
         logger.error(s);
     }
 
-    public void error(String s, Object... o) {
-        logger.error(s, o);
+    public void error(String s, Exception e) {
+        logger.error(s, e);
     }
 
     public void info(String s) {

@@ -4,9 +4,9 @@ import ap.hearthstone.interfaces.RequestType;
 import ap.hearthstone.logic.users.LoginConstants;
 
 public enum LoginRequestType implements RequestType {
-    LOGIN_SUCCESSFUL(new LoginConstants().getLoginSuccessful()),
-    PASSWORD_NOT_CORRECT(new LoginConstants().getPasswordNotCorrect()),
-    USER_NOT_FOUND(new LoginConstants().getUserNotFound()),
+    LOGIN_SUCCESSFUL(LoginConstants.getInstance().getLoginSuccessful()),
+    PASSWORD_NOT_CORRECT(LoginConstants.getInstance().getPasswordNotCorrect()),
+    USER_NOT_FOUND(LoginConstants.getInstance().getUserNotFound()),
     SIGN_UP;
 
     private String message;

@@ -19,7 +19,7 @@ public class LogIn extends CLI {
     private UserFactory userFactory;
 
     public LogIn() {
-        constants = new LoginConstants();
+        constants = LoginConstants.getInstance();
         userFactory = new UserFactory();
     }
 

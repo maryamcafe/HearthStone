@@ -41,7 +41,6 @@ public class CollectionView extends ViewPanel {
         filters = new FilterPanel();
         addDeckPanel = new AddDeckPanel();
         integrating = new JPanel();
-
         timesLoaded = 0;
         organize();
 
@@ -49,7 +48,6 @@ public class CollectionView extends ViewPanel {
     }
 
     private void organize() {
-
         setLayout(new BorderLayout());
         add(deckList, BorderLayout.EAST);
 
@@ -58,9 +56,6 @@ public class CollectionView extends ViewPanel {
         integrating.add(filters, BorderLayout.SOUTH);
         add(integrating, BorderLayout.WEST);
 
-//        add(cardSetsTabbed, BorderLayout.NORTH);
-//        add(filters, BorderLayout.SOUTH);
-//        add(deckList, BorderLayout.EAST);
         repaint();
         revalidate();
     }
@@ -75,11 +70,7 @@ public class CollectionView extends ViewPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        if (timesLoaded == 0) {
         Drawer.drawBackgroundImage("collection", (Graphics2D) g);
-//        }
-//        timesLoaded++;
     }
 
     @Override
@@ -92,7 +83,6 @@ public class CollectionView extends ViewPanel {
 
     @Override
     protected void addListeners() {
-
     }
 
     @Override
@@ -121,14 +111,7 @@ public class CollectionView extends ViewPanel {
     }
 
     private void initCardTabs(Map<String, List<String>> tabs) {
-//        cardSetsTabbed.addTab(new CardSetPanel("all", cardsData.keySet()));
-//        Map<String, Set<String>> tabs = new HashMap<>();
-//        cardsData.forEach((cardName, heroName) -> {
-//            if (!tabs.containsKey(heroName)) {
-//                tabs.put(heroName, new HashSet<>());
-//            }
-//            tabs.get(heroName).add(cardName);
-//        });
+        //TODO add a tab for all cards
         tabs.forEach((tabName, cardSet) -> {
             CardSetPanel cardSetPanel = new CardSetPanel(tabName, cardSet);
             cardSetTabs.addTab(cardSetPanel);

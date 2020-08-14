@@ -5,6 +5,7 @@ import java.util.List;
 public class Ability {
     private Type type;
     private Target target;
+    @Deprecated
     private AbilityAction action;
     private String cardName;
     private int number;

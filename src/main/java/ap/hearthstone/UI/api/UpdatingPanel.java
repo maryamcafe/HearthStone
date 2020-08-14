@@ -3,6 +3,8 @@ package ap.hearthstone.UI.api;
 import ap.hearthstone.interfaces.RequestHandler;
 import ap.hearthstone.interfaces.RequestSender;
 import ap.hearthstone.interfaces.Updatable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -15,9 +17,11 @@ public abstract class UpdatingPanel extends JPanel implements RequestHandler, Up
 
     protected RequestSender requestSender;
     protected List<Request> requestList;
+    protected Logger logger;
 
     public UpdatingPanel(){
         requestList = new LinkedList<>();
+        logger = LogManager.getLogger(this.getClass());
     }
 
 
@@ -47,6 +51,24 @@ public abstract class UpdatingPanel extends JPanel implements RequestHandler, Up
     public void refresh(){
         repaint();
         revalidate();
+    }
+
+    /*
+The program waits in info and error dialogues for the user's click on "OK" button,
+ and then moves to the next view.
+ Also the logging happens here, not in the request sending object.
+ */
+    protected void info(String message) {
+        logger.info(message);
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    protected void error(String message) {
+        logger.error(message);
+        JOptionPane.showMessageDialog(this,
+                message,
+                "Error in Login",
+                JOptionPane.ERROR_MESSAGE);
     }
 
 }

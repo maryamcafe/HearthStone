@@ -17,7 +17,9 @@ public class UserFactory {
         long id = initId();
         logger = MainLogger.createLogger(username, password, id, LocalDateTime.now().toString(), null);
         logger.info("start!");
-        return new User(username, password, id);
+        User user = new User(username, password, id);
+        filesManager.addUserToFile(user);
+        return user;
     }
 
     //setting a unique ID for every individual user
@@ -28,10 +30,14 @@ public class UserFactory {
         return id;
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(String username) {
         System.setProperty("deleted", LocalDateTime.now().toString());
-        filesManager.removeUserFromFile(user.getUsername());
-        logger = MainLogger.createLogger(user.getUsername(), user.getPassword(), user.getId(), "first", LocalDateTime.now().toString());
-        logger.info("User {}: {} (username: id) was deleted.", user.getUsername(), user.getId());
+        filesManager.removeUserFromFile(username);
+        try {
+            logger = MainLogger.createLogger(username, filesManager.getPassword(username), filesManager.getID(username), "first", LocalDateTime.now().toString());
+            logger.info("User {}: {} (username: id) was deleted.",username, filesManager.getID(username));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

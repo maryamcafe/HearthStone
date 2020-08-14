@@ -2,7 +2,7 @@ package ap.hearthstone.UI.control;
 
 import ap.hearthstone.UI.api.*;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
-import ap.hearthstone.UI.collectionView.CollectionView;
+import ap.hearthstone.UI.control.mappers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,19 +10,19 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.Timer;
 import java.util.*;
 
-public class Admin extends SimpleMapper {
+public class DisplayAdmin extends SimpleMapper {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
-    private static Admin instance;
-    private MainFrame mainFrame;
+    private static DisplayAdmin instance;
+    private final MainFrame mainFrame;
     private String currentView, previousView;
     private Map<String, String> nextViewMap;
-    private Map<String, SimpleMapper> mappers;
-    private Map<String, Timer> mapperTimers, viewTimers;
-    private CollectionMapper collectionMapper;
+    private Map<String, Mapper> mappers;
+    private final Map<String, Timer> mapperTimers;
+    private final Map<String, Timer> viewTimers;
 
 
-    public Admin() {
+    public DisplayAdmin() {
         super();
         mainFrame = new MainFrame();
         mapperTimers = new HashMap<>();
@@ -36,8 +36,6 @@ public class Admin extends SimpleMapper {
         mappers.put("login", new LoginMapper());
         mappers.put("sign", new SignUpMapper());
         mappers.put("main", new MainMenuMapper());
-        collectionMapper = new CollectionMapper();
-        mappers.put("collection", collectionMapper);
         /////////////////////////////to be continued
     }
 
@@ -66,10 +64,7 @@ public class Admin extends SimpleMapper {
             mainFrame.initView(viewName);
             setTimer(viewName);
             setRequestSender(viewName);
-            mainFrame.getViewMap().get(viewName).initView();
-//            if("collection".equals(viewName)){
-//                 mainFrame.getCollectionView().receiveCardsData(collectionMapper.getCardData());
-//            }
+            mainFrame.getViewMap().get(viewName).initView(); //load for the first time.
         }
         try {
             mainFrame.display(viewName);
@@ -83,9 +78,8 @@ public class Admin extends SimpleMapper {
         viewTimers.put(viewName, new Timer(30, e ->mainFrame.getViewMap().get(viewName).update()));
     }
 
-    /*
-    Sets request sender and response sender for Mapper class and Panel of this view.
-     */
+    /*    Sets request sender and response sender for the Mapper and the Panel of this view.
+         */
     private void setRequestSender(String viewName) {
         mainFrame.getViewMap().get(viewName).
                 setRequestSender(mappers.get(viewName)::addRequests);
@@ -100,6 +94,8 @@ public class Admin extends SimpleMapper {
             Request request = requestList.remove(0);
             logger.info("Request {}: {} is being executed.", request.getTitle(),request.getRequestBody());
             switch (request.getTitle()) {
+                case "loadUser":
+                    loadUser(request.getRequestBody()[0]);
                 case "next":
                     next(currentView);
                     break;
@@ -107,7 +103,7 @@ public class Admin extends SimpleMapper {
                     switchView(request.getRequestBody()[0]);
                     break;
                 case "back":
-                    back();
+                    goBack();
                     break;
                 case "exit":
                     doExit();
@@ -116,11 +112,19 @@ public class Admin extends SimpleMapper {
         }
     }
 
+    private void loadUser(String username) {
+        mappers.put("collection", new CollectionMapper(username));
+        mappers.put("status", new StatusMapper(username));
+        mappers.put("game", new GameMapper(username));
+        mappers.put("shop", new ShopMapper(username));
+        mappers.put("setting", new SettingMapper(username));
+    }
+
     private void next(String currentView) {
         switchView(nextViewMap.get(currentView));
     }
 
-    private void back() {
+    private void goBack() {
        switchView(previousView);
     }
 

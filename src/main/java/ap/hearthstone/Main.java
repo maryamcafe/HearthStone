@@ -1,13 +1,11 @@
 package ap.hearthstone;
 
-import ap.hearthstone.UI.control.Admin;
-import ap.hearthstone.UI.control.MainFrame;
+import ap.hearthstone.UI.control.DisplayAdmin;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import java.io.IOException;
 
 
 public class Main {
@@ -18,8 +16,8 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             logger.log(Level.forName("start", 320), "the start.");
-            Admin admin = new Admin();
-            admin.start();
+            DisplayAdmin displayAdmin = new DisplayAdmin();
+            displayAdmin.start();
         });
     }
 }

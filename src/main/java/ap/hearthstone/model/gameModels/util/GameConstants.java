@@ -7,10 +7,21 @@ public class GameConstants {
 
     private Integer defaultCoins;
     private Byte heroInitialHealth;
-    private final Configs constants;
+    private String defaultDeck;
+    private String defaultHero;
 
-    public GameConstants(){
+    private final Configs constants;
+    private static GameConstants instance;
+
+    private GameConstants(){
         constants = ConfigLoader.getInstance().getGameConstants();
+    }
+
+    public static GameConstants getInstance(){
+        if(instance == null){
+            instance = new GameConstants();
+        }
+        return instance;
     }
 
     public int getDefaultCoins() {
@@ -27,9 +38,21 @@ public class GameConstants {
         return heroInitialHealth;
     }
 
-    /*
-    Text used in CLI:)))
-     */
+    public String getDefaultDeck() {
+        if(defaultDeck == null){
+            defaultDeck = constants.getProperty("defaultDeck");
+        }
+        return defaultDeck;
+    }
+
+    public String getDefaultHero() {
+        if(defaultHero == null){
+            defaultHero = constants.getProperty("defaultHero");
+        }
+        return defaultHero;
+    }
+
+    /* Text used in CLI:)))  */
     public String getMessage(String messageName) {
         return constants.getProperty(messageName);
     }

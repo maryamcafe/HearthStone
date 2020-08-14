@@ -8,7 +8,6 @@ import ap.hearthstone.model.gameModels.cards.Card;
 import ap.hearthstone.model.gameModels.cards.MinionCard;
 import ap.hearthstone.model.gameModels.cards.SpellCard;
 import ap.hearthstone.model.gameModels.cards.WeaponCard;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

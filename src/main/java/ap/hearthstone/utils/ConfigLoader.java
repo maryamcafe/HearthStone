@@ -10,7 +10,7 @@ public class ConfigLoader {
     private static String defaultURL = "src/main/resources/MainConfigFile.properties";
     private Configs addresses, loginConstants, gameConstants, panelConfigs,
             cardConstants, imageURLs;
-    private String cardsURL, decksURL;
+    private String cardsURL, decksURL, usersURL;
     private Logger logger = LogManager.getLogger(ConfigLoader.class);
 
     private ConfigLoader(String mainURL) {
@@ -92,12 +92,18 @@ public class ConfigLoader {
         return cardsURL;
     }
 
-
     public String getDecksURL() {
         if(decksURL == null){
             decksURL = addresses.getProperty("DECKS_URL");
         }
         return decksURL;
+    }
+
+    public String getUsersURL() {
+        if(usersURL == null){
+            usersURL = addresses.getProperty("USERS_URL");
+        }
+        return usersURL;
     }
 
     private void load(Configs toLoad, String address) {

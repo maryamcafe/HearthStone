@@ -15,8 +15,8 @@ public class GameCLI extends CLI {
 
     public GameCLI() {
         super();
-        gameConstants = new GameConstants();
-        wrongInput = new LoginConstants().getWrongInput();
+        gameConstants = GameConstants.getInstance();
+        wrongInput = LoginConstants.getInstance().getWrongInput();
     }
 
 

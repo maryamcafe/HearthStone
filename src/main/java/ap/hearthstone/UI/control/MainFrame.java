@@ -6,8 +6,10 @@ import ap.hearthstone.UI.collectionView.CollectionView;
 import ap.hearthstone.UI.gameView.GameView;
 import ap.hearthstone.UI.menuView.LoginView;
 import ap.hearthstone.UI.menuView.MainMenuView;
+import ap.hearthstone.UI.menuView.SettingView;
 import ap.hearthstone.UI.menuView.SignUpView;
 import ap.hearthstone.UI.shopView.ShopView;
+import ap.hearthstone.UI.statusView.StatusView;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 import org.apache.logging.log4j.LogManager;
@@ -55,32 +57,33 @@ public class MainFrame extends JFrame {
         logger.debug("now the main frame is showing {} view.", viewName);
     }
 
-    // The API for view names is below:
+    /* The API for view names is below */
     void initView(String viewName) {
         switch (viewName) {
             case "login":
-//                logger.debug("switch statement to init login view.");
                 viewMap.put("login", new LoginView());
                 break;
             case "sign":
                 viewMap.put("sign", new SignUpView());
                 break;
             case "main":
-//                logger.debug("switch statement to init main menu.");
                 viewMap.put("main", new MainMenuView());
                 break;
             case "game":
-//                logger.debug("switch statement to init game view.");
                 viewMap.put("game", new GameView());
                 break;
             case "shop":
-//                logger.debug("switch statement to init shop view.");
                 viewMap.put("shop", new ShopView());
                 break;
             case "collection":
-//                logger.debug("switch statement to init collection view.");
                 collectionView = new CollectionView();
                 viewMap.put("collection", collectionView);
+                break;
+            case "status":
+                viewMap.put("status", new StatusView());
+                break;
+            case "setting":
+                viewMap.put("setting", new SettingView());
                 break;
         }
     }

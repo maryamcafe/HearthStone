@@ -6,19 +6,24 @@ import ap.hearthstone.utils.Configs;
 public class LoginConstants {
 
     private Configs configs;
-    //FILE Names:
+    /* file paths */
     private String activeUsersFile, idUsernameFile, lastIdFile;
-    //sign up constant:
+    /* sign up constant */
     private Long initialID;
-    //Messages to print in consul
+    /* Messages to print in consul */
     private String usernameTakenBeforeMsg, tryAgainMsg;
-    private String wrongInput, passwordNotCorrect, userNotFound;
-    private String signUpSuccessful, loginSuccessful;
-    private String LoggedInMenu;
+    /* singleton object */
+    private static LoginConstants instance;
 
-
-    public LoginConstants() {
+    private LoginConstants() {
         configs = ConfigLoader.getInstance().getLoginConstants();
+    }
+
+    public static LoginConstants getInstance() {
+        if(instance == null){
+            instance = new LoginConstants();
+        }
+        return instance;
     }
 
     public String getActiveUsersFile() {
@@ -50,17 +55,11 @@ public class LoginConstants {
     }
 
     public String getUsernameTakenBeforeMsg() {
-        if (usernameTakenBeforeMsg == null) {
-            usernameTakenBeforeMsg = configs.getProperty("usernameTakenBeforeMsg");
-        }
-        return usernameTakenBeforeMsg;
+        return configs.getProperty("usernameTakenBeforeMsg");
     }
 
     public String getTryAgainMsg() {
-        if (tryAgainMsg == null) {
-            tryAgainMsg = configs.getProperty("tryAgainMsg");
-        }
-        return tryAgainMsg;
+        return configs.getProperty("tryAgainMsg");
     }
 
     public String getWrongInput() {

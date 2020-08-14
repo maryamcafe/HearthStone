@@ -12,19 +12,17 @@ import java.util.Map;
 
 /* The purpose of this class is to organize a menu panel properly.
  */
-public abstract class MenuView extends ViewPanel implements ViewInitializer {
+public abstract class MenuView extends ViewPanel {
 
     private String[] componentNames;
     protected Map<String, JButton> buttonMap;
     protected Map<String, JTextField> fieldMap;
     protected Map<String, JLabel> labelMap;
     //panels should get the needed data from states and draw them on them selves
-    protected Logger logger;
     protected GridBagConstraints gc;
 
     MenuView(String... componentNames) {
         this.componentNames = componentNames;
-        logger = LogManager.getLogger(this.getClass());
     }
 
     @Override

@@ -14,7 +14,8 @@ import ap.hearthstone.utils.Configs;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player {
+public class GamePlayer {
+
     private String name;
 
     private Hero hero;
@@ -33,12 +34,12 @@ public class Player {
     private int maxHandCards;
 
 
-    public Player(){
-        //default setting which cannot be read from file
-        this("The Innkeeper", HeroMage.getInstance(), new DeckFileManager().getDeck("classic"));
+    public GamePlayer(){
+        //TODO default setting which cannot be read from file
+        this("The Innkeeper", HeroMage.getInstance(), new DeckFileManager("Innkeeper").getDeck("classic"));
     }
 
-    public Player(String name, Hero hero, Deck deck) {
+    public GamePlayer(String name, Hero hero, Deck deck) {
         this.name = name;
         this.hero = hero;
         this.deck = deck;

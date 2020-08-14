@@ -7,6 +7,8 @@ Hearthstone game mocked in java, an educational project for AP course, Sharif Un
 Game logic and arts:
 https://hearthstone.gamepedia.com/Hearthstone_Wiki
 
+Logging (Log4j2): https://logging.apache.org/log4j/2.x/manual/
+
 Graphics (Swing): https://docs.oracle.com/javase/tutorial/uiswing/
 
 Json serialization using Gson: https://futurestud.io/tutorials/gson-getting-started-with-java-json-serialization-deserialization

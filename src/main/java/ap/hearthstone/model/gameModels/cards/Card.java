@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public abstract class Card implements ManaHandler, Playable {
+public abstract class Card implements ManaHandler, Playable{
     protected CardType type;
     protected final HeroClass heroClass;
     protected final String name;
@@ -89,6 +89,7 @@ public abstract class Card implements ManaHandler, Playable {
     }
 
 }
+
 
 
 

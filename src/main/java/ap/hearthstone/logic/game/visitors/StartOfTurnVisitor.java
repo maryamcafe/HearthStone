@@ -23,7 +23,6 @@ public class StartOfTurnVisitor implements GameVisitor{
 
     @Override
     public void doForGameState(GameState gameState) {
-
     }
 
     @Override

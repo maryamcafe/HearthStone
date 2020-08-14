@@ -1,8 +1,9 @@
 package ap.hearthstone.logic.game;
 
 import ap.hearthstone.logic.exceptions.NotEnoughManaException;
+import ap.hearthstone.logic.game.visitors.StartOfTurnVisitor;
 import ap.hearthstone.model.gameModels.GameState;
-import ap.hearthstone.model.gameModels.Player;
+import ap.hearthstone.model.gameModels.GamePlayer;
 import ap.hearthstone.model.gameModels.cards.Card;
 import ap.hearthstone.model.gameModels.entities.GameCharacter;
 import ap.hearthstone.model.gameModels.entities.Minion;
@@ -17,13 +18,14 @@ import java.util.Random;
 public class GameManager {
 
     GameState gameState;
-    private final Player friend;
-    private final Player enemy;
-    private Player player; //current player
+    private final GamePlayer friend;
+    private final GamePlayer enemy;
+    private GamePlayer gamePlayer; //current player
     private PlayVisitor playVisitor;
     private boolean isFriend;
 
     private String[] passives;
+    private StartOfTurnVisitor startOfTurnVisitor;
 
     int friendlyTurn, enemyTurn;
 
@@ -41,26 +43,26 @@ public class GameManager {
 
     public void playTurn(boolean isFriendly) {
         if (isFriendly) {
-            player = friend;
+            gamePlayer = friend;
         } else {
-            player = enemy;
+            gamePlayer = enemy;
         }
-        player.playTurn();
+        gamePlayer.playTurn();
+        startOfTurnVisitor.doForGameState(gameState);
     }
 
 
     void playCard(Card card) throws NotEnoughManaException {
-        if (card.getMana() < player.getAvailableMana()) {
-            throw new NotEnoughManaException(card.getMana(), player.getAvailableMana());
+        if (card.getMana() < gamePlayer.getAvailableMana()) {
+            throw new NotEnoughManaException(card.getMana(), gamePlayer.getAvailableMana());
         }
         card.play(playVisitor);
     }
 
 
     void play(Minion minion) {
-//        minion.
         try {
-            player.addToPlayedMinions(minion);
+            gamePlayer.addToPlayedMinions(minion);
             gameState.addToPlayedMinions(minion);
         } catch (IllegalSummonException e) {
             e.printStackTrace();
@@ -69,7 +71,7 @@ public class GameManager {
 
     void summon(Minion minion) {
         try {
-            player.addToSummonedMinions(minion);
+            gamePlayer.addToSummonedMinions(minion);
             gameState.addToSummonedMinions(minion);
         } catch (IllegalSummonException e) {
             e.printStackTrace();

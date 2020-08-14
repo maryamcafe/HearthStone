@@ -19,6 +19,7 @@ public class CardFileManager extends FileManager {
     private final Type listType;
     private final Map<String, String> cardNameToHeroMap;
 
+
     //TODO change the List<Card> in here back to Set<Card>.
     // (go through collectionMapper and collectionView)
     private final Map<String, List<String>> heroToCardNameMap;
@@ -29,6 +30,17 @@ public class CardFileManager extends FileManager {
     private final Set<WeaponCard> weaponCardSet;
 
     //TODO: remove final declarations from constructor ans generalize all read, write and get methods.
+
+
+    private static CardFileManager instance;
+
+    /* Using this pattern to avoid excess file loading.     */
+    public static CardFileManager getInstance(){
+        if(instance == null){
+            instance = new CardFileManager();
+        }
+        return instance;
+    }
 
     public CardFileManager() {
         cardsURL = ConfigLoader.getInstance().getCardsURL();

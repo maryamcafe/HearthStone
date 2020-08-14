@@ -33,7 +33,7 @@ public class Deck {
         this.heroClass = heroClass;
         constants = new CardConstants();
         cardsNames = new ArrayList<>();
-        cardFileManager = new CardFileManager();
+        cardFileManager = CardFileManager.getInstance();
     }
 
     public Deck(String name, HeroClass heroClass, List<String> cards) throws FullDeckException, MaxEachCardException {
@@ -54,6 +54,10 @@ public class Deck {
         } else {
             throw new FullDeckException();
         }
+    }
+
+    public void remove(String cardName){
+        cardsNames.remove(cardName);
     }
 
     public Card draw(){

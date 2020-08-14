@@ -36,6 +36,7 @@ public class LoginView extends MenuView {
         buttonMap.get("sign up").addActionListener(e -> requestSender.send(new Request("sign up")));
     }
 
+    //TODO move shared parts to parent class. (updating panel)
     @Override
     protected void executeResponses() {
         while(requestList.size()>0){
@@ -50,23 +51,7 @@ public class LoginView extends MenuView {
         }
     }
 
-    /*
-    The program waits in info and error dialogues for the user's click on "OK" button,
-     and then moves to the next view.
-     Also the logging happens here, not in the request sending object.
-     */
-    protected void info(String message) {
-        logger.info(message);
-        JOptionPane.showMessageDialog(this, message);
-    }
 
-    protected void error(String message) {
-        logger.error(message);
-        JOptionPane.showMessageDialog(this,
-                message,
-                "Error in Login",
-                JOptionPane.ERROR_MESSAGE);
-    }
 
     protected void tryAgain(){
         logger.info("Trying again.");

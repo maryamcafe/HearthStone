@@ -19,35 +19,32 @@ public class UsersFilesManager extends FileManager {
     private final long initialID;
     private Map<String, User> userMap;
     private Map<Long, String> idUsernameMap;
-    private final Gson gson = new Gson();
 
     public UsersFilesManager() {
-        LoginConstants constants = new LoginConstants();
+        LoginConstants constants = LoginConstants.getInstance();
         activeUsersFile = constants.getActiveUsersFile();
         lastIdFile = constants.getLastIdFile();
         idUsernameFile = constants.getIdUsernameFile();
         initialID = constants.getInitialID();
+        userMap = new HashMap<>();
         //lazy evaluation is better.
         getFile(lastIdFile);
     }
 
     private Map<String, User> getUserMap() {
-        if (userMap == null) {
-            readUsersListFromFile();
+        if (userMap.size() == 0) {
+            updateUsers("r");
         }
         return userMap;
     }
 
-    /*
-    Check correct login
-     */
+    /*    Check correct login */
     public boolean isUsernameTaken(String key) {
         return getUserMap().containsKey(key);
     }
 
     public boolean isPasswordCorrect(String username, String password) throws NoUserFoundException {
-        //if username doesn't exist, throw an exception:
-        if (!getUserMap().containsKey(username)) {
+        if (!getUserMap().containsKey(username)) {  //if username doesn't exist, throw an exception:
             throw new NoUserFoundException(username);
         }
         return getUserMap().get(username).getPassword().equals(password);
@@ -56,35 +53,31 @@ public class UsersFilesManager extends FileManager {
 
     public void addUserToFile(User user) {
         getUserMap().put(user.getUsername(), user);
-        String usersJson = gson.toJson(getUserMap());
-        writeToUsersFile(usersJson);
+        updateUsers("w");
     }
 
     public void removeUserFromFile(String userName) {
         getUserMap().remove(userName);
+        updateUsers("w");
     }
 
     /* getting last ID assigned to a user.
      */
     public long getLastUserId() {
         try {
-            return readLastId();
+            RandomAccessFile file = new RandomAccessFile(getFile(lastIdFile), "r");
+            long lastId;
+            if (file.length() == 0) {
+                lastId = initialID;
+            } else {
+                lastId = file.readLong();
+            }
+            file.close();
+            return lastId;
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            e.printStackTrace();
             return initialID;
         }
-    }
-
-    private long readLastId() throws IOException {
-        RandomAccessFile file = new RandomAccessFile(getFile(lastIdFile), "r");
-        long lastId;
-        if (file.length() == 0) {
-            lastId = initialID;
-        } else {
-            lastId = file.readLong();
-        }
-        file.close();
-        return lastId;
     }
 
     public void writeLastId(long lastId) {
@@ -103,36 +96,38 @@ public class UsersFilesManager extends FileManager {
     }
 
     /*Searching tool*/
-    private Optional<Long> getID(String username) {
-        return idUsernameMap.entrySet().stream()
+    public Long getID(String username) throws Exception {
+        Optional<Long> id = idUsernameMap.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(username))
                 .map(Map.Entry::getKey).findAny();
+        if(id.isPresent()){
+            return id.get();
+        }
+        else throw new Exception("can not find id for this username");
     }
 
-    private void readUsersListFromFile() {
+    /* this method should be package private     */
+    String getPassword(String username){
+        return getUserMap().get(username).getPassword();
+    }
+
+    private void updateUsers(String mode) {
         try {
-            Reader reader = new FileReader(getFile(activeUsersFile));
-            Type type = new TypeToken<HashMap<String, User>>() {
-            }.getType();
-            if (userMap == null) {
-                userMap = new HashMap<>();
+            Gson gson = new Gson();
+            if ("r".equals(mode)) {
+                Reader reader = new FileReader(getFile(activeUsersFile));
+                Type type = new TypeToken<HashMap<String, User>>() {
+                }.getType();
+                userMap = gson.fromJson(reader, type);
+                reader.close();
+            } else if ("w".equals(mode)) {
+                Writer writer = new FileWriter(getFile(activeUsersFile));
+                writer.write(gson.toJson(userMap));
+                writer.close();
             }
-            userMap = gson.fromJson(reader, type);
-            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void writeToUsersFile(String toWrite) {
-        try {
-            Writer writer = new FileWriter(getFile(activeUsersFile));
-            writer.write(toWrite);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        readUsersListFromFile();
     }
 
 }

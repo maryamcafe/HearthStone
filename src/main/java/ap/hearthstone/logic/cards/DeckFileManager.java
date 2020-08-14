@@ -17,22 +17,33 @@ import java.util.Map;
 
 public class DeckFileManager extends FileManager {
 
-    private final String decksURL;
+    private final String publicDecksURL;
+    private final String privateDecksURL;
     private final Map<String, String> deckNameHeroMap;
 
-    public DeckFileManager() {
+    public DeckFileManager(String username) {
         deckNameHeroMap = new HashMap<>();
-        decksURL = ConfigLoader.getInstance().getDecksURL();
+        publicDecksURL = ConfigLoader.getInstance().getDecksURL();
+        privateDecksURL = ConfigLoader.getInstance().getUsersURL() + username + "/";
     }
 
-    public Deck getDeck(String name) {
-        try {
-            FileReader reader = new FileReader(getFile(decksURL + name + ".json"));
-            return new Gson().fromJson(reader, Deck.class);
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
+    // TODO check if this method needs to be static
+    public Deck getPublicDeck(String deckName) {
+        return readDeck(publicDecksURL + deckName + "Deck.json");
+    }
+
+    public Deck getDeck(String deckName) {
+        return readDeck(privateDecksURL + deckName + "Deck.json");
+    }
+
+    /* Create a deck and save it. */
+    public Deck createDeck(String name, String heroName, List<String> cardNames) throws FullDeckException, MaxEachCardException {
+        HeroClass heroClass = HeroClass.valueOf(heroName);
+        Deck deck = new Deck(name, heroClass, cardNames);
+        deckNameHeroMap.put(deck.getName(), deck.getHeroClass().name());
+        updateDeckHeroMap("w");
+        writeDeck(deck);
+        return deck;
     }
 
     //TODO: add a part to edit the deck.
@@ -50,10 +61,10 @@ public class DeckFileManager extends FileManager {
             }.getType();
             Gson gson = new Gson();
             if ("r".equals(mode)) {
-                FileReader reader = new FileReader(getFile(decksURL + "allDeckNames.json"));
+                FileReader reader = new FileReader(getFile(privateDecksURL + "allDeckNames.json"));
                 deckNameHeroMap.putAll(new Gson().fromJson(reader, mapType));
             } else if ("w".equals(mode)) {
-                FileWriter writer = new FileWriter(getFile(decksURL + "allDeckNames.json"));
+                FileWriter writer = new FileWriter(getFile(privateDecksURL + "allDeckNames.json"));
                 gson.toJson(deckNameHeroMap, writer);
                 writer.close();
             }
@@ -62,25 +73,24 @@ public class DeckFileManager extends FileManager {
         }
     }
 
-    /* Create a deck and save it.
-     */
-    public void createDeck(String name, String heroName, List<String> cardNames) throws FullDeckException, MaxEachCardException {
-        HeroClass heroClass = HeroClass.valueOf(heroName);
-        Deck deck = new Deck(name, heroClass, cardNames);
-        deckNameHeroMap.put(deck.getName(), deck.getHeroClass().name());
-        updateDeckHeroMap("w");
-        writeDeck(deck);
+    private Deck readDeck(String path) {
+        try {
+            FileReader reader = new FileReader(getFile(path));
+            return new Gson().fromJson(reader, Deck.class);
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     //TODO: test this type of writing.
     public void writeDeck(Deck deck) {
         try {
-            FileWriter writer = new FileWriter(getFile(decksURL + deck.getName() + ".json"));
+            FileWriter writer = new FileWriter(getFile(privateDecksURL + deck.getName() + "Deck.json"));
             new Gson().toJson(deck, writer);
             writer.close();
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
     }
-
 }

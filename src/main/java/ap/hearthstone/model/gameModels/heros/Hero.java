@@ -13,7 +13,7 @@ public abstract class Hero extends GameCharacter {
 
     protected Hero(HeroClass heroClass) {
         this.heroClass = heroClass;
-        initialHealth = new GameConstants().getHeroInitialHealth();
+        initialHealth = GameConstants.getInstance().getHeroInitialHealth();
         health = initialHealth;
         attack = 0;
     }
