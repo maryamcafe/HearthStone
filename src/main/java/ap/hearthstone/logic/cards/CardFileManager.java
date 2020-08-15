@@ -1,9 +1,6 @@
 package ap.hearthstone.logic.cards;
 
-import ap.hearthstone.model.gameModels.cards.Card;
-import ap.hearthstone.model.gameModels.cards.MinionCard;
-import ap.hearthstone.model.gameModels.cards.SpellCard;
-import ap.hearthstone.model.gameModels.cards.WeaponCard;
+import ap.hearthstone.model.gameModels.cards.*;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.FileManager;
 import com.google.gson.Gson;
@@ -12,37 +9,35 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CardFileManager extends FileManager {
 
     private final String cardsURL;
-    private final Type listType;
     private final Map<String, String> cardNameToHeroMap;
 
-
-    //TODO change the List<Card> in here back to Set<Card>.
-    // (go through collectionMapper and collectionView)
-    private final Map<String, List<String>> heroToCardNameMap;
     private final Map<String, Card> allCardsMap;
+    private final Map<String, Set<String>> heroToCardNameMap;    //TODO change the List<Card> in here back to Set<Card>.
 
     private final Set<SpellCard> spellCardSet;
     private final Set<MinionCard> minionCardSet;
     private final Set<WeaponCard> weaponCardSet;
 
-    //TODO: remove final declarations from constructor ans generalize all read, write and get methods.
-
+    private Map<String, Object> typeToCardsMap;
+    private Map<String, Type> typeMap;
+    private final Gson gson;
 
     private static CardFileManager instance;
 
     /* Using this pattern to avoid excess file loading.     */
-    public static CardFileManager getInstance(){
-        if(instance == null){
+    public static CardFileManager getInstance() {
+        if (instance == null) {
             instance = new CardFileManager();
         }
         return instance;
     }
 
-    public CardFileManager() {
+    private CardFileManager() {
         cardsURL = ConfigLoader.getInstance().getCardsURL();
         cardNameToHeroMap = new HashMap<>();
         heroToCardNameMap = new HashMap<>();
@@ -50,146 +45,148 @@ public class CardFileManager extends FileManager {
         spellCardSet = new HashSet<>();
         minionCardSet = new HashSet<>();
         weaponCardSet = new HashSet<>();
-
-        listType = new TypeToken<List<Card>>() {}.getType();
+        gson = new Gson();
+        initTypes();
     }
 
+    private void initTypeToCardsMap() {
+        typeToCardsMap = new HashMap<>();
+        typeToCardsMap.put("spell", spellCardSet);
+        typeToCardsMap.put("minion", minionCardSet);
+        typeToCardsMap.put("weapon", weaponCardSet);
+    }
+
+    private void initTypes() {
+        typeMap = new HashMap<>();
+        typeMap.put("spell", new TypeToken<Set<SpellCard>>() {
+        }.getType());
+        typeMap.put("minion", new TypeToken<Set<MinionCard>>() {
+        }.getType());
+        typeMap.put("weapon", new TypeToken<Set<WeaponCard>>() {
+        }.getType());
+    }
 
     public Map<String, String> getCardNameToHeroMap() {
         if (cardNameToHeroMap.size() == 0) {
-            initCardNameMap();
+            initCardToHeroMap();
         }
         return cardNameToHeroMap;
     }
 
-    public void initCardNameMap() {
+    public void initCardToHeroMap() {
         getSpellCardSet().forEach(card -> cardNameToHeroMap.put(card.getName(), card.getHeroClass().name()));
         getMinionCardSet().forEach(card -> cardNameToHeroMap.put(card.getName(), card.getHeroClass().name()));
         getWeaponCardSet().forEach(card -> cardNameToHeroMap.put(card.getName(), card.getHeroClass().name()));
     }
 
-    public Map<String, List<String>> getHeroToCardNameMap() {
+    public Map<String, Set<String>> getHeroToCardNameMap() {
         if (heroToCardNameMap.size() == 0) {
-            initHeroCardNameMap();
+            initHeroToCardMap();
         }
         return heroToCardNameMap;
     }
 
-    private void initHeroCardNameMap() {
-        if(cardNameToHeroMap.size() == 0){
-            initCardNameMap();
+    private void initHeroToCardMap() {
+        if (cardNameToHeroMap.size() == 0) {
+            initCardToHeroMap();
         }
         cardNameToHeroMap.forEach((cardName, heroName) -> {
             if (!heroToCardNameMap.containsKey(heroName)) {
-                heroToCardNameMap.put(heroName, new ArrayList<>());
+                heroToCardNameMap.put(heroName, new HashSet<>());
             }
             heroToCardNameMap.get(heroName).add(cardName);
         });
     }
 
-    public Card getCard(String cardName){
-        return getAllCardsMap().get(cardName);
+    public Card getCard(String cardName) {
+        return getCardNameToCardMap().get(cardName);
     }
 
-    private Map<String, Card> getAllCardsMap() {
-        if(allCardsMap.size() == 0){
+    private Map<String, Card> getCardNameToCardMap() {
+        if (allCardsMap.size() == 0) {
             getSpellCardSet().forEach(spellCard -> allCardsMap.put(spellCard.getName(), spellCard));
             getMinionCardSet().forEach(minionCard -> allCardsMap.put(minionCard.getName(), minionCard));
             getWeaponCardSet().forEach(weaponCard -> allCardsMap.put(weaponCard.getName(), weaponCard));
         }
-        return new HashMap<>(allCardsMap);
+        return allCardsMap;
     }
 
     private Set<SpellCard> getSpellCardSet() {
-        if(spellCardSet.size() == 0){
-            readSpellCards();
+        if (spellCardSet.size() == 0) {
+            readCards("spell");
         }
         return spellCardSet;
     }
 
     private Set<MinionCard> getMinionCardSet() {
-        if(minionCardSet.size() == 0){
-            readMinionCards();
+        if (minionCardSet.size() == 0) {
+            readCards("minion");
         }
         return minionCardSet;
     }
 
     private Set<WeaponCard> getWeaponCardSet() {
-        if(weaponCardSet.size() == 0){
-            readWeaponCards();
+        if (weaponCardSet.size() == 0) {
+            readCards("weapon");
         }
         return weaponCardSet;
     }
 
-    private void readSpellCards() {
-        try (FileReader reader = new FileReader(getFile(cardsURL + "spellCards.json"))) {
-            Type spellSetType = new TypeToken<Set<SpellCard>>() {}.getType();
-            spellCardSet.addAll(new Gson().fromJson(reader, spellSetType));
+    //Test
+    public Object getCardSet(String cardType) {
+        readCards(cardType);
+        return typeToCardsMap.get(cardType);
+    }
+
+    private void readCards(String cardType) {
+        try (FileReader reader = new FileReader(getFile(cardsURL + cardType + "Cards.json"))) {
+            switch (cardType) {
+                case "spell":
+                    spellCardSet.addAll(gson.fromJson(reader, typeMap.get(cardType)));
+                    break;
+                case "minion":
+                    minionCardSet.addAll(gson.fromJson(reader, typeMap.get(cardType)));
+                    break;
+                case "weapon":
+                    weaponCardSet.addAll(gson.fromJson(reader, typeMap.get(cardType)));
+                    break;
+            }  //typeToCardsMap.put(cardType, gson.fromJson(reader, typeMap.get(cardType)));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
     }
 
-    private void readMinionCards() {
-        try (FileReader reader = new FileReader(getFile(cardsURL + "minionCards.json"))) {
-            Type minionSetType = new TypeToken<Set<MinionCard>>() {}.getType();
-            minionCardSet.addAll(new Gson().fromJson(reader, minionSetType));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void readWeaponCards() {
-        try (FileReader reader = new FileReader(getFile(cardsURL + "weaponCards.json"))) {
-            Type weaponSetType = new TypeToken<Set<WeaponCard>>() {}.getType();
-            weaponCardSet.addAll(new Gson().fromJson(reader, weaponSetType));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeSpellCards() {
-        try (FileWriter writer = new FileWriter(getFile(cardsURL + "spellCards.json"))){
-            Gson gson = new Gson();
-            Type spellSetType = new TypeToken<Set<SpellCard>>() {}.getType();
-            gson.toJson(spellCardSet, spellSetType, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeMinionCards() {
-        try (FileWriter writer1 = new FileWriter(getFile(cardsURL + "minionCards.json"))){
-            Type minionSetType = new TypeToken<Set<MinionCard>>() {}.getType();
-            new Gson().toJson(minionCardSet, minionSetType, writer1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeWeaponCards() {
-        try (FileWriter writer = new FileWriter(getFile(cardsURL + "weaponCards.json"))){
-            Gson gson = new Gson();
-            Type weaponSetType = new TypeToken<Set<WeaponCard>>() {}.getType();
-            gson.toJson(weaponCardSet, weaponSetType, writer);
+    private void writeCards(String cardType) {
+        try (FileWriter writer = new FileWriter(getFile(cardsURL + cardType + "Cards.json"))) {
+            switch (cardType) {
+                case "spell":
+                    gson.toJson(spellCardSet, typeMap.get(cardType), writer);
+                    break;
+                case "minion":
+                    gson.toJson(minionCardSet, typeMap.get(cardType), writer);
+                    break;
+                case "weapon":
+                    gson.toJson(weaponCardSet, typeMap.get(cardType), writer);
+                    break;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void addCard(Card card) {
-        switch (card.getType()){
+        switch (card.getType()) {
             case SPELL:
                 spellCardSet.add((SpellCard) card);
-                writeSpellCards();
+                writeCards("spell");
                 break;
             case MINION:
                 minionCardSet.add((MinionCard) card);
-                writeMinionCards();
+                writeCards("minion");
                 break;
             case WEAPON:
                 weaponCardSet.add((WeaponCard) card);
-                writeWeaponCards();
+                writeCards("weapon");
                 break;
         }
     }
@@ -197,6 +194,18 @@ public class CardFileManager extends FileManager {
     public void printCardsMap() {
         System.out.println(getCardNameToHeroMap());
     }
+
+    public List<String> geDefaultCards() {
+        List<String> defaultCards = new LinkedList<>();
+        try(Reader reader = new FileReader(getFile(cardsURL + "defaultCards.json"))){
+            defaultCards.addAll(gson.fromJson(reader, new TypeToken<List<String>>(){}.getType()));
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return defaultCards;
+    }
+
+
 }
 
 

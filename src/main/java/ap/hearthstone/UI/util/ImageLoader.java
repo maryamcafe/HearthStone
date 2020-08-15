@@ -14,13 +14,15 @@ import java.io.IOException;
 
 public class ImageLoader {
 
-//   private Configs configs;
-//
+    // TODO change static methods here to non-static
+    // TODO create a panel config class.
+   private static final Configs configs = ConfigLoader.getInstance().getPanelConfigs();
+
 //    public ImageLoader() {
 //        configs = ConfigLoader.getInstance().getImageURLs();
 //    }
 
-    private static Logger logger = LogManager.getLogger(ImageLoader.class);
+    private static final Logger logger = LogManager.getLogger(ImageLoader.class);
 
     public static ImageIcon getIcon(String iconName) {
         String path = ConfigLoader.getInstance().getImageURLs().getProperty("ICONS_URL") + iconName + ".png";
@@ -33,16 +35,23 @@ public class ImageLoader {
         return loadImage(path);
     }
 
+    public static BufferedImage getCardImage(String cardName, boolean isZero){
+        String gray = "";
+        if(isZero) gray = "-gray";
+        String path = ConfigLoader.getInstance().getImageURLs().getProperty("CARDS_IMAGES_URL")
+                + cardName.replace(" ", "_").replace(":", "-").replace("’", "'") + gray + ".png";
+        return loadImage(path);
+    }
+
     public static BufferedImage getBackgroundImage(String viewName){
         String path = ConfigLoader.getInstance().getImageURLs().getProperty("BACKGROUNDS_URL") + viewName + ".jpg";
-        return loadImage(path);
+        return resize(loadImage(path), configs.readInt("mainFrameHeight"), configs.readInt("mainFrameWidth"));
     }
 
     public static BufferedImage loadImage(String path){
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File(path));
-
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

@@ -34,7 +34,8 @@ public class CardSetsTabbed extends UpdatingPanel {
         organize();
     }
 
-    private void organize() {
+    @Override
+    protected void organize() {
         Configs configs = ConfigLoader.getInstance().getPanelConfigs();
         Dimension panelDim = new Dimension(configs.readInt("cardPanelWidth"), configs.readInt("cardPanelHeight"));
         tabbedPane.setPreferredSize(panelDim);
@@ -53,7 +54,6 @@ public class CardSetsTabbed extends UpdatingPanel {
         tabbedPane.addTab("",icon, scrollPane, name);
         refresh();
     }
-
 
     private String getPanelName(CardSetPanel panel) {
         if (panel.getName() != null)

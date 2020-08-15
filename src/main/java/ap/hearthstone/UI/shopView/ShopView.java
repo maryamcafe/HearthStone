@@ -1,6 +1,14 @@
 package ap.hearthstone.UI.shopView;
 
-public class ShopView extends ap.hearthstone.UI.api.ViewPanel {
+import ap.hearthstone.UI.api.UpdatingPanel;
+
+public class ShopView extends UpdatingPanel {
+
+    @Override
+    protected void organize() {
+
+    }
+
     @Override
     protected void addListeners() {
 

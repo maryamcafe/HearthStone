@@ -1,18 +1,16 @@
 package ap.hearthstone.model.gameModels.deck;
 
-import ap.hearthstone.logic.cards.CardConstants;
 import ap.hearthstone.logic.cards.CardFileManager;
 import ap.hearthstone.model.gameModels.exceptions.FullDeckException;
+import ap.hearthstone.model.gameModels.exceptions.IllegalHeroClass;
 import ap.hearthstone.model.gameModels.exceptions.MaxEachCardException;
 import ap.hearthstone.model.gameModels.HeroClass;
 import ap.hearthstone.model.gameModels.cards.Card;
+import ap.hearthstone.model.gameModels.util.GameConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /*
 This model is used in the game, and also in collection to create and save decks.
@@ -24,29 +22,35 @@ public class Deck {
     private final List<String> cardsNames;
 
     private transient int totalNumberOfCards;
-    private transient final CardConstants constants;
+    private transient final GameConstants constants;
     private transient final CardFileManager cardFileManager;
-    private transient Logger logger = LogManager.getLogger(this);
+    private transient final Map<String, String> cardToHeroMap;
+    private transient final Logger logger = LogManager.getLogger(this);
 
     public Deck(String name, HeroClass heroClass){
         this.name = name;
         this.heroClass = heroClass;
-        constants = new CardConstants();
+        constants = GameConstants.getInstance();
         cardsNames = new ArrayList<>();
         cardFileManager = CardFileManager.getInstance();
+        cardToHeroMap = cardFileManager.getCardNameToHeroMap();
     }
 
-    public Deck(String name, HeroClass heroClass, List<String> cards) throws FullDeckException, MaxEachCardException {
+    public Deck(String name, HeroClass heroClass, List<String> cards) throws FullDeckException, MaxEachCardException, IllegalHeroClass {
         this(name, heroClass);
         for (String card : cards) {
             add(card);
         }
     }
 
-    public void add(String cardName) throws MaxEachCardException, FullDeckException {
+    public void add(String card) throws MaxEachCardException, FullDeckException, IllegalHeroClass {
+        if(!heroClass.name().equals(cardToHeroMap.get(card))){
+            logger.debug(heroClass.name() + "=?" + cardToHeroMap.get(card));
+            throw new IllegalHeroClass();
+        }
         if (totalNumberOfCards <= constants.getMaxDeckCards()) {
-            if (numberOfCards(cardName) < constants.getMaxEachCard()) {
-                this.cardsNames.add(cardName);
+            if (numberOfCards(card) < constants.getMaxEachCard()) {
+                this.cardsNames.add(card);
                 totalNumberOfCards += 1;
             } else {
                 throw new MaxEachCardException();
@@ -66,7 +70,7 @@ public class Deck {
         return cardFileManager.getCard(cardName);
     }
 
-    private int numberOfCards(String cardName) {
+    public int numberOfCards(String cardName) {
          return cardsNames.stream().filter(c-> c.equals(cardName)).mapToInt(c->1).sum();
     }
 

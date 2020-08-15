@@ -1,9 +1,6 @@
 package ap.hearthstone.UI.menuView;
 
-import ap.hearthstone.UI.api.ViewPanel;
-import ap.hearthstone.interfaces.ViewInitializer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import ap.hearthstone.UI.api.UpdatingPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +9,9 @@ import java.util.Map;
 
 /* The purpose of this class is to organize a menu panel properly.
  */
-public abstract class MenuView extends ViewPanel {
+public abstract class MenuView extends UpdatingPanel {
 
-    private String[] componentNames;
+    private final String[] componentNames;
     protected Map<String, JButton> buttonMap;
     protected Map<String, JTextField> fieldMap;
     protected Map<String, JLabel> labelMap;

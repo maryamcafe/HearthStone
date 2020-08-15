@@ -2,7 +2,6 @@ package ap.hearthstone.UI.collectionView.decksView;
 
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
-import ap.hearthstone.UI.api.ViewPanel;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 
@@ -20,7 +19,7 @@ public class DeckListPanel extends UpdatingPanel {
         organize();
     }
 
-    private void organize() {
+    protected void organize() {
         Configs configs = ConfigLoader.getInstance().getPanelConfigs();
         Dimension dim = new Dimension(configs.readInt("DeckListWidth"), configs.readInt("DeckListHeight"));
         setSize(dim);

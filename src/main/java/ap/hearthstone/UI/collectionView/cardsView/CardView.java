@@ -11,35 +11,14 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
-public class CardView extends UpdatingPanel {
+public class CardView extends JLabel {
 
-    private String cardName;
     private Logger logger = LogManager.getLogger(this.getClass());
 
-    public CardView(String cardName) {
-        this.cardName = cardName;
+    public CardView(String cardName, int number) {
+        super(new ImageIcon((ImageLoader.getCardImage(cardName, number==0))));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        JLabel cardImage = new JLabel(new ImageIcon(ImageLoader.getCardImage(cardName)));
-        add(cardImage);
-        repaint();
-        revalidate();
-//        logger.debug("CardView {}", cardName);
+        setText(number + "X");
     }
 
-    @Override
-    public void paintComponents(Graphics g) {
-//        super.paintComponents(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//        Drawer.drawCardImage(g2d, cardName);
-    }
-
-    @Override
-    protected void addListeners() {
-
-    }
-
-    @Override
-    protected void executeResponses() {
-
-    }
 }

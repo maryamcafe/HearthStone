@@ -51,8 +51,6 @@ public class LoginView extends MenuView {
         }
     }
 
-
-
     protected void tryAgain(){
         logger.info("Trying again.");
         fieldMap.forEach((s, field) -> field.setText(""));

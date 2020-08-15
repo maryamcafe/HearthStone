@@ -1,8 +1,14 @@
 package ap.hearthstone.UI.statusView;
 
-import ap.hearthstone.UI.api.ViewPanel;
+import ap.hearthstone.UI.api.UpdatingPanel;
 
-public class StatusView extends ViewPanel {
+public class StatusView extends UpdatingPanel {
+
+    @Override
+    protected void organize() {
+
+    }
+
     @Override
     protected void addListeners() {
 

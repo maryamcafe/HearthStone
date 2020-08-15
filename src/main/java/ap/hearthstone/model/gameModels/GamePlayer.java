@@ -1,6 +1,6 @@
 package ap.hearthstone.model.gameModels;
 
-import ap.hearthstone.logic.cards.DeckFileManager;
+import ap.hearthstone.logic.cards.DeckManager;
 import ap.hearthstone.model.gameModels.cards.Card;
 import ap.hearthstone.model.gameModels.deck.Deck;
 import ap.hearthstone.model.gameModels.entities.Minion;
@@ -36,7 +36,7 @@ public class GamePlayer {
 
     public GamePlayer(){
         //TODO default setting which cannot be read from file
-        this("The Innkeeper", HeroMage.getInstance(), new DeckFileManager("Innkeeper").getDeck("classic"));
+        this("The Innkeeper", HeroMage.getInstance(), new DeckManager("Innkeeper").getDeck("classic"));
     }
 
     public GamePlayer(String name, Hero hero, Deck deck) {

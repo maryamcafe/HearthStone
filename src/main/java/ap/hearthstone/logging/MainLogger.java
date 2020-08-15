@@ -32,11 +32,7 @@ public class MainLogger {
         logger = LogManager.getLogger(c);
     }
     public static MainLogger createLogger(String username, String password, long id, String createdAt, String Deleted_At) {
-//        if (instance == null) {
-//            instance =
         return new MainLogger(username, password, id, createdAt, Deleted_At, MainLogger.class);
-//        }
-//        return instance;
     }
 
     public static MainLogger createLogger(String username, String password, long id, String createdAt, String Deleted_At, Class c) {
@@ -44,7 +40,7 @@ public class MainLogger {
     }
 
     public static MainLogger getLogger() {
-        assert instance != null : "MainLogger not initiated through UserFactory."; // a kind of warning
+        assert instance != null : "MainLogger not initiated through UserFactory.";
         return instance;
     }
 
@@ -56,8 +52,8 @@ public class MainLogger {
         logger.log(navigate, viewName);
     }
 
-    public void click(String buttonName) {
-        logger.log(click, buttonName);
+    public void click(String item, String context) {
+        logger.log(click, "{} was clicked in {}.", item, context);
     }
 
     public void select(String target) {

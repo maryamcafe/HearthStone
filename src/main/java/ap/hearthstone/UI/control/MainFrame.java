@@ -1,6 +1,6 @@
 package ap.hearthstone.UI.control;
 
-import ap.hearthstone.UI.api.ViewPanel;
+import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
 import ap.hearthstone.UI.collectionView.CollectionView;
 import ap.hearthstone.UI.gameView.GameView;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class MainFrame extends JFrame {
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    private final Map<String, ViewPanel> viewMap;
+    private final Map<String, UpdatingPanel> viewMap;
     private CollectionView collectionView;
 
     public MainFrame() {
@@ -88,7 +88,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public Map<String, ViewPanel> getViewMap() {
+    public Map<String, UpdatingPanel> getViewMap() {
         return viewMap;
     }
 

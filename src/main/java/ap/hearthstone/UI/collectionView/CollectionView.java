@@ -1,7 +1,7 @@
 package ap.hearthstone.UI.collectionView;
 
 import ap.hearthstone.UI.api.Request;
-import ap.hearthstone.UI.api.ViewPanel;
+import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.collectionView.cardsView.CardSetPanel;
 import ap.hearthstone.UI.collectionView.cardsView.CardSetsTabbed;
 import ap.hearthstone.UI.collectionView.cardsView.FilterPanel;
@@ -24,14 +24,14 @@ import java.util.List;
 The integrator and controller class for the collection view.
 SubPanels are directly connected to the data.
  */
-public class CollectionView extends ViewPanel {
+public class CollectionView extends UpdatingPanel {
 
     private final CardSetsTabbed cardSetTabs;
     private final DeckListPanel deckList;
     private final FilterPanel filters;
     private final AddDeckPanel addDeckPanel;
     private final JPanel integrating;
-    private int timesLoaded;
+    private Gson gson;
     private Logger logger = LogManager.getLogger(this.getClass());
 
     public CollectionView() {
@@ -41,13 +41,12 @@ public class CollectionView extends ViewPanel {
         filters = new FilterPanel();
         addDeckPanel = new AddDeckPanel();
         integrating = new JPanel();
-        timesLoaded = 0;
-        organize();
 
-        addListeners();
+        gson = new Gson();
     }
 
-    private void organize() {
+    @Override
+    protected void organize() {
         setLayout(new BorderLayout());
         add(deckList, BorderLayout.EAST);
 
@@ -87,7 +86,9 @@ public class CollectionView extends ViewPanel {
 
     @Override
     public void initView() {
-        requestSender.send(new Request("init"));
+        super.initView();
+        requestSender.send(new Request("initCards"));
+        requestSender.send(new Request("initDecks"));
     }
 
     @Override
@@ -96,27 +97,45 @@ public class CollectionView extends ViewPanel {
             Request request = requestList.remove(0);
             logger.debug("Received response: {}.", request.getTitle());
             switch (request.getTitle()) {
-                case "init":
-                    receiveCardsData(request.getRequestBody()[0]);
+                case "initCards":
+                    receiveCards(request.getRequestBody()[0], request.getRequestBody()[1]);
+                    break;
+                case "initDecks":
+                    receiveDecks(request.getRequestBody()[0]);
             }
         }
     }
 
-    private void receiveCardsData(String json) {
-        Type mapType = new TypeToken<Map<String, List<String>>>() {
-        }.getType();
-        Map<String, List<String>> cardsMap = new Gson().fromJson(json, mapType);
-        logger.debug("cardsMap size: {}", cardsMap.size());
-        initCardTabs(cardsMap);
+    // CARDS
+    private void receiveCards(String allCardsJson, String playerCardsJson) {
+        Type mapType = new TypeToken<Map<String, List<String>>>() {}.getType();
+        Type listType = new TypeToken<List<String>>(){}.getType();
+
+        Map<String, List<String>> allCards = gson.fromJson(allCardsJson, mapType);
+        List<String> playerCards = gson.fromJson(playerCardsJson, listType);
+        logger.debug("all cards size: {} and player cards size:{}", allCards.size(), playerCards.size());
+        initCardTabs(allCards, playerCards);
     }
 
-    private void initCardTabs(Map<String, List<String>> tabs) {
-        //TODO add a tab for all cards
+    private void initCardTabs(Map<String, List<String>> tabs, List<String> playerCards) {
+        //TODO add a tab for all cards, get players cards in heroToCardMap
         tabs.forEach((tabName, cardSet) -> {
-            CardSetPanel cardSetPanel = new CardSetPanel(tabName, cardSet);
+            CardSetPanel cardSetPanel = new CardSetPanel(tabName, cardSet, playerCards);
+            cardSetPanel.initView();
             cardSetTabs.addTab(cardSetPanel);
         });
         refresh();
+    }
+
+    // DECKS
+    private void receiveDecks(String decksJson) {
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String, String> deckToHeroMap = gson.fromJson(decksJson, type);
+        initDecks(deckToHeroMap);
+    }
+
+    private void initDecks(Map<String, String> deckToHeroMap) {
+        deckToHeroMap.forEach(deckList::addDeck);
     }
 
     @Override

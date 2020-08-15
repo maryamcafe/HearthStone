@@ -51,6 +51,7 @@ public class DisplayAdmin extends SimpleMapper {
         Timer t = new Timer(15, e -> update()); // update is defined in the parent class: simple Mapper.
         t.start();
         display("login");
+        currentView = "login";
         mapperTimers.get("login").start();
         viewTimers.get("login").start();
     }
@@ -92,7 +93,7 @@ public class DisplayAdmin extends SimpleMapper {
     protected void executeRequests() {
         while (requestList.size() > 0) {
             Request request = requestList.remove(0);
-            logger.info("Request {}: {} is being executed.", request.getTitle(),request.getRequestBody());
+            logger.info("Request {}:{} is being executed.", request.getTitle(),request.getRequestBody());
             switch (request.getTitle()) {
                 case "loadUser":
                     loadUser(request.getRequestBody()[0]);
@@ -121,7 +122,10 @@ public class DisplayAdmin extends SimpleMapper {
     }
 
     private void next(String currentView) {
-        switchView(nextViewMap.get(currentView));
+        if(nextViewMap.get(currentView) != null){
+            logger.debug("next view will be: {}", nextViewMap.get(currentView));
+            switchView(nextViewMap.get(currentView));
+        }
     }
 
     private void goBack() {

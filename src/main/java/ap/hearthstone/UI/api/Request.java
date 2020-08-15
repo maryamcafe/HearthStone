@@ -1,38 +1,41 @@
 package ap.hearthstone.UI.api;
 
-import ap.hearthstone.interfaces.RequestType;
-
 public class Request {
 
-    private String title;
+    private final String title;
+//    private String ID;
     private String[] requestBody;
-    private RequestType type;
-
-    public Request(String title, String... requestBody) {
-        this.title = title;
-        this.requestBody = requestBody;
-    }
 
     public Request(String title) {
         this.title = title;
     }
 
-    public Request(RequestType type) {
-        this.type = type;
+//    public Request(String title, String ID) {
+//        this(title);
+//        this.ID = ID;
+//    }
+
+    public Request(String title, String... requestBody) {
+        this(title);
+        this.requestBody = requestBody;
     }
+
+//    public Request(String title, String ID, String... requestBody){
+//        this(title, ID);
+//        this.requestBody = requestBody;
+//    }
+
+    // Getters
+    public String getTitle() {
+        return title;
+    }
+
+//    public String getID() {
+//        return ID;
+//    }
 
     public String[] getRequestBody() {
         return requestBody;
     }
 
-    public String getTitle() {
-        if (title == null) {
-            title = type.toString();
-        }
-        return title;
-    }
-
-    public RequestType getType() {
-        return type;
-    }
 }

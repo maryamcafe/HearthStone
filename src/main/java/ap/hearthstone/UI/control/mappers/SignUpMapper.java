@@ -3,7 +3,7 @@ package ap.hearthstone.UI.control.mappers;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.requestTypes.SignUpRequestType;
 import ap.hearthstone.UI.api.Mapper;
-import ap.hearthstone.logic.users.PlayerFileManager;
+import ap.hearthstone.logic.users.PlayerManager;
 import ap.hearthstone.logic.users.UserFactory;
 import ap.hearthstone.logic.users.UsersFilesManager;
 
@@ -34,8 +34,8 @@ public class SignUpMapper extends Mapper {
     //TODO: check logs' header.
     private void newUser(String username, String password) {
         new UserFactory().createUser(username, password);
-        PlayerFileManager playerFileManager = new PlayerFileManager(username);
-        playerFileManager.createPlayer();
+        PlayerManager playerManager = new PlayerManager(username);
+        playerManager.createPlayer();
         logger.info("A new User just created.");
     }
 

@@ -1,0 +1,68 @@
+{
+  "username": "m",
+  "coins": 50,
+  "cards": [
+    "Polymorph",
+    "Khadgar",
+    "Book of Specters",
+    "Mirror Image Spell",
+    "Locust",
+    "Overflow",
+    "Omega Medic",
+    "Akali",
+    "Heavy Axe",
+    "Learn Draconic",
+    "Strength in Numbers",
+    "Circle of Healing",
+    "Mirror Image",
+    "Fire Hawk",
+    "Sathrovarr"
+  ],
+  "decks": [
+    {
+      "name": "classic",
+      "heroClass": "MAGE",
+      "cardsNames": [
+        "Polymorph",
+        "Khadgar",
+        "Book of Specters",
+        "Mirror Image Spell",
+        "Locust",
+        "Overflow",
+        "Omega Medic",
+        "Akali",
+        "Heavy Axe",
+        "Learn Draconic",
+        "Strength in Numbers",
+        "Circle of Healing",
+        "Mirror Image",
+        "Fire Hawk",
+        "Sathrovarr"
+      ]
+    }
+  ],
+  "defaultDeck": {
+    "name": "classic",
+    "heroClass": "MAGE",
+    "cardsNames": [
+      "Polymorph",
+      "Khadgar",
+      "Book of Specters",
+      "Mirror Image Spell",
+      "Locust",
+      "Overflow",
+      "Omega Medic",
+      "Akali",
+      "Heavy Axe",
+      "Learn Draconic",
+      "Strength in Numbers",
+      "Circle of Healing",
+      "Mirror Image",
+      "Fire Hawk",
+      "Sathrovarr"
+    ]
+  },
+  "openHeroes": [
+    "MAGE"
+  ]
+}
