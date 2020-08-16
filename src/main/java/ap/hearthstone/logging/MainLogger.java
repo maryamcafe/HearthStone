@@ -1,5 +1,6 @@
 package ap.hearthstone.logging;
 
+import ap.hearthstone.Main;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +32,7 @@ public class MainLogger {
     private MainLogger(Class c){
         logger = LogManager.getLogger(c);
     }
+
     public static MainLogger createLogger(String username, String password, long id, String createdAt, String Deleted_At) {
         return new MainLogger(username, password, id, createdAt, Deleted_At, MainLogger.class);
     }
@@ -40,7 +42,9 @@ public class MainLogger {
     }
 
     public static MainLogger getLogger() {
-        assert instance != null : "MainLogger not initiated through UserFactory.";
+        if(instance == null){
+            instance = new MainLogger(MainLogger.class);
+        }
         return instance;
     }
 

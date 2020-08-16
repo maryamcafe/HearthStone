@@ -22,15 +22,21 @@ public class CardView extends JPanel {
                 SwingConstants.CENTER);
         label.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
         add(label, BorderLayout.CENTER);
+        repaint();
+        setOpaque(true);
     }
 
     public CardView(String cardName, int number, int value){
         this(cardName, number);
         buyButton = new JButton(String.format("BUY: %d coins", value));
-        sellButton = new JButton(String.format("BUY: %d coins", value));
-        add(buyButton, BorderLayout.PAGE_END);
-        add(sellButton, BorderLayout.LINE_START);
+        sellButton = new JButton(String.format("SELL: %d coins", value));
+        JPanel buttons = new JPanel(new BorderLayout());
+        buttons.add(buyButton, BorderLayout.EAST);
+        buttons.add(sellButton, BorderLayout.WEST);
+        add(buttons, BorderLayout.PAGE_END);
+        buttons.repaint();
         setOpaque(true);
+        repaint();
     }
 
     public JLabel getLabel() {
@@ -43,5 +49,9 @@ public class CardView extends JPanel {
 
     public JButton getBuyButton() {
         return buyButton;
+    }
+
+    public JButton getSellButton(){
+        return sellButton;
     }
 }

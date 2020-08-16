@@ -1,1 +1,1 @@
-{"bar":{"id":1,"username":"bar","password":"bar","isActive":true},"paul":{"id":2,"username":"paul","password":"paul","isActive":true},"m":{"id":1,"username":"m","password":"m","isActive":true}}
+{"bar":{"username":"bar","password":"bar","id":1},"paul":{"username":"paul","password":"paul","id":2},"m":{"username":"m","password":"m","id":69}}

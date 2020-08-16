@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 
 public class UserFactory {
 
-    private UsersFilesManager filesManager;
+    private final UsersFilesManager filesManager;
     private MainLogger logger;
+
     public UserFactory(){
         filesManager = new UsersFilesManager();
     }

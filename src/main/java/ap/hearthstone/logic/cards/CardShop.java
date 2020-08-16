@@ -15,7 +15,7 @@ public class CardShop {
     private final Map<String, Integer> cardValues;
     private final GameConstants constants;
 
-    public CardShop(String username){
+    public CardShop(String username) {
         PlayerManager playerManager = new PlayerManager(username);
         player = playerManager.getPlayer();
         cardValues = new HashMap<>();
@@ -23,7 +23,7 @@ public class CardShop {
     }
 
     public void buy(String cardName) throws MaxEachCardException, NotEnoughMoney {
-        if(player.getCoins() >= getCardValues().get(cardName)){
+        if (player.getCoins() >= getCardValues().get(cardName)) {
             player.addCard(cardName);
             player.addCoins(-getCardValues().get(cardName));
         } else {
@@ -31,16 +31,21 @@ public class CardShop {
         }
     }
 
-    public boolean sell(String cardName){
-        return player.removeCard(cardName);
+    public void sell(String cardName) {
+        if (player.removeCard(cardName)) {
+            player.addCoins(getCardValues().get(cardName));
+        }
     }
 
-    public Map<String, Integer> getCardValues(){
-        if(cardValues.size() == 0){
+    public Map<String, Integer> getCardValues() {
+        if (cardValues.size() == 0) {
             CardFileManager.getInstance().getAllCardsMap().forEach((cardName, card) ->
-                cardValues.put(cardName, constants.getCardValue(card.getRarity().name())));
+                    cardValues.put(cardName, constants.getCardValue(card.getRarity().name())));
         }
         return cardValues;
     }
 
+    public int getWalletCoins() {
+        return player.getCoins();
+    }
 }

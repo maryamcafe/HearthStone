@@ -2,6 +2,7 @@ package ap.hearthstone.UI.collectionView;
 
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
+import ap.hearthstone.logging.MainLogger;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 
@@ -14,6 +15,7 @@ public class FilterPanel extends UpdatingPanel {
     private final JButton shop;
     private final JButton back;
     private final JTextField searchField;
+    MainLogger mainLogger = MainLogger.getLogger(this.getClass());
 
     public FilterPanel() {
         super();
@@ -39,17 +41,24 @@ public class FilterPanel extends UpdatingPanel {
 //        back.setBorder(BorderFactory.createEtchedBorder());
 //        shop.setBorder(BorderFactory.createEtchedBorder());
 
-        add(manaFilterPanel, BorderLayout.LINE_END);
+        JPanel integrating = new JPanel(new BorderLayout());
+        add(manaFilterPanel, BorderLayout.WEST);
         add(shop, BorderLayout.CENTER);
-        add(back, BorderLayout.LINE_START);
+        add(back, BorderLayout.EAST);
 
-        setOpaque(true);
+        refresh();
     }
 
     @Override
     protected void addListeners() {
-        back.addActionListener(e -> requestSender.send(new Request("back")));
-        shop.addActionListener(e -> requestSender.send(new Request("shop")));
+        back.addActionListener(e -> {
+            requestSender.send(new Request("back"));
+            mainLogger.click("back", "collection");
+        });
+        shop.addActionListener(e -> {
+            requestSender.send(new Request("shop"));
+            mainLogger.click("shop", "collection");
+        });
         searchField.addActionListener(e ->
                 requestSender.send(new Request("searchCards", searchField.getText())));
     }

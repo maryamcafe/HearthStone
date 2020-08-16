@@ -4,6 +4,7 @@ import ap.hearthstone.UI.api.requestTypes.LoginRequestType;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.Mapper;
 import ap.hearthstone.logic.exceptions.NoUserFoundException;
+import ap.hearthstone.logic.users.UserFactory;
 import ap.hearthstone.logic.users.UsersFilesManager;
 
 public class LoginMapper extends Mapper {
@@ -35,6 +36,7 @@ public class LoginMapper extends Mapper {
         try {
             if (filesManager.isPasswordCorrect(username.trim(), password.trim())) {
                 responseSender.send(new Request("successful", LoginRequestType.LOGIN_SUCCESSFUL.getMessage()));
+                loadUser(username, password);
                 requestSender.send(new Request("loadUser", username));
                 requestSender.send(new Request("next"));
             } else {
@@ -44,6 +46,11 @@ public class LoginMapper extends Mapper {
             responseSender.send(new Request("error", LoginRequestType.USER_NOT_FOUND.getMessage()));
             logger.error(e.getMessage());
         }
+    }
+
+    private void loadUser(String username, String password) {
+        UserFactory factory = new UserFactory();
+        factory.createUser(username, password);
     }
 
     private void signUp() {

@@ -14,7 +14,6 @@ import java.util.*;
 public class DisplayAdmin extends SimpleMapper {
 
     private final Logger logger = LogManager.getLogger(this.getClass());
-    private static DisplayAdmin instance;
     private final MainFrame mainFrame;
     private String currentView, previousView;
     private Map<String, String> nextViewMap;
@@ -36,7 +35,7 @@ public class DisplayAdmin extends SimpleMapper {
         mappers = new HashMap<>();
         mappers.put("login", new LoginMapper());
         mappers.put("sign", new SignUpMapper());
-        mappers.put("main", new MainMenuMapper());
+        mappers.put("main", new MainMenuMapper()); //Continues in loadUser
     }
 
     private void initSequences() {
@@ -65,6 +64,9 @@ public class DisplayAdmin extends SimpleMapper {
             setTimer(viewName);
             setRequestSender(viewName);
             mainFrame.getViewMap().get(viewName).initView(); //load for the first time.
+            if ("collection".equals(viewName)) {
+                extraForCollectionMappers();
+            }
         }
         try {
             mainFrame.display(viewName);
@@ -75,34 +77,33 @@ public class DisplayAdmin extends SimpleMapper {
 
     private void setTimer(String viewName) {
         mapperTimers.put(viewName, new Timer(30, e -> mappers.get(viewName).update()));
-        viewTimers.put(viewName, new Timer(30, e ->mainFrame.getViewMap().get(viewName).update()));
+        viewTimers.put(viewName, new Timer(30, e -> mainFrame.getViewMap().get(viewName).update()));
     }
 
     /*    Sets request sender and response sender for the Mapper and the Panel of this view.
-         */
+     */
     private void setRequestSender(String viewName) {
         mainFrame.getViewMap().get(viewName).
                 setRequestSender(mappers.get(viewName)::addRequests);
         mappers.get(viewName).
                 setResponseSender(mainFrame.getViewMap().get(viewName)::addRequests);
         mappers.get(viewName).setRequestSender(this::addRequests);
-        if("collection".equals(viewName)){
-            setExtraCollectionMappers();
-        }
         logger.debug("Request sender is set for " + viewName);
     }
 
-    private void setExtraCollectionMappers() {
-        CollectionView collectionView = (CollectionView) mainFrame.getViewMap().get("collection");
-        collectionView.getCardSetTabs().setRequestSender(mappers.get("cardSetMapper")::addRequests);
-        mappers.get("cardSetMapper").setResponseSender(collectionView.getCardSetTabs()::addRequests);
-        mappers.get("cardSetMapper").setRequestSender(collectionView::addRequests);
+    private void extraForCollectionMappers() {
+        CollectionView collectionView = mainFrame.getCollectionView();
+        collectionView.getCardSetTabs().setRequestSender(mappers.get("cardSets")::addRequests);
+        collectionView.getFilters().setRequestSender(mappers.get("cardSets")::addRequests);
+        mappers.get("cardSets").setResponseSender(collectionView.getCardSetTabs()::addRequests);
+        mappers.get("cardSets").setRequestSender(collectionView::addRequests);
+        setTimer("cardSets");
     }
 
     protected void executeRequests() {
         while (requestList.size() > 0) {
             Request request = requestList.remove(0);
-            logger.info("Request {}:{} is being executed.", request.getTitle(),request.getRequestBody());
+            logger.info("Request {}:{} is being executed.", request.getTitle(), request.getRequestBody());
             switch (request.getTitle()) {
                 case "loadUser":
                     loadUser(request.getRequestBody()[0]);
@@ -128,30 +129,43 @@ public class DisplayAdmin extends SimpleMapper {
         mappers.put("game", new GameMapper(username));
         mappers.put("shop", new ShopMapper(username));
         mappers.put("setting", new SettingMapper(username));
-        mappers.put("cardSetMapper", new CardSetMapper(username));
+        mappers.put("cardSets", new CardSetMapper(username));
     }
 
     private void next(String currentView) {
-        if(nextViewMap.get(currentView) != null){
+        if (nextViewMap.get(currentView) != null) {
             logger.debug("next view will be: {}", nextViewMap.get(currentView));
             switchView(nextViewMap.get(currentView));
         }
     }
 
     private void goBack() {
-       switchView(previousView);
+        switchView(previousView);
     }
 
     private void switchView(String viewName) {
-        mapperTimers.get(currentView).stop();
-        viewTimers.get(currentView).stop();
-
+        stop(currentView);
+        if ("collection".equals(currentView)) {
+            stop("cardSets");
+        }
         previousView = currentView;
         currentView = viewName;
-
         display(currentView);
-        mapperTimers.get(currentView).start();
-        viewTimers.get(currentView).start();
+        start(currentView);
+        if ("collection".equals(currentView)) {
+            start("cardSets");
+        }
+    }
+
+    private void start(String viewName) {
+        mapperTimers.get(viewName).start();
+        viewTimers.get(viewName).start();
+        logger.debug("{} started.", viewName);
+    }
+
+    private void stop(String viewName) {
+        mapperTimers.get(viewName).stop();
+        viewTimers.get(viewName).stop();
     }
 
     private void doExit() {

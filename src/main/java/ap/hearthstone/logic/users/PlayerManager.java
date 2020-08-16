@@ -24,6 +24,7 @@ public class PlayerManager extends FileManager {
     private final String username;
     private final String userDir, userFileName;
     private List<String> playerCards;  //TODO change to a proper map:)
+    private Map<String, Integer> cardsNumberMap; // how many of each card player does have
     private final DeckManager deckManager;
     private final CardFileManager cardFileManager;
 
@@ -35,6 +36,7 @@ public class PlayerManager extends FileManager {
         userFileName = username + ".json";
         deckManager = new DeckManager(username);
         cardFileManager = CardFileManager.getInstance();
+
     }
 
     public Player getPlayer() {
@@ -71,7 +73,7 @@ public class PlayerManager extends FileManager {
                     new HashSet<>(Collections.singletonList(constants.getDefaultHero())));
             deckManager.createDeck(player.getDefaultDeck());
             writePlayerToFile();
-        }  catch (MaxEachCardException | IllegalHeroClass | FullDeckException | FileNotFoundException e) {
+        } catch (MaxEachCardException | IllegalHeroClass | FullDeckException | FileNotFoundException e) {
             e.printStackTrace();
         }
         logger.debug("Created player: {} from file", player.toString());
@@ -95,10 +97,18 @@ public class PlayerManager extends FileManager {
     }
 
     public List<String> getPlayerCards() {
-        if (playerCards == null) {
-            playerCards = getPlayer().getCards();
-        }
-        return playerCards;
+        playerCards = getPlayer().getCards();
+        return new LinkedList<>(playerCards);
+    }
+
+    public Map<String, Integer> getPlayerCardsNumber() {
+        cardsNumberMap = new HashMap<>();
+        cardFileManager.getAllCardsMap().forEach((s, card) -> cardsNumberMap.put(s, count(s, getPlayerCards())));
+        return cardsNumberMap;
+    }
+
+    private int count(String card, List<String> cards) {
+        return cards.stream().filter(c -> c.equals(card)).mapToInt(c -> 1).sum();
     }
 
     public DeckManager getDeckManager() {

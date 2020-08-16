@@ -78,6 +78,7 @@ public class MainFrame extends JFrame {
             case "collection":
                 collectionView = new CollectionView();
                 viewMap.put("collection", collectionView);
+                viewMap.put("cardSets", collectionView.getCardSetTabs());
                 break;
             case "status":
                 viewMap.put("status", new StatusView());
@@ -102,9 +103,7 @@ public class MainFrame extends JFrame {
 
     public void exit() {
         final JOptionPane optionPane = new JOptionPane(
-                "The only way to close this dialog is by\n"
-                        + "pressing one of the following buttons.\n"
-                        + "Do you understand?",
+                "The only way to close this dialog is by pressing one of the following buttons.\n",
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION);
         int doExit = JOptionPane.showOptionDialog(this,

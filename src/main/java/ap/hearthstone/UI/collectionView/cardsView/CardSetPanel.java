@@ -11,55 +11,47 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.List;
 
 public class CardSetPanel extends UpdatingPanel {
 
-    private final List<String> allCards;
-    private List<String> playerCards;
-    private Map<String, Integer> cardsNumber;
+    private final Set<String> allCards;
+    private Map<String, Integer> cardsNumbers;
     private Map<String, Integer> cardValues;
     private final Map<String, CardView> cardViewMap;
     private Map<String, CardView> buyCardViewMap;
-    private JLabel walletLabel;
+
     private Gson gson;
+    private Type numberMapType;
+
     Logger logger = LogManager.getLogger(this.getClass());
 
-    public CardSetPanel(String panelName, List<String> allCards) {
+    public CardSetPanel(String panelName, Set<String> allCards) {
         setName(panelName);
         this.allCards = allCards;
         cardViewMap = new HashMap<>();
     }
 
-    public CardSetPanel(String panelName, List<String> allCards, List<String> playerCards) {
+    public CardSetPanel(String panelName, Set<String> allCards, Map<String, Integer> cardsNumbers) {
         this(panelName, allCards);
-        this.playerCards = playerCards;
-        cardsNumber = new HashMap<>();
+        this.cardsNumbers = cardsNumbers;
         cardValues = new HashMap<>();
         buyCardViewMap = new HashMap<>();
-        walletLabel = new JLabel();
         gson = new Gson();
-        initCardsNumber();
+        numberMapType = new TypeToken<Map<String, Integer>>(){}.getType();
     }
 
-    public void initCardsNumber() {
-        allCards.forEach(card -> cardsNumber.put(card, count(card, playerCards)));
-    }
 
-    private int count(String card, List<String> cards) {
-        return cards.stream().filter(c -> c.equals(card)).mapToInt(c -> 1).sum();
-    }
-
-    // TODO : make cards clickable:
+    // Organize
     @Override
     protected void organize() {
         setLayout(new GridLayout(0, 3));
-        if (cardsNumber != null) {
-            cardsNumber.forEach(this::addCard);
+        if (allCards != null) {
+            allCards.forEach(card -> addCard(card, cardsNumbers.get(card)));
         }
         this.setOpaque(true);
-        walletLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     }
 
     private void addCard(String cardName, int number) {
@@ -70,53 +62,35 @@ public class CardSetPanel extends UpdatingPanel {
 
     @Override
     protected void addListeners() {
-        cardViewMap.forEach((cardName, cardView) -> cardView.getLabel().addMouseListener(new ClickListener(requestSender,
-                cardName, "collection", new Request("collectionClick", cardName))));
+        cardViewMap.forEach((cardName, cardView) -> cardView.getLabel().
+                addMouseListener(new ClickListener(requestSender,
+                        cardName,
+                        "collection",
+                        new Request("collectionClick", cardName))));
     }
 
     @Override
     protected void executeResponses() {
-        while (requestList.size() > 0) {
-            Request request = requestList.remove(0);
-            logger.debug("Received response: {}.", request.getTitle());
-            switch (request.getTitle()) {
-                case "OKCancel":
-                    OKCancel(request.getRequestBody());
-                    break;
-                case "buySellUpdate":
+        // All the the responses are received in the containing panel, CardSetsTabbed.
+    }
 
-                case "error":
-                    error(request.getRequestBody()[0]);
-                    break;
-            }
+    public void OKCancel(String ID, String header, String message) {
+        int n = JOptionPane.showConfirmDialog(this, message,
+                header, JOptionPane.OK_CANCEL_OPTION);
+        if (n == JOptionPane.OK_OPTION) {
+            requestSender.send(new Request("OK", ID, header));
         }
     }
 
-    public void showShop(String cardValuesJson, int walletCoins) {
+    // SHOP
+    public void showShop(String cardValuesJson) {
         initCardValues(cardValuesJson);
-        cardViewMap.forEach((cardName, cardView) -> remove(cardView));
-        add(walletLabel);
-        updateWallet(walletCoins);
+        removeAll();
         getBuyCardViewMap().forEach((card, cardView) -> add(cardView));
+        refresh();
         addBuyListener();
     }
 
-    private void updateWallet(int walletCoins) {
-        walletLabel.setText(String.format("You have %d coins in your wallet", walletCoins));
-    }
-
-    private Map<String, CardView> getBuyCardViewMap() {
-        if(buyCardViewMap.size()==0){
-            cardViewMap.keySet().forEach(card ->
-                    buyCardViewMap.put(card, new CardView(card, cardsNumber.get(card), cardValues.get(card))));
-        }
-        return buyCardViewMap;
-    }
-
-    private void addBuyListener() {
-        buyCardViewMap.forEach((card, cardView) -> cardView.getBuyButton().addActionListener(e ->
-                requestSender.send(new Request("buyCard", card))));
-    }
 
     private void initCardValues(String json) {
         if (cardValues.size() == 0) {
@@ -125,15 +99,39 @@ public class CardSetPanel extends UpdatingPanel {
         }
     }
 
-    private void OKCancel(String[] requestBody) {
-        String ID = requestBody[0];
-        String header = requestBody[1];
-        String message = requestBody[2];
-        int n = JOptionPane.showConfirmDialog(this, message,
-                header, JOptionPane.OK_CANCEL_OPTION);
-        if (n == JOptionPane.OK_OPTION) {
-            requestSender.send(new Request("OK", ID, header));
+    private Map<String, CardView> getBuyCardViewMap() {
+        if (buyCardViewMap.size() == 0) {
+            cardViewMap.keySet().forEach(card ->
+                    buyCardViewMap.put(card, new CardView(card, cardsNumbers.get(card), cardValues.get(card))));
         }
+        return buyCardViewMap;
+    }
+
+    private void addBuyListener() {
+        buyCardViewMap.forEach((card, cardView) -> cardView.getBuyButton().addActionListener(e ->
+                requestSender.send(new Request("buyCard", card))));
+        buyCardViewMap.forEach((card, cardView) -> cardView.getSellButton().addActionListener(e ->
+                requestSender.send(new Request("sellCard", card))));
+    }
+
+    // Update numbers
+    public void updateCardsNumbers(String json){       // card numbers: How many of each cards player has
+        cardsNumbers = gson.fromJson(json, numberMapType);
+        updateViews(cardViewMap);
+        updateViews(buyCardViewMap);
+    }
+
+    private void updateViews(Map<String, CardView> map){
+        map.forEach((card, cardView) -> {
+            cardView.updateLabel(cardsNumbers.get(card));
+            logger.debug("updated {} card number to {}", card, cardsNumbers.get(card));
+        });
+    }
+
+
+    public void backToCollection() {
+        this.removeAll();
+        cardViewMap.forEach((cardName, cardView) -> add(cardView));
     }
 
 

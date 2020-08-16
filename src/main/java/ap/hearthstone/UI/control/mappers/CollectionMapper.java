@@ -23,7 +23,7 @@ public class CollectionMapper extends Mapper {
     private final CardFileManager cardFileManager;
     private final DeckManager deckManager;
     private final PlayerManager playerManager;
-    private final Type stringToStringListMap, stringListType;
+    private final Type stringToStringListMap, stringListType, numberMapType;
     private final Gson gson;
     private final GameConstants constants;
 
@@ -35,6 +35,7 @@ public class CollectionMapper extends Mapper {
         gson = new Gson();
         stringToStringListMap = new TypeToken<Map<String, Set<String>>>() {}.getType();
         stringListType = new TypeToken<List<String>>() {}.getType();
+        numberMapType = new TypeToken<Map<String, Integer>>(){}.getType();
     }
 
 
@@ -56,9 +57,12 @@ public class CollectionMapper extends Mapper {
         }
     }
 
+
+
+    //Initiation data
     private void sendCardData() {
         String allCards = gson.toJson(cardFileManager.getHeroToCardNameMap(), stringToStringListMap);
-        String playerCards = gson.toJson(playerManager.getPlayerCards(), stringListType);
+        String playerCards = gson.toJson(playerManager.getPlayerCardsNumber(), numberMapType);
         responseSender.send(new Request("initCards", allCards, playerCards));
     }
 
@@ -68,7 +72,6 @@ public class CollectionMapper extends Mapper {
         logger.debug("decksData is: " + decksData);
         responseSender.send(new Request("initDecks", decksData));
     }
-
 
 
     private void createDeck(String[] requestBody) {
@@ -86,6 +89,7 @@ public class CollectionMapper extends Mapper {
             responseSender.send(new Request("info", constants.getDeckInitiationGuid()));
         }
     }
+
 
     //TODO
     private void editDeck(String mode){

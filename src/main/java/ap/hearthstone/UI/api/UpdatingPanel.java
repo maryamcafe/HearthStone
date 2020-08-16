@@ -53,6 +53,7 @@ public abstract class UpdatingPanel extends JPanel implements RequestHandler, Up
     public void initView() {
         organize();
         addListeners();
+        logger.debug("initView is Called");
     }
 
     protected abstract void addListeners();
@@ -68,7 +69,7 @@ public abstract class UpdatingPanel extends JPanel implements RequestHandler, Up
     }
 
     protected void error(String message) {
-        logger.error(message);
+        logger.error("Error window: " + message);
         JOptionPane.showMessageDialog(this,
                 message,
                 "Error in Login",

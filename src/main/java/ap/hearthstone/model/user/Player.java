@@ -37,7 +37,7 @@ public class Player {
     }
 
     public void addCard(String card) throws MaxEachCardException {
-        if (countCard(card) >= maxEachCard) {
+        if (countCard(card) >= maxEachCard+3) {
             throw new MaxEachCardException();
         } else {
             this.cards.add(card);
@@ -93,6 +93,5 @@ public class Player {
         return String.format("%s: username: %s, coins: %s, OpenHeroes: %s, default deck: %s",
                 super.toString(), username, coins, openHeroes, defaultDeck.getName());
     }
-
 
 }

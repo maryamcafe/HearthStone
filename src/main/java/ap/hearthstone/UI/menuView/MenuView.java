@@ -18,7 +18,7 @@ public abstract class MenuView extends UpdatingPanel {
     //panels should get the needed data from states and draw them on them selves
     protected GridBagConstraints gc;
 
-    MenuView(String... componentNames) {
+    public MenuView(String... componentNames) {
         this.componentNames = componentNames;
     }
 
@@ -82,7 +82,7 @@ public abstract class MenuView extends UpdatingPanel {
         add(button, gc);
     }
 
-    void organizeLabel(JLabel label, int row, double weighty) {
+    protected void organizeLabel(JLabel label, int row, double weighty) {
         Insets inset = new Insets(20, 0, 0, 0);
         gc.weightx = 1;
         gc.weighty = weighty;

@@ -3,9 +3,7 @@ package ap.hearthstone.UI.collectionView;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.collectionView.cardsView.BuyCardView;
-import ap.hearthstone.UI.collectionView.cardsView.CardSetPanel;
 import ap.hearthstone.UI.collectionView.decksView.AddDeckPanel;
-import ap.hearthstone.UI.util.Drawer;
 import ap.hearthstone.interfaces.RequestSender;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.List;
 
 /*
 The integrator and controller class for the collection view.
@@ -36,8 +33,11 @@ public class CollectionView extends UpdatingPanel {
     public CollectionView() {
         super();
         cardSetTabs = new CardSetsTabbed();
+        cardSetTabs.initView();
         deckList = new DeckListPanel();
+        deckList.initView();
         filters = new FilterPanel();
+        filters.initView();
         addDeckPanel = new AddDeckPanel();
         buyCardView = new BuyCardView();
         integrating = new JPanel();
@@ -59,13 +59,6 @@ public class CollectionView extends UpdatingPanel {
         revalidate();
     }
 
-    public void display(JPanel panel) {
-        integrating.add(panel, BorderLayout.NORTH);
-    }
-
-    public void notDisplay(JPanel panel) {
-        integrating.remove(panel);
-    }
 
     @Override
     public void initView() {
@@ -74,19 +67,16 @@ public class CollectionView extends UpdatingPanel {
         requestSender.send(new Request("initDecks"));
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Drawer.drawBackgroundImage("collection", (Graphics2D) g);
-    }
-
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        Drawer.drawBackgroundImage("collection", (Graphics2D) g);
+//    }
 
     // Request Handling
     @Override
     public void setRequestSender(RequestSender requestSender) {
         super.setRequestSender(requestSender);
         deckList.setRequestSender(requestSender);
-        filters.setRequestSender(requestSender);
-        cardSetTabs.setRequestSender(requestSender);
     }
 
     @Override
@@ -107,60 +97,35 @@ public class CollectionView extends UpdatingPanel {
                 case "initDecks":
                     receiveDecks(requestBody[0]);
                     break;
-                case "shop":
-                    showShop(requestBody[0], requestBody[1]);
+                case "back":
+                    requestSender.send(new Request("back"));
                     break;
-                case "showBuyCard":
-                    showBuyCard(requestBody[0], requestBody[1], requestBody[2]);
             }
         }
     }
 
-    private void showBuyCard(String cardName, String cardValue, String walletCoins) {
-        notDisplay(cardSetTabs);
-        display(buyCardView);
-    }
-
-    private void showShop(String cardsValue, String walletCoins) {
-        cardSetTabs.getPanels().forEach(cardSetPanel ->
-                cardSetPanel.showShop(cardsValue, Integer.parseInt(walletCoins)));
-    }
-
-
 
     // CARDS
     private void receiveCards(String allCardsJson, String playerCardsJson) {
-        Type mapType = new TypeToken<Map<String, List<String>>>() {}.getType();
-        Type listType = new TypeToken<List<String>>(){}.getType();
+        Type nameListMapType = new TypeToken<Map<String, Set<String>>>() {}.getType();
+        Type numberMapType = new TypeToken<Map<String, Integer>>(){}.getType();
 
-        Map<String, List<String>> allCards = gson.fromJson(allCardsJson, mapType);
-        List<String> playerCards = gson.fromJson(playerCardsJson, listType);
-        logger.debug("all cards size: {} and player cards size:{}", allCards.size(), playerCards.size());
-        initCardTabs(allCards, playerCards);
-    }
-
-    private void initCardTabs(Map<String, List<String>> tabs, List<String> playerCards) {
-        //TODO add a tab for all cards, get players cards in heroToCardMap
-        tabs.forEach((tabName, cardSet) -> {
-            CardSetPanel cardSetPanel = new CardSetPanel(tabName, cardSet, playerCards);
-            cardSetPanel.initView();
-            cardSetTabs.addTab(cardSetPanel);
-        });
+        Map<String, Set<String>> allCards = gson.fromJson(allCardsJson, nameListMapType);
+        Map<String, Integer> cardsNumbers = gson.fromJson(playerCardsJson, numberMapType);
+        logger.debug("all cards size: {} and player cards size:{}", allCards.size(), cardsNumbers.size());
+        cardSetTabs.initTabs(allCards, cardsNumbers);
         refresh();
     }
 
     // DECKS
     private void receiveDecks(String decksJson) {
-        logger.debug("deckJson: " + decksJson);
         Type type = new TypeToken<Map<String, String>>(){}.getType();
         Map<String, String> deckToHeroMap = gson.fromJson(decksJson, type);
         logger.debug("Deck to Hero map size is: {}", deckToHeroMap.size());
-        initDecks(deckToHeroMap);
+        deckToHeroMap.forEach(deckList::addDeck);
+        refresh();
     }
 
-    private void initDecks(Map<String, String> deckToHeroMap) {
-        deckToHeroMap.forEach(deckList::addDeck);
-    }
 
     @Override
     public void update() {
@@ -171,7 +136,6 @@ public class CollectionView extends UpdatingPanel {
     }
 
     // Getters
-
     public CardSetsTabbed getCardSetTabs() {
         return cardSetTabs;
     }
