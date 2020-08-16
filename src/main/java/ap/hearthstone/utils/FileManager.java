@@ -50,9 +50,9 @@ public class FileManager {
         return null;
     }
 
-    protected List<String> getAllFilesInDirectory(String url) {
+    protected Stream<File> getAllFilesInDirectory(String url) {
         try {
-            return Files.list(Paths.get(url)).map(Path::toString).collect(Collectors.toList());
+            return Files.list(Paths.get(url)).map(Path::toFile);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

@@ -9,7 +9,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CardFileManager extends FileManager {
 
@@ -99,10 +98,10 @@ public class CardFileManager extends FileManager {
     }
 
     public Card getCard(String cardName) {
-        return getCardNameToCardMap().get(cardName);
+        return getAllCardsMap().get(cardName);
     }
 
-    private Map<String, Card> getCardNameToCardMap() {
+    public Map<String, Card> getAllCardsMap() {
         if (allCardsMap.size() == 0) {
             getSpellCardSet().forEach(spellCard -> allCardsMap.put(spellCard.getName(), spellCard));
             getMinionCardSet().forEach(minionCard -> allCardsMap.put(minionCard.getName(), minionCard));

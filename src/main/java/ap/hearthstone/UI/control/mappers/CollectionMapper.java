@@ -29,8 +29,8 @@ public class CollectionMapper extends Mapper {
 
     public CollectionMapper(String username) {
         cardFileManager = CardFileManager.getInstance();
-        deckManager = new DeckManager(username);
         playerManager = new PlayerManager(username);
+        deckManager = playerManager.getDeckManager();
         constants = GameConstants.getInstance();
         gson = new Gson();
         stringToStringListMap = new TypeToken<Map<String, Set<String>>>() {}.getType();
@@ -51,11 +51,6 @@ public class CollectionMapper extends Mapper {
             case "createDeck":
                 createDeck(request.getRequestBody());
                 break;
-            case "collectionClick":
-                collectionClick(request.getRequestBody()[0]);
-                break;
-            case "OK":
-                    collectionOK(request.getRequestBody());
             default:
                 break;
         }
@@ -70,22 +65,11 @@ public class CollectionMapper extends Mapper {
     private void sendDeckData() {
         Type type = new TypeToken<Map<String, String>>(){}.getType();
         String decksData = gson.toJson(deckManager.getDeckToHeroMap(), type);
+        logger.debug("decksData is: " + decksData);
         responseSender.send(new Request("initDecks", decksData));
     }
 
-    private void collectionClick(String cardClicked) {
-        String message = playerManager.getPlayer().countCard(cardClicked) >=2 ? constants.getMessage("canBuyCard") :
-                constants.getMessage("canNotBuyCard");
-        responseSender.send(new Request("OKCancel", cardClicked, "Buy Cards", message));
-    }
 
-    private void collectionOK(String[] requestBody) {
-        String ID = requestBody[0];
-        String header = requestBody[1];
-        if(header.equals("buy Cards")){
-            responseSender.send(new Request("switch", "shop"));
-        }
-    }
 
     private void createDeck(String[] requestBody) {
         String name = requestBody[0];

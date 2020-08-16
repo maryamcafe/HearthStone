@@ -2,6 +2,7 @@ package ap.hearthstone.UI.control;
 
 import ap.hearthstone.UI.api.*;
 import ap.hearthstone.UI.api.exceptions.NoSuchViewException;
+import ap.hearthstone.UI.collectionView.CollectionView;
 import ap.hearthstone.UI.control.mappers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,6 @@ public class DisplayAdmin extends SimpleMapper {
         mappers.put("login", new LoginMapper());
         mappers.put("sign", new SignUpMapper());
         mappers.put("main", new MainMenuMapper());
-        /////////////////////////////to be continued
     }
 
     private void initSequences() {
@@ -44,7 +44,6 @@ public class DisplayAdmin extends SimpleMapper {
         nextViewMap.put("login", "main");
         nextViewMap.put("sign", "main");
         nextViewMap.put("collection", "game");
-        /////////////////////////////to be continued
     }
 
     public void start() {
@@ -56,7 +55,7 @@ public class DisplayAdmin extends SimpleMapper {
         viewTimers.get("login").start();
     }
 
-    // add the panel you want to the mainFrame by it's name (String api)
+    /* add the panel you want to the mainFrame by it's name (String api)*/
 
     public void display(String viewName) {
         currentView = viewName;
@@ -87,7 +86,17 @@ public class DisplayAdmin extends SimpleMapper {
         mappers.get(viewName).
                 setResponseSender(mainFrame.getViewMap().get(viewName)::addRequests);
         mappers.get(viewName).setRequestSender(this::addRequests);
+        if("collection".equals(viewName)){
+            setExtraCollectionMappers();
+        }
         logger.debug("Request sender is set for " + viewName);
+    }
+
+    private void setExtraCollectionMappers() {
+        CollectionView collectionView = (CollectionView) mainFrame.getViewMap().get("collection");
+        collectionView.getCardSetTabs().setRequestSender(mappers.get("cardSetMapper")::addRequests);
+        mappers.get("cardSetMapper").setResponseSender(collectionView.getCardSetTabs()::addRequests);
+        mappers.get("cardSetMapper").setRequestSender(collectionView::addRequests);
     }
 
     protected void executeRequests() {
@@ -119,6 +128,7 @@ public class DisplayAdmin extends SimpleMapper {
         mappers.put("game", new GameMapper(username));
         mappers.put("shop", new ShopMapper(username));
         mappers.put("setting", new SettingMapper(username));
+        mappers.put("cardSetMapper", new CardSetMapper(username));
     }
 
     private void next(String currentView) {

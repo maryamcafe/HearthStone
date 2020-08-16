@@ -33,6 +33,10 @@ public class GameConstants {
         return defaultCoins;
     }
 
+    public int getCardValue(String rarity) {
+        return constants.readInt(rarity);
+    }
+
     public byte getHeroInitialHealth() {
         if(heroInitialHealth == null){
             heroInitialHealth = constants.readByte("heroInitialHealth");
@@ -76,5 +80,6 @@ public class GameConstants {
     public String getMessage(String messageName) {
         return constants.getProperty(messageName);
     }
+
 
 }

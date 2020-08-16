@@ -3,15 +3,14 @@ package ap.hearthstone.UI.collectionView.cardsView;
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
 import ap.hearthstone.UI.listeners.ClickListener;
-import ap.hearthstone.interfaces.RequestSender;
-import ap.hearthstone.logging.MainLogger;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
 
@@ -20,7 +19,11 @@ public class CardSetPanel extends UpdatingPanel {
     private final List<String> allCards;
     private List<String> playerCards;
     private Map<String, Integer> cardsNumber;
+    private Map<String, Integer> cardValues;
     private final Map<String, CardView> cardViewMap;
+    private Map<String, CardView> buyCardViewMap;
+    private JLabel walletLabel;
+    private Gson gson;
     Logger logger = LogManager.getLogger(this.getClass());
 
     public CardSetPanel(String panelName, List<String> allCards) {
@@ -33,6 +36,10 @@ public class CardSetPanel extends UpdatingPanel {
         this(panelName, allCards);
         this.playerCards = playerCards;
         cardsNumber = new HashMap<>();
+        cardValues = new HashMap<>();
+        buyCardViewMap = new HashMap<>();
+        walletLabel = new JLabel();
+        gson = new Gson();
         initCardsNumber();
     }
 
@@ -51,6 +58,8 @@ public class CardSetPanel extends UpdatingPanel {
         if (cardsNumber != null) {
             cardsNumber.forEach(this::addCard);
         }
+        this.setOpaque(true);
+        walletLabel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     }
 
     private void addCard(String cardName, int number) {
@@ -61,7 +70,7 @@ public class CardSetPanel extends UpdatingPanel {
 
     @Override
     protected void addListeners() {
-        cardViewMap.forEach((cardName, label) -> label.addMouseListener(new ClickListener(requestSender,
+        cardViewMap.forEach((cardName, cardView) -> cardView.getLabel().addMouseListener(new ClickListener(requestSender,
                 cardName, "collection", new Request("collectionClick", cardName))));
     }
 
@@ -74,8 +83,45 @@ public class CardSetPanel extends UpdatingPanel {
                 case "OKCancel":
                     OKCancel(request.getRequestBody());
                     break;
+                case "buySellUpdate":
 
+                case "error":
+                    error(request.getRequestBody()[0]);
+                    break;
             }
+        }
+    }
+
+    public void showShop(String cardValuesJson, int walletCoins) {
+        initCardValues(cardValuesJson);
+        cardViewMap.forEach((cardName, cardView) -> remove(cardView));
+        add(walletLabel);
+        updateWallet(walletCoins);
+        getBuyCardViewMap().forEach((card, cardView) -> add(cardView));
+        addBuyListener();
+    }
+
+    private void updateWallet(int walletCoins) {
+        walletLabel.setText(String.format("You have %d coins in your wallet", walletCoins));
+    }
+
+    private Map<String, CardView> getBuyCardViewMap() {
+        if(buyCardViewMap.size()==0){
+            cardViewMap.keySet().forEach(card ->
+                    buyCardViewMap.put(card, new CardView(card, cardsNumber.get(card), cardValues.get(card))));
+        }
+        return buyCardViewMap;
+    }
+
+    private void addBuyListener() {
+        buyCardViewMap.forEach((card, cardView) -> cardView.getBuyButton().addActionListener(e ->
+                requestSender.send(new Request("buyCard", card))));
+    }
+
+    private void initCardValues(String json) {
+        if (cardValues.size() == 0) {
+            cardValues.putAll(gson.fromJson(json, new TypeToken<Map<String, Integer>>() {
+            }.getType()));
         }
     }
 
@@ -89,8 +135,6 @@ public class CardSetPanel extends UpdatingPanel {
             requestSender.send(new Request("OK", ID, header));
         }
     }
-
-
 
 
 }

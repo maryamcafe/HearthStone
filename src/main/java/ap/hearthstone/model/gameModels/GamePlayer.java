@@ -11,6 +11,7 @@ import ap.hearthstone.model.gameModels.heros.HeroMage;
 import ap.hearthstone.utils.ConfigLoader;
 import ap.hearthstone.utils.Configs;
 
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,9 +35,8 @@ public class GamePlayer {
     private int maxHandCards;
 
 
-    public GamePlayer(){
+    public GamePlayer() throws FileNotFoundException {
         //TODO default setting which cannot be read from file
-        this("The Innkeeper", HeroMage.getInstance(), new DeckManager("Innkeeper").getDeck("classic"));
     }
 
     public GamePlayer(String name, Hero hero, Deck deck) {

@@ -1,7 +1,8 @@
-package ap.hearthstone.UI.collectionView.cardsView;
+package ap.hearthstone.UI.collectionView;
 
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
+import ap.hearthstone.UI.collectionView.cardsView.CardSetPanel;
 import ap.hearthstone.UI.util.ImageLoader;
 import ap.hearthstone.interfaces.RequestSender;
 import ap.hearthstone.utils.ConfigLoader;
@@ -18,7 +19,6 @@ public class CardSetsTabbed extends UpdatingPanel {
 
     private final List<CardSetPanel> panels;
     private final JTabbedPane tabbedPane;
-//    private JScrollPane scrollPane;
 
     Logger logger = LogManager.getLogger(this.getClass());
 
@@ -29,8 +29,6 @@ public class CardSetsTabbed extends UpdatingPanel {
     public CardSetsTabbed(List<CardSetPanel> panels) {
         this.panels = panels;
         tabbedPane = new JTabbedPane();
-//        tabbedPane.setTabPlacement(JTabbedPane.SCROLL_TAB_LAYOUT);
-//        scrollPane = new JScrollPane(tabbedPane);
         organize();
     }
 
@@ -84,4 +82,7 @@ public class CardSetsTabbed extends UpdatingPanel {
         panels.forEach(UpdatingPanel::update);
     }
 
+    List<CardSetPanel> getPanels() {
+        return panels;
+    }
 }

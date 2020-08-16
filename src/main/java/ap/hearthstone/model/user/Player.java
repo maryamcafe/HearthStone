@@ -44,6 +44,10 @@ public class Player {
         }
     }
 
+    public boolean removeCard(String cardName) {
+        return cards.remove(cardName);
+    }
+
     public int countCard(String card) {
         return cards.stream().filter(c -> c.equals(card)).mapToInt(c -> 1).sum();
     }
@@ -81,7 +85,7 @@ public class Player {
     }
 
     public Set<String> getOpenHeroes() {
-        return openHeroes;
+        return new HashSet<>(openHeroes);
     }
 
     @Override
@@ -89,4 +93,6 @@ public class Player {
         return String.format("%s: username: %s, coins: %s, OpenHeroes: %s, default deck: %s",
                 super.toString(), username, coins, openHeroes, defaultDeck.getName());
     }
+
+
 }

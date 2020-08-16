@@ -2,11 +2,9 @@ package ap.hearthstone.UI.collectionView;
 
 import ap.hearthstone.UI.api.Request;
 import ap.hearthstone.UI.api.UpdatingPanel;
+import ap.hearthstone.UI.collectionView.cardsView.BuyCardView;
 import ap.hearthstone.UI.collectionView.cardsView.CardSetPanel;
-import ap.hearthstone.UI.collectionView.cardsView.CardSetsTabbed;
-import ap.hearthstone.UI.collectionView.cardsView.FilterPanel;
 import ap.hearthstone.UI.collectionView.decksView.AddDeckPanel;
-import ap.hearthstone.UI.collectionView.decksView.DeckListPanel;
 import ap.hearthstone.UI.util.Drawer;
 import ap.hearthstone.interfaces.RequestSender;
 import com.google.gson.Gson;
@@ -33,6 +31,7 @@ public class CollectionView extends UpdatingPanel {
     private final JPanel integrating;
     private Gson gson;
     private Logger logger = LogManager.getLogger(this.getClass());
+    private BuyCardView buyCardView;
 
     public CollectionView() {
         super();
@@ -40,6 +39,7 @@ public class CollectionView extends UpdatingPanel {
         deckList = new DeckListPanel();
         filters = new FilterPanel();
         addDeckPanel = new AddDeckPanel();
+        buyCardView = new BuyCardView();
         integrating = new JPanel();
 
         gson = new Gson();
@@ -60,28 +60,11 @@ public class CollectionView extends UpdatingPanel {
     }
 
     public void display(JPanel panel) {
-        add(panel, BorderLayout.CENTER);
+        integrating.add(panel, BorderLayout.NORTH);
     }
 
     public void notDisplay(JPanel panel) {
-        remove(panel);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        Drawer.drawBackgroundImage("collection", (Graphics2D) g);
-    }
-
-    @Override
-    public void setRequestSender(RequestSender requestSender) {
-        super.setRequestSender(requestSender);
-        deckList.setRequestSender(requestSender);
-        filters.setRequestSender(requestSender);
-        cardSetTabs.setRequestSender(requestSender);
-    }
-
-    @Override
-    protected void addListeners() {
+        integrating.remove(panel);
     }
 
     @Override
@@ -92,19 +75,58 @@ public class CollectionView extends UpdatingPanel {
     }
 
     @Override
+    protected void paintComponent(Graphics g) {
+        Drawer.drawBackgroundImage("collection", (Graphics2D) g);
+    }
+
+
+    // Request Handling
+    @Override
+    public void setRequestSender(RequestSender requestSender) {
+        super.setRequestSender(requestSender);
+        deckList.setRequestSender(requestSender);
+        filters.setRequestSender(requestSender);
+        cardSetTabs.setRequestSender(requestSender);
+    }
+
+    @Override
+    protected void addListeners() {
+        //Nothing needed here, all clickable items are in sub-panels.
+    }
+
+    @Override
     protected void executeResponses() {
         while (requestList.size() > 0) {
             Request request = requestList.remove(0);
+            String[] requestBody = request.getRequestBody();
             logger.debug("Received response: {}.", request.getTitle());
             switch (request.getTitle()) {
                 case "initCards":
-                    receiveCards(request.getRequestBody()[0], request.getRequestBody()[1]);
+                    receiveCards(requestBody[0], requestBody[1]);
                     break;
                 case "initDecks":
-                    receiveDecks(request.getRequestBody()[0]);
+                    receiveDecks(requestBody[0]);
+                    break;
+                case "shop":
+                    showShop(requestBody[0], requestBody[1]);
+                    break;
+                case "showBuyCard":
+                    showBuyCard(requestBody[0], requestBody[1], requestBody[2]);
             }
         }
     }
+
+    private void showBuyCard(String cardName, String cardValue, String walletCoins) {
+        notDisplay(cardSetTabs);
+        display(buyCardView);
+    }
+
+    private void showShop(String cardsValue, String walletCoins) {
+        cardSetTabs.getPanels().forEach(cardSetPanel ->
+                cardSetPanel.showShop(cardsValue, Integer.parseInt(walletCoins)));
+    }
+
+
 
     // CARDS
     private void receiveCards(String allCardsJson, String playerCardsJson) {
@@ -129,8 +151,10 @@ public class CollectionView extends UpdatingPanel {
 
     // DECKS
     private void receiveDecks(String decksJson) {
+        logger.debug("deckJson: " + decksJson);
         Type type = new TypeToken<Map<String, String>>(){}.getType();
         Map<String, String> deckToHeroMap = gson.fromJson(decksJson, type);
+        logger.debug("Deck to Hero map size is: {}", deckToHeroMap.size());
         initDecks(deckToHeroMap);
     }
 
@@ -144,5 +168,19 @@ public class CollectionView extends UpdatingPanel {
         cardSetTabs.update();
         filters.update();
         deckList.update();
+    }
+
+    // Getters
+
+    public CardSetsTabbed getCardSetTabs() {
+        return cardSetTabs;
+    }
+
+    public DeckListPanel getDeckList() {
+        return deckList;
+    }
+
+    public FilterPanel getFilters() {
+        return filters;
     }
 }

@@ -17,7 +17,7 @@ public class ImageLoader {
     // TODO change static methods here to non-static
     // TODO create a panel config class.
    private static final Configs configs = ConfigLoader.getInstance().getPanelConfigs();
-
+   private static final Configs imageURLs = ConfigLoader.getInstance().getImageURLs();
 //    public ImageLoader() {
 //        configs = ConfigLoader.getInstance().getImageURLs();
 //    }
@@ -25,12 +25,17 @@ public class ImageLoader {
     private static final Logger logger = LogManager.getLogger(ImageLoader.class);
 
     public static ImageIcon getIcon(String iconName) {
-        String path = ConfigLoader.getInstance().getImageURLs().getProperty("ICONS_URL") + iconName + ".png";
+        String path = imageURLs.getProperty("ICONS_URL") + iconName + ".png";
         return new ImageIcon(resize(loadImage(path), 30, 30));
     }
 
+    public static ImageIcon getDeckIcon(String heroName){
+        String path = imageURLs.getProperty("DECKS_IMAGES_URL") + heroName + "Deck.png";
+        return new ImageIcon(loadImage(path));
+    }
+
     public static BufferedImage getCardImage(String cardName){
-        String path = ConfigLoader.getInstance().getImageURLs().getProperty("CARDS_IMAGES_URL")
+        String path = imageURLs.getProperty("CARDS_IMAGES_URL")
                 + cardName.replace(" ", "_").replace(":", "-").replace("’", "'") + ".png";
         return loadImage(path);
     }
@@ -38,13 +43,13 @@ public class ImageLoader {
     public static BufferedImage getCardImage(String cardName, boolean isZero){
         String gray = "";
         if(isZero) gray = "-gray";
-        String path = ConfigLoader.getInstance().getImageURLs().getProperty("CARDS_IMAGES_URL")
+        String path = imageURLs.getProperty("CARDS_IMAGES_URL")
                 + cardName.replace(" ", "_").replace(":", "-").replace("’", "'") + gray + ".png";
         return loadImage(path);
     }
 
     public static BufferedImage getBackgroundImage(String viewName){
-        String path = ConfigLoader.getInstance().getImageURLs().getProperty("BACKGROUNDS_URL") + viewName + ".jpg";
+        String path = imageURLs.getProperty("BACKGROUNDS_URL") + viewName + ".jpg";
         return resize(loadImage(path), configs.readInt("mainFrameHeight"), configs.readInt("mainFrameWidth"));
     }
 

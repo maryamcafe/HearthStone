@@ -35,7 +35,6 @@ public abstract class UpdatingPanel extends JPanel implements RequestHandler, Up
         this.requestSender = requestSender;
     }
 
-
     @Override
     public void update() {
         executeResponses();

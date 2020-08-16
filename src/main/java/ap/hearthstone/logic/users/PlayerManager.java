@@ -63,15 +63,15 @@ public class PlayerManager extends FileManager {
 
     public void createPlayer() {
         GameConstants constants = GameConstants.getInstance();
-        player = new Player(username, cardFileManager.geDefaultCards(),
-                new HashSet<>(Collections.singletonList(deckManager.getDefaultDeck())),
-                deckManager.getDefaultDeck(),
-                constants.getDefaultCoins(),
-                new HashSet<>(Collections.singletonList(constants.getDefaultHero())));
-        writePlayerToFile();
         try {
+            player = new Player(username, cardFileManager.geDefaultCards(),
+                    new HashSet<>(Collections.singletonList(deckManager.getDefaultDeck())),
+                    deckManager.getDefaultDeck(),
+                    constants.getDefaultCoins(),
+                    new HashSet<>(Collections.singletonList(constants.getDefaultHero())));
             deckManager.createDeck(player.getDefaultDeck());
-        } catch (MaxEachCardException | IllegalHeroClass | FullDeckException e) {
+            writePlayerToFile();
+        }  catch (MaxEachCardException | IllegalHeroClass | FullDeckException | FileNotFoundException e) {
             e.printStackTrace();
         }
         logger.debug("Created player: {} from file", player.toString());
@@ -99,5 +99,9 @@ public class PlayerManager extends FileManager {
             playerCards = getPlayer().getCards();
         }
         return playerCards;
+    }
+
+    public DeckManager getDeckManager() {
+        return deckManager;
     }
 }
