@@ -13,8 +13,18 @@ Graphics (Swing): https://docs.oracle.com/javase/tutorial/uiswing/
 
 Json serialization using Gson: https://futurestud.io/tutorials/gson-getting-started-with-java-json-serialization-deserialization
 ## Structure
-There are 3 main packages in this project: logic, model and UI. 
-There also are some utility packages as following logging, interfaces and utils. 
+Following a pattern similar to MVC, here model, view and controller are separate.
+Therefore, we have 3 main packages: logic, model and UI, plus some utility packages,
+ such as: logging, interfaces and utils.
+ DisplayAdmin and the other Mapper classes (currently in UI package) build and manage the communication
+ between logic ad UI, if we are to build our application on network basis, 
+ Mappers should be on the server-side, talking to the user interface on the client-side
+ using String API.
+ 
+ It's also important to note that Mappers, as the only ways to access the UI, have no
+ direct access to data, nor the model classes. But they have access only to logic classes,
+ which are named by a "Manager" postfix, such as PlayerManager, or GameManager.
+
 
 The project developed in 3 phases, which were
 exerted as 3 branches from head. The firsy phase is all about basic
