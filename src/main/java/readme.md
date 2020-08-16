@@ -33,7 +33,7 @@ with user at simple operations. The Second phase was all about
 graphic user interface using swing, developing collection and shop in the game
 and also some simple logic of the gameplay. The third phase was about cards action
 and a full gameplay, but without a real opponent.
-
+It's also notable to say that the project is half-completed.
 ##External Libraries
 Gson (2.8.6) 
 
